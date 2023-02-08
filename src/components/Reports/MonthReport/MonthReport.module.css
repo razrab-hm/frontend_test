@@ -1,0 +1,11 @@
+th {
+    background-color: #dcdfe3 !important;
+    color: rgba(44, 56, 74, 0.95) !important;
+    border-bottom-width: 0 !important;
+}
+
+tr {
+    line-height: 12px;
+    min-height: 25px;
+    height: 25px;
+ }

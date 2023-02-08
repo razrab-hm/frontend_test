@@ -1,0 +1,65 @@
+h4 {
+    margin-top: 7px !important;
+}
+
+.user_info_checkbox {
+    font-size: 12px;
+}
+
+.user_info_btn_wrapper button{
+    margin: 20px 15px 0 0;
+}
+
+.user_info_wrapper span {
+    width: 130px ;
+}
+
+.user_info_check_wrapper {
+    height: 185px;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+.search_icon {
+    content: url('../../../assets/icons/search.svg');
+}
+
+.add_icon_green {
+    content: url('../../../assets/icons/plus-circle_green.svg');
+    margin: 0 10px 2px 0;
+}
+
+.add_icon {
+    content: url('../../../assets/icons/plus-circle.svg');
+    margin: 0 10px 4px 0;
+}
+
+.delete_icon {
+    content: url('../../../assets/icons/x-circle.svg');
+    margin: 0 10px 2px 10px;
+}
+
+.arrow_icon {
+    content: url('../../../assets/icons/arrow-left-circle-fill.svg');
+    margin: 0 5px 3px 0;
+}
+
+.user_info_companies_wrapper {
+    display: flex;
+    align-items: center;
+}
+.user_info_companies_wrapper h4{
+    width: 255px;
+}
+
+.user_info_companies_wrapper button{
+    height: 30px;
+}
+
+.user_info_company_add {
+    padding: 4px 0 4px 5px !important;
+}
+
+.error {
+    margin: 0 , 0 5px, 0;
+    color: red;
+}

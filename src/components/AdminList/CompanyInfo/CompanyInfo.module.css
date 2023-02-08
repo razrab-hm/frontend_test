@@ -1,0 +1,16 @@
+.company_info_container h4 {
+    margin: 15px 0 15px 0 !important;
+}
+
+.company_info_container span{
+    width: 140px ;
+}
+
+.company_info_btn_wrapper button{
+    margin: 10px 15px 0 0;
+}
+
+.error {
+    margin: 0 , 0 5px, 0;
+    color: red;
+}

@@ -5,9 +5,31 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: rgba(235, 237, 239) */
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+}
+
+.dropdown-toggle {
+  background-color: #fff !important;
+  border: 0 !important;
+  padding: 0 !important;
+  height: 38px !important;
+  width: 38px !important;
+}
+
+.table-success {
+  --bs-table-striped-bg: #d5f1de !important;
+  --bs-table-bg: white !important;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.spinner_wrapper {
+  text-align: center;
+  margin-top: 250px;
 }

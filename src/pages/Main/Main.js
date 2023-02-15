@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Dashboard, MonthReport, MonthHashRate, YQMReport, ReportSelect, Footer, NoCompanies, AsideMain } from '../../components'
+import { Dashboard, MonthReport, MonthHashRate, YQMReport, ReportSelect, Footer, AsideMain } from '../../components'
 // eslint-disable-next-line no-unused-vars
 import styles from './Main.module.css'
 import Form from 'react-bootstrap/Form';
@@ -59,8 +59,6 @@ function Main({setUserLoggedIn, userRole, userLoggedIn, logginMsg}) {
     getInitialReports();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year]);
-
-  if(logginMsg && userRole !== ENUMS.ROLE.SUPERADMIN) return <NoCompanies logginMsg={logginMsg} setUserLoggedIn={setUserLoggedIn}/>
 
   return (
     <div

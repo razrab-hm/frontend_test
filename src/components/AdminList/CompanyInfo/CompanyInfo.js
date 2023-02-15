@@ -284,7 +284,11 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
                         alt="add_icon"
                       ></img>
                       {elem.username}
-                      {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                      {elem.inactive ? (
+                        <span style={{ marginLeft: 5, color: '#ff9999' }}>
+                          (inactive)
+                        </span>
+                      ) : null}
                     </ListGroup.Item>
                   </OverlayTrigger>
                 ))}
@@ -327,7 +331,11 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
                         key={elem.id}
                       >
                         {elem.username}
-                        {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                        {elem.inactive ? (
+                          <span style={{ marginLeft: 5, color: '#ff9999' }}>
+                            (inactive)
+                          </span>
+                        ) : null}
                         {!disableEdit ? (
                           <img
                             disabled={disableEdit}
@@ -346,9 +354,20 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
             )}
           </>
         )}
-        
-        <h4>Upload file to Data Base (Excel, CSV) <img onMouseEnter={() => setShowImg(true)} onMouseLeave={() => setShowImg(false)} className={styles.question_icon} alt="question"></img></h4>
-        <img className={showImg ? styles.question_xls : styles.question_xls_hide} alt='xls_example'></img>
+
+        <h4>
+          Upload file to Data Base (Excel, CSV){' '}
+          <img
+            onMouseEnter={() => setShowImg(true)}
+            onMouseLeave={() => setShowImg(false)}
+            className={styles.question_icon}
+            alt="question"
+          ></img>
+        </h4>
+        <img
+          className={showImg ? styles.question_xls : styles.question_xls_hide}
+          alt="xls_example"
+        ></img>
         <div className="d-flex justify-content-between">
           <Form.Group controlId="formFile" style={{ width: '85%' }}>
             <Form.Control onChange={handleFileChange} type="file" />

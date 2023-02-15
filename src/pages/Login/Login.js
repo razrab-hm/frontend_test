@@ -12,10 +12,10 @@ import { setCookie } from '../../utils/cookie';
 import Spinner from 'react-bootstrap/Spinner';
 import { removeSpaces } from '../../utils/projectUtils';
 
-function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompanies, setLogginMsg}) {
+function Login({setUserLoggedIn, userLoggedIn, setUserRole, setLogginError}) {
 
     const [isLoading, setIsLoading] = useState(false);
-    const [logginError, setLogginError] = useState(false);
+    const [error, setError] = useState(false);
     const location = useLocation();
     const history = useHistory();
     
@@ -35,18 +35,20 @@ function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompani
         try {
           setIsLoading(true);
           const data = await authApi.login(authData);
-          // const companies = getData( null, setUserCompanies, api.fetchData, '/test');
           setIsLoading(false);
           saveUserState(data);
-          setLogginMsg(data?.message)
           setUserLoggedIn(true)
         } catch (error) {
-          setLogginError(error.message)
+          if(error.message === "All your companies inactive") {
+            setLogginError(error.message)
+            history.replace('/inactive')
+          }
+          setError(error.message)
           setIsLoading(false);
-          console.log(error.message);
         }
     };
 
+    // console.log('errorL', logginError?.message)
     const handleRemoveSpaves = (inputName) => {
       setValue(`${inputName}`, removeSpaces(getValues(`${inputName}`)));
     };
@@ -102,9 +104,9 @@ function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompani
         <p className={styles.error} role="alert">
           {errors.password?.message}
         </p>
-        {logginError && (
+        {error && (
           <p className={styles.error} role="alert">
-            {logginError}
+            {error}
           </p>
         )}
         <div className={styles.login_btn_wrrapper}>

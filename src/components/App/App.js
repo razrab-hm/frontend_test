@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import { Register, Login, Main, Admin, NotFound } from '../../pages';
+import { NoCompanies } from '..';
 import { ProtectedRoute } from '..';
 import ENUMS from '../../constants/appEnums.js';
 import Spinner from 'react-bootstrap/Spinner';
@@ -11,7 +12,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState();
-  const [logginMsg, setLogginMsg] = useState('');
+  const [logginError, setLogginError] = useState(null);
 
   useEffect(() => {
     checkAuthStatus(setUserLoggedIn, setUserRole, setIsLoading);
@@ -32,11 +33,14 @@ function App() {
         <Route exact path={'/'}>
           <Redirect to={{ pathname: ENUMS.ROUTES.LOGIN}} />
         </Route>
+        <Route exact path={ENUMS.ROUTES.INACTIVE}>
+          <NoCompanies logginError={logginError}/>
+        </Route>
         <Route exact path={ENUMS.ROUTES.LOGIN}>
-          <Login setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} setLogginMsg={setLogginMsg} setUserRole={setUserRole}/>
+          <Login setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} setLogginError={setLogginError} setUserRole={setUserRole} logginError={logginError}/>
         </Route>
         <ProtectedRoute exact path={ENUMS.ROUTES.MAIN} userLoggedIn={userLoggedIn}>
-          <Main logginMsg={logginMsg} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
+          <Main userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
         </ProtectedRoute>
         <ProtectedRoute path={ENUMS.ROUTES.ADMIN} userLoggedIn={userLoggedIn}>
           <Admin userRole={userRole} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn}/>

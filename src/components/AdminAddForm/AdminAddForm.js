@@ -17,86 +17,86 @@ import { api } from '../../utils/api';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function AdminAddForm({header, usage, loadData}) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [showToaster, setShowToaster] = useState(false);
-  const [toasterText, setToasterText] = useState('');
-  const [toasterStyles, setToasterStyles] = useState({});
-  const [disableSaveBtn, setDisableSaveBtn] = useState(true);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [allCompanies, setAllCompanies] = useState([]);
-  const [userCompanies, setUserCompanies] = useState([]);
-  const [showCompanyAdd, setShowCompanyAdd] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showToaster, setShowToaster] = useState(false);
+    const [toasterText, setToasterText] = useState('');
+    const [toasterStyles, setToasterStyles] = useState({});
+    const [disableSaveBtn, setDisableSaveBtn] = useState(true);
+    const [searchTerm, setSearchTerm] = React.useState('');
+    const [allCompanies, setAllCompanies] = useState([]);
+    const [userCompanies, setUserCompanies] = useState([]);
+    const [showCompanyAdd, setShowCompanyAdd] = useState(false);
 
-  const { register, setValue, reset ,setError, formState: { errors }, handleSubmit } = useForm();
+    const { register, setValue, reset ,setError, formState: { errors }, handleSubmit } = useForm();
 
-  const handleChange = ({ target: { value } }) => {
-    setSearchTerm(value);
-  };
+    const handleChange = ({ target: { value } }) => {
+      setSearchTerm(value);
+    };
 
 
-  const deleteCompany = (company) => {
-    setUserCompanies((prevState) =>
-      prevState.filter((elem) => elem.id !== company.id)
-    );
-    setDisableSaveBtn(false);
-  };
+    const deleteCompany = (company) => {
+      setUserCompanies((prevState) =>
+        prevState.filter((elem) => elem.id !== company.id)
+      );
+      setDisableSaveBtn(false);
+    };
+  
+    const addCompany = (company) => {
+      setUserCompanies((prevState) => {return [...prevState, company]});
+     
+      setDisableSaveBtn(false);
+    };
 
-  const addCompany = (company) => {
-    setUserCompanies((prevState) => {return [...prevState, company]});
-
-    setDisableSaveBtn(false);
-  };
-
-  const getCompanies = () => {
-    getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
-  };
-  //TO DO!!ERROR!!!!
-  const handleSaveData = async (parameters) => {
-    try {
-      setIsLoading(true);
-      if(usage === ENUMS.USAGE.USERS) {
-        if(userCompanies.length > 0) {
-          await adminApi.createUser({...parameters, companies_id: userCompanies.map(elem => elem.id)}, ENUMS.API_ROUTES.ADMIN_NEW_USER)
-          handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_USER.label)
-        } else {
+    const getCompanies = () => {
+      getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
+    };
+    //TO DO!!ERROR!!!!
+    const handleSaveData = async (parameters) => {
+        try {
+          setIsLoading(true);
+          if(usage === ENUMS.USAGE.USERS) {
+            if(userCompanies.length > 0) {
+              await adminApi.createUser({...parameters, companies_id: userCompanies.map(elem => elem.id)}, ENUMS.API_ROUTES.ADMIN_NEW_USER)
+              handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_USER.label)
+            } else {
+              setIsLoading(false);
+              setShowToaster(true);
+              setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
+              setToasterText("Please select at least 1 company")
+            }
+          } else if(usage === ENUMS.USAGE.COMPANIES){
+              await adminApi.createCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
+              handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_COMPANY.label)
+          }
+        } catch (error) {
           setIsLoading(false);
           setShowToaster(true);
           setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
-          setToasterText("Please select at least 1 company")
+          setToasterText(ENUMS.TOASTER.FAIL.label)
+          if (error.message === 'Username already registered') {
+            setError('username', {type: 'custom', message: 'This username has already registered'})
+          }
+          if (error.message === 'Email already registered') {
+            setError('email', {type: 'custom', message: 'This email has already registered'})
+          }
+          //reset passwords input
+          setValue('password', '');
+          setValue('cpassword', '');
         }
-      } else if(usage === ENUMS.USAGE.COMPANIES){
-        await adminApi.createCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
-        handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_COMPANY.label)
-      }
-    } catch (error) {
-      setIsLoading(false);
+    };
+
+    const handleSuccesSaveData = (toasterText) => {
       setShowToaster(true);
-      setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
-      setToasterText(ENUMS.TOASTER.FAIL.label)
-      if (error.message === 'Username already registered') {
-        setError('username', {type: 'custom', message: 'This username has already registered'})
-      }
-      if (error.message === 'Email already registered') {
-        setError('email', {type: 'custom', message: 'This email has already registered'})
-      }
-      //reset passwords input
-      setValue('password', '');
-      setValue('cpassword', '');
+      loadData();
+      setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
+      setToasterText(toasterText)
+      setIsLoading(false);
+      reset();
     }
-  };
 
-  const handleSuccesSaveData = (toasterText) => {
-    setShowToaster(true);
-    loadData();
-    setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
-    setToasterText(toasterText)
-    setIsLoading(false);
-    reset();
-  }
-
-  useEffect(() => {
-    getCompanies();
-  }, []);
+    useEffect(() => {
+      getCompanies();
+    }, []); 
 
   return isLoading ? (
     <div className="spinner_wrapper">

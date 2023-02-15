@@ -7,6 +7,7 @@ const ROUTES = {
   ADMIN_USERS_ID: '/admin/users/:id',
   ADMIN_COMPANIES: '/admin/companies',
   ADMIN_UPLOAD: '/admin/upload',
+  INACTIVE: '/inactive'
 };
 
 const ROLE = {

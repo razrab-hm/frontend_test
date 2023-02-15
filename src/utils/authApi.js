@@ -43,7 +43,8 @@ export const authApi = {
         throw new Error(`Response status code: ${response.status}`);
       } catch (error) {
         if (error.response.status === 401) throw new Error("Incorrect username or password");
-        if (error.response.status === 403) throw new Error("Inactive account!");
+        if (error.response.status === 403) throw new Error("Inactive account");
+        if (error.response.status === 406) throw new Error(error.response.data.detail);
         throw new Error(error.message);
       }
     },

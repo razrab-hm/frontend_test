@@ -1,31 +1,23 @@
 import React from 'react';
 import styles from './NoCompanies.module.css';
-import {getCookie} from '../../utils/cookie';
-import { authApi } from '../../utils/authApi';
 import { useHistory } from 'react-router-dom';
 
 
-function NoCompanies({setUserLoggedIn, logginMsg}) {
+function NoCompanies({logginError}) {
 
-    const refreshToken = getCookie('accessToken');
-    const history = useHistory();
+  const history = useHistory();
 
-    const handleLogout = () => {
-        authApi.logout(refreshToken)
-        .then((res) => {
-          setUserLoggedIn(false);
-          history.replace('/login')
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      };
+  const handleLogout = () => {
+    history.replace('/login');
+  };
+
+  if (!logginError) history.replace('/login');
 
   return (
     <div className={styles.no_companies_wrapper}>
-      {logginMsg ? (
+      {logginError ? (
         <>
-          <h4>Sorry, {logginMsg}.</h4>
+          <h4>Sorry, {logginError}.</h4>
           <h4>Please contact with administrator</h4>
         </>
       ) : (

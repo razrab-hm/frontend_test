@@ -70,11 +70,11 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
   const renderTooltip = (title, contact_email, contact_fio) => (
     <Tooltip id="button-tooltip">
-      <span>Company name: {title}</span>
-      <br/>
-      <span>Email: {contact_email}</span>
-      <br/>
-      <span>Contact name: {contact_fio}</span>
+     <span>Company name: {title}</span>
+     <br/>
+     <span>Email: {contact_email}</span>
+     <br/>
+     <span>Contact name: {contact_fio}</span>
     </Tooltip>
   );
 
@@ -96,10 +96,10 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
   const saveData = async (parameters) => {
     if(!parameters.admin && !parameters.manager && !parameters.superadmin) {
-      setShowToaster(true);
-      setToasterText('Please select user role!');
-      setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
-      return console.log(parameters)
+       setShowToaster(true);
+       setToasterText('Please select user role!');
+       setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
+       return console.log(parameters)
     }
 
     const userNewCompanies = {companies_id: userCompanies.map(elem => elem.id), user_id: parameters.id}
@@ -131,7 +131,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
           message: `Email '${parameters.email}' has already exists`,
         });
       }
-
+    
     }
   };
 
@@ -141,16 +141,16 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         setValue('admin', false)
         setValue('superadmin', false);
         break;
-      case ENUMS.ROLE.ADMIN:
-        setValue('manager', false)
-        setValue('superadmin', false);
+        case ENUMS.ROLE.ADMIN:
+          setValue('manager', false)
+          setValue('superadmin', false);
         break;
-      case ENUMS.ROLE.SUPERADMIN:
-        setValue('manager', false)
-        setValue('admin', false);
+        case ENUMS.ROLE.SUPERADMIN:
+          setValue('manager', false)
+          setValue('admin', false);
         break;
       default: return
-    }
+      }
   };
 
   useEffect(() => {
@@ -159,7 +159,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
     userInfo.admin = userInfo.role === 'admin' ? true : false;
     userInfo.manager = userInfo.role === 'manager' ? true : false;
     userInfo.active = !userInfo.inactive;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
 
@@ -168,7 +168,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
       getUserInfo();
     }
     getCompanies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditUserId]);
 
   if (!currentEditUserId) return null;

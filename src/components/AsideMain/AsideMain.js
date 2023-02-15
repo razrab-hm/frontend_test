@@ -26,22 +26,22 @@ function AsideMain({showMenu, userCompanies, selectedCompanies, setSelectedCompa
         }
       };
       
-    const toogleFilterAll = () => {
-      if (arraysEqual(userCompanies, selectedCompanies)) {
-        setSelectedCompanies([]);
-        setSelectAllBtn('Select all');
-      } else {
-        setSelectedCompanies(userCompanies);
-        setSelectAllBtn('Deselect all');
-      }
-    };
+      const toogleFilterAll = () => {
+        if (arraysEqual(userCompanies, selectedCompanies)) {
+          setSelectedCompanies([]);
+          setSelectAllBtn('Select all');
+        } else {
+          setSelectedCompanies(userCompanies);
+          setSelectAllBtn('Deselect all');
+        }
+      };
 
-    const renderTooltip = (elem) => (
-      <Tooltip id="button-tooltip">
-        {elem.title}
-        {elem.inactive ? <span style={{marginLeft: 10, color: 'red'}}>Inactive</span> : ''}
-      </Tooltip>
-    );
+      const renderTooltip = (elem) => (
+        <Tooltip id="button-tooltip">
+          {elem.title}
+          {elem.inactive ? <span style={{marginLeft: 10, color: 'red'}}>Inactive</span> : ''}
+        </Tooltip>
+      );
 
   return (
     <div

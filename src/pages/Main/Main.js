@@ -60,7 +60,7 @@ function Main({setUserLoggedIn, userRole, userLoggedIn, logginMsg}) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year]);
 
-  if(!userCompanies.length && userRole !== ENUMS.ROLE.SUPERADMIN) return <NoCompanies logginMsg={logginMsg} setUserLoggedIn={setUserLoggedIn}/>
+  if(logginMsg && userRole !== ENUMS.ROLE.SUPERADMIN) return <NoCompanies logginMsg={logginMsg} setUserLoggedIn={setUserLoggedIn}/>
 
   return (
     <div

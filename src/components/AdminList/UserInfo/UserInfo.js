@@ -70,11 +70,11 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
   const renderTooltip = (title, contact_email, contact_fio) => (
     <Tooltip id="button-tooltip">
-     <span>Company name: {title}</span>
-     <br/>
-     <span>Email: {contact_email}</span>
-     <br/>
-     <span>Contact name: {contact_fio}</span>
+      <span>Company name: {title}</span>
+      <br/>
+      <span>Email: {contact_email}</span>
+      <br/>
+      <span>Contact name: {contact_fio}</span>
     </Tooltip>
   );
 
@@ -96,10 +96,10 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
   const saveData = async (parameters) => {
     if(!parameters.admin && !parameters.manager && !parameters.superadmin) {
-       setShowToaster(true);
-       setToasterText('Please select user role!');
-       setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
-       return console.log(parameters)
+      setShowToaster(true);
+      setToasterText('Please select user role!');
+      setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
+      return console.log(parameters)
     }
 
     const userNewCompanies = {companies_id: userCompanies.map(elem => elem.id), user_id: parameters.id}
@@ -131,7 +131,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
           message: `Email '${parameters.email}' has already exists`,
         });
       }
-    
+
     }
   };
 
@@ -141,16 +141,16 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         setValue('admin', false)
         setValue('superadmin', false);
         break;
-        case ENUMS.ROLE.ADMIN:
-          setValue('manager', false)
-          setValue('superadmin', false);
+      case ENUMS.ROLE.ADMIN:
+        setValue('manager', false)
+        setValue('superadmin', false);
         break;
-        case ENUMS.ROLE.SUPERADMIN:
-          setValue('manager', false)
-          setValue('admin', false);
+      case ENUMS.ROLE.SUPERADMIN:
+        setValue('manager', false)
+        setValue('admin', false);
         break;
       default: return
-      }
+    }
   };
 
   useEffect(() => {
@@ -159,7 +159,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
     userInfo.admin = userInfo.role === 'admin' ? true : false;
     userInfo.manager = userInfo.role === 'manager' ? true : false;
     userInfo.active = !userInfo.inactive;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
 
@@ -168,7 +168,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
       getUserInfo();
     }
     getCompanies();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditUserId]);
 
   if (!currentEditUserId) return null;
@@ -298,7 +298,11 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
                         alt="add_icon"
                       ></img>
                       {elem.title}
-                      {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                      {elem.inactive ? (
+                        <span style={{ marginLeft: 5, color: '#ff9999' }}>
+                          (inactive)
+                        </span>
+                      ) : null}
                     </ListGroup.Item>
                   </OverlayTrigger>
                 ))}
@@ -340,7 +344,11 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
                         key={elem.id}
                       >
                         {elem.title}
-                        {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                        {elem.inactive ? (
+                          <span style={{ marginLeft: 5, color: '#ff9999' }}>
+                            (inactive)
+                          </span>
+                        ) : null}
                         {!disableEdit ? (
                           <img
                             disabled={disableEdit}
@@ -362,7 +370,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
         <h4>Permissions</h4>
         <Form.Check
-          style={{paddingLeft: '2.8em'}}
+          style={{ paddingLeft: '2.8em' }}
           {...register('active')}
           type="switch"
           label={`Active (User will be treated as active)`}
@@ -370,7 +378,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         />
         <div className={styles.user_info_permissions_check_wrapper}>
           <Form.Check
-            style={{paddingLeft: '2.8em'}}
+            style={{ paddingLeft: '2.8em' }}
             {...register('manager')}
             onChange={() => handleChangeRole(ENUMS.ROLE.MANAGER)}
             type="switch"
@@ -382,7 +390,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-manager`}>
-                User can see only reports. (Default role)
+                User can not login to admin site.
               </Tooltip>
             }
           >
@@ -392,7 +400,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
         <div className={styles.user_info_permissions_check_wrapper}>
           <Form.Check
-            style={{paddingLeft: '2.8em'}}
+            style={{ paddingLeft: '2.8em' }}
             {...register('admin')}
             onChange={() => handleChangeRole(ENUMS.ROLE.ADMIN)}
             type="switch"
@@ -403,7 +411,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-admin`}>
-                User can see reports, manage companies and users via admin panel.
+                User can log into this admin site and manage his companies and users
               </Tooltip>
             }
           >
@@ -414,7 +422,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         {userRole === ENUMS.ROLE.SUPERADMIN ? (
           <div className={styles.user_info_permissions_check_wrapper}>
             <Form.Check
-              style={{paddingLeft: '2.8em'}}
+              style={{ paddingLeft: '2.8em' }}
               {...register('superadmin')}
               onChange={() => handleChangeRole(ENUMS.ROLE.SUPERADMIN)}
               type="switch"
@@ -425,7 +433,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
               placement="right"
               overlay={
                 <Tooltip id={`tooltip-superadmin`}>
-                  User has all permissions. Can manage all users and companies.
+                  User has all permissions
                 </Tooltip>
               }
             >

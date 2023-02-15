@@ -13,67 +13,67 @@ import { removeSpaces } from '../../utils/projectUtils';
 
 function Register({userLoggedIn}) {
 
-    const [isLoading, setIsLoading] = useState(false);
-    const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
-    const formSchema = yup.object().shape({
-      username: yup
-        .string()
-        .required('User name is required')
-        .min(3, 'Username length should be at least 3 characters')
-        .max(50, 'Username length should be less than 50 characters'),
-      email: yup
-        .string()
-        .required('Email is required')
-        .min(3, 'Email length should be at least 3 characters')
-        .max(50, 'Email length should be less than 50 characters'),
-      password: yup
-        .string()
-        .required('Password is required')
-        .min(4, 'Password length should be at least 4 characters'),
-      cpassword: yup
-        .string()
-        .required('Confirm Password is required')
-        .oneOf([yup.ref('password')], 'Passwords do not match'),
-      description: yup
-        .string()
-        .max(50, 'Length should be not more than 50 characters'),
-    });
+  const formSchema = yup.object().shape({
+    username: yup
+      .string()
+      .required('User name is required')
+      .min(3, 'Username length should be at least 3 characters')
+      .max(50, 'Username length should be less than 50 characters'),
+    email: yup
+      .string()
+      .required('Email is required')
+      .min(3, 'Email length should be at least 3 characters')
+      .max(50, 'Email length should be less than 50 characters'),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(4, 'Password length should be at least 4 characters'),
+    cpassword: yup
+      .string()
+      .required('Confirm Password is required')
+      .oneOf([yup.ref('password')], 'Passwords do not match'),
+    description: yup
+      .string()
+      .max(50, 'Length should be not more than 50 characters'),
+  });
 
-    const { register, setValue, setError, getValues, formState: { errors }, handleSubmit } = useForm({
-        mode: "onTouched",
-        resolver: yupResolver(formSchema)
-      });
+  const { register, setValue, setError, getValues, formState: { errors }, handleSubmit } = useForm({
+    mode: "onTouched",
+    resolver: yupResolver(formSchema)
+  });
 
-    const handleRegister = async (authData) => {
-        try {
-          setIsLoading(true);
-          await authApi.register(authData);
-          setIsLoading(false);
-          history.replace('/login');
-        } catch (error) {
-          setIsLoading(false);
-          console.log(error.message);
-          //show username or email error
-          if (error.message === 'Username already registered') {
-            setError('username', {type: 'custom', message: `Username ${authData.username} has already registered`})
-          }
-          if (error.message === 'Email already registered') {
-            setError('email', {type: 'custom', message: `Email ${authData.email} has already registered`})
-          }
-          //reset passwords
-          setValue('password', '');
-          setValue('cpassword', '');
-        }
-    };
-
-    if (userLoggedIn) {
-        return <Redirect to={'/main'} />;
+  const handleRegister = async (authData) => {
+    try {
+      setIsLoading(true);
+      await authApi.register(authData);
+      setIsLoading(false);
+      history.replace('/login');
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error.message);
+      //show username or email error
+      if (error.message === 'Username already registered') {
+        setError('username', {type: 'custom', message: `Username ${authData.username} has already registered`})
+      }
+      if (error.message === 'Email already registered') {
+        setError('email', {type: 'custom', message: `Email ${authData.email} has already registered`})
+      }
+      //reset passwords
+      setValue('password', '');
+      setValue('cpassword', '');
     }
+  };
 
-    const handleRemoveSpaves = (inputName) => {
-      setValue(`${inputName}`, removeSpaces(getValues(`${inputName}`)));
-    };
+  if (userLoggedIn) {
+    return <Redirect to={'/main'} />;
+  }
+
+  const handleRemoveSpaves = (inputName) => {
+    setValue(`${inputName}`, removeSpaces(getValues(`${inputName}`)));
+  };
 
   return isLoading ? (
     <div className="spinner_wrapper">
@@ -86,7 +86,7 @@ function Register({userLoggedIn}) {
       <h1 className={styles.register_title}>Register</h1>
       <p>Create your account</p>
       <Form onSubmit={handleSubmit(handleRegister)}>
-        <InputGroup className="mb-3">
+        <InputGroup >
           <InputGroup.Text id="username">
             <img className={styles.username} alt="user" />
           </InputGroup.Text>
@@ -97,6 +97,7 @@ function Register({userLoggedIn}) {
             aria-invalid={errors.username ? 'true' : 'false'}
           />
         </InputGroup>
+        <p style={{height: 10, margin:' 5px 0 10px 0', fontSize: 13}}>*All spaces will be removed automatically </p>
         <p className={styles.error} role="alert">
           {errors.username?.message}
         </p>

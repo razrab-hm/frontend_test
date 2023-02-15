@@ -17,86 +17,86 @@ import { api } from '../../utils/api';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function AdminAddForm({header, usage, loadData}) {
-    const [isLoading, setIsLoading] = useState(false);
-    const [showToaster, setShowToaster] = useState(false);
-    const [toasterText, setToasterText] = useState('');
-    const [toasterStyles, setToasterStyles] = useState({});
-    const [disableSaveBtn, setDisableSaveBtn] = useState(true);
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [allCompanies, setAllCompanies] = useState([]);
-    const [userCompanies, setUserCompanies] = useState([]);
-    const [showCompanyAdd, setShowCompanyAdd] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showToaster, setShowToaster] = useState(false);
+  const [toasterText, setToasterText] = useState('');
+  const [toasterStyles, setToasterStyles] = useState({});
+  const [disableSaveBtn, setDisableSaveBtn] = useState(true);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [allCompanies, setAllCompanies] = useState([]);
+  const [userCompanies, setUserCompanies] = useState([]);
+  const [showCompanyAdd, setShowCompanyAdd] = useState(false);
 
-    const { register, setValue, reset ,setError, formState: { errors }, handleSubmit } = useForm();
+  const { register, setValue, reset ,setError, formState: { errors }, handleSubmit } = useForm();
 
-    const handleChange = ({ target: { value } }) => {
-      setSearchTerm(value);
-    };
+  const handleChange = ({ target: { value } }) => {
+    setSearchTerm(value);
+  };
 
 
-    const deleteCompany = (company) => {
-      setUserCompanies((prevState) =>
-        prevState.filter((elem) => elem.id !== company.id)
-      );
-      setDisableSaveBtn(false);
-    };
-  
-    const addCompany = (company) => {
-      setUserCompanies((prevState) => {return [...prevState, company]});
-     
-      setDisableSaveBtn(false);
-    };
+  const deleteCompany = (company) => {
+    setUserCompanies((prevState) =>
+      prevState.filter((elem) => elem.id !== company.id)
+    );
+    setDisableSaveBtn(false);
+  };
 
-    const getCompanies = () => {
-      getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
-    };
-    //TO DO!!ERROR!!!!
-    const handleSaveData = async (parameters) => {
-        try {
-          setIsLoading(true);
-          if(usage === ENUMS.USAGE.USERS) {
-            if(userCompanies.length > 0) {
-              await adminApi.createUser({...parameters, companies_id: userCompanies.map(elem => elem.id)}, ENUMS.API_ROUTES.ADMIN_NEW_USER)
-              handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_USER.label)
-            } else {
-              setIsLoading(false);
-              setShowToaster(true);
-              setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
-              setToasterText("Please select at least 1 company")
-            }
-          } else if(usage === ENUMS.USAGE.COMPANIES){
-              await adminApi.createCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
-              handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_COMPANY.label)
-          }
-        } catch (error) {
+  const addCompany = (company) => {
+    setUserCompanies((prevState) => {return [...prevState, company]});
+
+    setDisableSaveBtn(false);
+  };
+
+  const getCompanies = () => {
+    getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
+  };
+  //TO DO!!ERROR!!!!
+  const handleSaveData = async (parameters) => {
+    try {
+      setIsLoading(true);
+      if(usage === ENUMS.USAGE.USERS) {
+        if(userCompanies.length > 0) {
+          await adminApi.createUser({...parameters, companies_id: userCompanies.map(elem => elem.id)}, ENUMS.API_ROUTES.ADMIN_NEW_USER)
+          handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_USER.label)
+        } else {
           setIsLoading(false);
           setShowToaster(true);
           setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
-          setToasterText(ENUMS.TOASTER.FAIL.label)
-          if (error.message === 'Username already registered') {
-            setError('username', {type: 'custom', message: 'This username has already registered'})
-          }
-          if (error.message === 'Email already registered') {
-            setError('email', {type: 'custom', message: 'This email has already registered'})
-          }
-          //reset passwords input
-          setValue('password', '');
-          setValue('cpassword', '');
+          setToasterText("Please select at least 1 company")
         }
-    };
-
-    const handleSuccesSaveData = (toasterText) => {
-      setShowToaster(true);
-      loadData();
-      setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
-      setToasterText(toasterText)
+      } else if(usage === ENUMS.USAGE.COMPANIES){
+        await adminApi.createCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
+        handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_COMPANY.label)
+      }
+    } catch (error) {
       setIsLoading(false);
-      reset();
+      setShowToaster(true);
+      setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
+      setToasterText(ENUMS.TOASTER.FAIL.label)
+      if (error.message === 'Username already registered') {
+        setError('username', {type: 'custom', message: 'This username has already registered'})
+      }
+      if (error.message === 'Email already registered') {
+        setError('email', {type: 'custom', message: 'This email has already registered'})
+      }
+      //reset passwords input
+      setValue('password', '');
+      setValue('cpassword', '');
     }
+  };
 
-    useEffect(() => {
-      getCompanies();
-    }, []); 
+  const handleSuccesSaveData = (toasterText) => {
+    setShowToaster(true);
+    loadData();
+    setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
+    setToasterText(toasterText)
+    setIsLoading(false);
+    reset();
+  }
+
+  useEffect(() => {
+    getCompanies();
+  }, []);
 
   return isLoading ? (
     <div className="spinner_wrapper">
@@ -114,7 +114,7 @@ function AdminAddForm({header, usage, loadData}) {
         {usage === ENUMS.USAGE.USERS ? (
           <>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="username">User name*</InputGroup.Text>
+              <InputGroup.Text id="username">User name<div style={{ color: 'red' }}>*</div></InputGroup.Text>
               <Form.Control
                 {...register('username', {
                   required: 'User name is required',
@@ -127,7 +127,7 @@ function AdminAddForm({header, usage, loadData}) {
               {errors.username?.message}
             </p>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="email">Email*</InputGroup.Text>
+              <InputGroup.Text id="email">Email <div style={{ color: 'red' }}>*</div></InputGroup.Text>
               <Form.Control
                 type="email"
                 {...register('email', { required: 'Email is required' })}
@@ -138,7 +138,7 @@ function AdminAddForm({header, usage, loadData}) {
               {errors.email?.message}
             </p>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="password">Password*</InputGroup.Text>
+              <InputGroup.Text id="password">Password<div style={{ color: 'red' }}>*</div></InputGroup.Text>
               <Form.Control
                 type="password"
                 {...register('password', {
@@ -253,7 +253,7 @@ function AdminAddForm({header, usage, loadData}) {
         {usage === ENUMS.USAGE.COMPANIES ? (
           <>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="title">Company name*</InputGroup.Text>
+              <InputGroup.Text id="title">Company name <div style={{ color: 'red' }}>*</div></InputGroup.Text>
               <Form.Control
                 {...register('title', { required: 'Company name is required' })}
                 aria-invalid={errors.username ? 'true' : 'false'}
@@ -268,7 +268,7 @@ function AdminAddForm({header, usage, loadData}) {
             </InputGroup>
             <InputGroup className="mb-3">
               <InputGroup.Text id="contact_email">
-                Contact email*
+                Contact email <div style={{ color: 'red' }}>*</div>
               </InputGroup.Text>
               <Form.Control
                 type="email"

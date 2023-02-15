@@ -210,6 +210,7 @@ function AdminAddForm({header, usage, loadData}) {
                           alt="add_icon"
                         ></img>
                         {elem.title}
+                        {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
                       </ListGroup.Item>
                     ))}
                 </ListGroup>
@@ -232,6 +233,7 @@ function AdminAddForm({header, usage, loadData}) {
                           key={elem.id}
                         >
                           {elem.title}
+                          {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
                           <img
                             onClick={() => deleteCompany(elem)}
                             className={styles.delete_icon}

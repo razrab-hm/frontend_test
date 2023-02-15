@@ -312,12 +312,14 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
                 <img className={styles.add_icon} alt="plus"></img>
                 Connect company
               </Button>
-              <Button
-                onClick={() => setDisableEdit(!disableEdit)}
-                variant="outline-danger"
-              >
-                {disableEdit ? 'Enable editing' : 'Disable editing'}
-              </Button>
+              {userCompanies.length > 0 ? (
+                <Button
+                  onClick={() => setDisableEdit(!disableEdit)}
+                  variant="outline-danger"
+                >
+                  {disableEdit ? 'Enable editing' : 'Disable editing'}
+                </Button>
+              ) : null}
             </div>
             {userCompanies.length > 0 ? (
               <div className={styles.user_info_check_wrapper}>
@@ -380,7 +382,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-manager`}>
-                User can not login to admin site.
+                User can see only reports. (Default role)
               </Tooltip>
             }
           >
@@ -401,7 +403,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-admin`}>
-                User can log into this admin site and manage companies and users
+                User can see reports, manage companies and users via admin panel.
               </Tooltip>
             }
           >
@@ -423,7 +425,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
               placement="right"
               overlay={
                 <Tooltip id={`tooltip-superadmin`}>
-                  User has all permissions
+                  User has all permissions. Can manage all users and companies.
                 </Tooltip>
               }
             >

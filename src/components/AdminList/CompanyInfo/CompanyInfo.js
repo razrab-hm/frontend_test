@@ -298,12 +298,14 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
                 <img className={styles.add_icon} alt="plus"></img>
                 Connect user
               </Button>
-              <Button
-                onClick={() => setDisableEdit(!disableEdit)}
-                variant="outline-danger"
-              >
-                {disableEdit ? 'Enable editing' : 'Disable editing'}
-              </Button>
+              {companyUsers.length > 0 ? (
+                <Button
+                  onClick={() => setDisableEdit(!disableEdit)}
+                  variant="outline-danger"
+                >
+                  {disableEdit ? 'Enable editing' : 'Disable editing'}
+                </Button>
+              ) : null}
             </div>
             {companyUsers.length > 0 ? (
               <div className={styles.company_info_check_wrapper}>

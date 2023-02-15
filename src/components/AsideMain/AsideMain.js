@@ -26,21 +26,22 @@ function AsideMain({showMenu, userCompanies, selectedCompanies, setSelectedCompa
         }
       };
       
-      const toogleFilterAll = () => {
-        if (arraysEqual(userCompanies, selectedCompanies)) {
-          setSelectedCompanies([]);
-          setSelectAllBtn('Select all');
-        } else {
-          setSelectedCompanies(userCompanies);
-          setSelectAllBtn('Deselect all');
-        }
-      };
+    const toogleFilterAll = () => {
+      if (arraysEqual(userCompanies, selectedCompanies)) {
+        setSelectedCompanies([]);
+        setSelectAllBtn('Select all');
+      } else {
+        setSelectedCompanies(userCompanies);
+        setSelectAllBtn('Deselect all');
+      }
+    };
 
-      const renderTooltip = (title) => (
-        <Tooltip id="button-tooltip">
-          {title}
-        </Tooltip>
-      );
+    const renderTooltip = (elem) => (
+      <Tooltip id="button-tooltip">
+        {elem.title}
+        {elem.inactive ? <span style={{marginLeft: 10, color: 'red'}}>Inactive</span> : ''}
+      </Tooltip>
+    );
 
   return (
     <div
@@ -81,7 +82,7 @@ function AsideMain({showMenu, userCompanies, selectedCompanies, setSelectedCompa
                   key={elem.title}
                   placement="right"
                   delay={{ show: 50, hide: 50 }}
-                  overlay={renderTooltip(elem.title)}
+                  overlay={renderTooltip(elem)}
                 >
                   <div key={elem.id}>
                     <Form.Check

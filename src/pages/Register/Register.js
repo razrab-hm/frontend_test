@@ -35,12 +35,6 @@ function Register({userLoggedIn}) {
         .string()
         .required('Confirm Password is required')
         .oneOf([yup.ref('password')], 'Passwords do not match'),
-      first_name: yup
-        .string()
-        .min(3, 'First name length should be at least 3 characters'),
-      last_name: yup
-        .string()
-        .min(3, 'Last name length should be at least 3 characters'),
       description: yup
         .string()
         .max(50, 'Length should be not more than 50 characters'),

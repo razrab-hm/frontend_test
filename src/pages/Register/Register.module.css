@@ -15,7 +15,9 @@ h1 {
 .last_name {
     content: url('../../assets/icons/person-vcard.svg');
 }
-
+.description {
+    content: url('../../assets/icons/chat-dots.svg');
+}
 .password {
     content: url('../../assets/icons/lock.svg');
 }

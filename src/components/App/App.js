@@ -10,57 +10,12 @@ import { checkAuthStatus } from '../../utils/projectUtils';
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  // const [activeCompanies, setActiveCompanies] = useState([]);
-  // const [userCompanies, setUserCompanies] = useState([]);
-  // const [selectedCompanies, setSelectedCompanies] = useState(userCompanies);
   const [userRole, setUserRole] = useState();
-  // const location = useLocation();
-
-  // const modalControlsYQ = useModalControls();
- 
-  // console.log('selectedCompanies', selectedCompanies)
-
-  // console.log('userCompanies', userCompanies)
-
-  // const data = {
-  //   accessToken: getCookie('accessToken'),
-  //   refreshToken: getCookie('refreshToken')
-  // }
-  // const checkAuthStatus = async () => {
-  //   if (data.accessToken && data.refreshToken) {
-  //     setIsLoading(true);
-  //     authApi.authStatus(data.accessToken)
-  //       .then((res) => {
-  //         if(res && res.message === "success") {
-  //           setUserLoggedIn(true);
-  //           setIsLoading(false);
-  //           setUserRole(res.role)
-  //         }
-  //     })
-  //       .catch((error) => {
-  //         console.log(error)
-  //         setIsLoading(false);
-  //         setUserLoggedIn(false);
-  //       });
-  //   } else {
-  //     setUserLoggedIn(false);
-  //   }
-  // }
- 
-  // useEffect(() => {
-  //   setSelectedCompanies(userCompanies)
-  // },[userCompanies])
+  const [logginMsg, setLogginMsg] = useState('');
 
   useEffect(() => {
-    // console.log(1)
     checkAuthStatus(setUserLoggedIn, setUserRole, setIsLoading);
   },[]);
-
-
-  // useEffect(() => {
-  //   // console.log(1)
-  //   getData( null, setUserCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
-  // },[userLoggedIn])
 
   return isLoading ? (
     <div className="spinner_wrapper">
@@ -75,10 +30,10 @@ function App() {
           <Register userLoggedIn={userLoggedIn} />
         </Route>
         <Route exact path={ENUMS.ROUTES.LOGIN}>
-          <Login setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn}  setUserRole={setUserRole}/>
+          <Login setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} setLogginMsg={setLogginMsg} setUserRole={setUserRole}/>
         </Route>
         <ProtectedRoute exact path={ENUMS.ROUTES.MAIN} userLoggedIn={userLoggedIn}>
-          <Main userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
+          <Main logginMsg={logginMsg} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
         </ProtectedRoute>
         <ProtectedRoute path={ENUMS.ROUTES.ADMIN} userLoggedIn={userLoggedIn}>
           <Admin userRole={userRole} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn}/>

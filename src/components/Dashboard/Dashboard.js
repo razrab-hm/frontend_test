@@ -8,17 +8,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { authApi } from '../../utils/authApi';
 import {getCookie} from '../../utils/cookie';
 import ENUMS from '../../constants/appEnums';
-import { Form } from 'react-bootstrap';
 
-function Dashboard({setUserLoggedIn, adminPanel, userRole, userCompanies, setSelectedCompanies, selectedCompanies}) {
+function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu}) {
 
-  const switchCompany = (id) => {
-    if(selectedCompanies.find(elem => elem.id === id)) {
-      setSelectedCompanies(selectedCompanies.filter(elem => elem.id !== id))
-    } else {
-      setSelectedCompanies([...selectedCompanies, userCompanies.find(elem => elem.id === id)]) 
-    }
-  };
 
   const refreshToken = getCookie('accessToken');
   const history = useHistory();
@@ -39,33 +31,15 @@ function Dashboard({setUserLoggedIn, adminPanel, userRole, userCompanies, setSel
       <Navbar variant="light" expand="lg">
         <Container fluid style={{ height: 40 }}>
           <Navbar.Brand>
-            <DropdownButton
+            <button
               title={<div className={adminPanel ? '' : styles.nav_list}></div>}
+              onClick={() => setShowMenu(!showMenu)}
+              className={styles.nav_list_button}
             >
-              <Form>
-                {
-                userCompanies?.length > 0 ?
-                userCompanies.map((elem, i) => (
-                  <div key={elem.id}>
-                    <Form.Check
-                      onClick={() => switchCompany(elem.id)}
-                      style={{ marginLeft: 10 }}
-                      defaultChecked={
-                        userCompanies[i] === selectedCompanies[i] || false
-                      }
-                      type="checkbox"
-                      label={`${elem.title}`}
-                      id={`${elem.title}`}
-                    />
-                  </div>
-                ))
-                    :
-                  <div style={{textAlign: 'center'}}>Empty</div>
+              {
+                adminPanel ? '' : showMenu ? <span>Companies <img className={styles.aside_open} alt='open'></img></span> : <span>Companies <img className={styles.aside_close} alt='close'></img></span>
               }
-              </Form>
-            </DropdownButton>
-
-            {/* <div className={adminPanel ? '' : styles.nav_list}></div> */}
+            </button>
           </Navbar.Brand>
           <Navbar.Brand>
             <div
@@ -82,7 +56,12 @@ function Dashboard({setUserLoggedIn, adminPanel, userRole, userCompanies, setSel
           <Navbar.Toggle aria-controls="navbar-dark-example" />
           <DropdownButton
             align={{ lg: 'end' }}
-            title={<div className={styles.nav_user}></div>}
+            title={
+            <div className={styles.nav_user_wrapper}>
+            <span style={{pointerEvents: 'none'}}>User role: {userRole === 'root' ? 'superadmin' : userRole}</span>
+            <div className={styles.nav_user}></div>
+            </div>
+            }
             id="dropdown"
           >
             {userRole !== ENUMS.ROLE.MANAGER ? (
@@ -97,7 +76,7 @@ function Dashboard({setUserLoggedIn, adminPanel, userRole, userCompanies, setSel
               ) : (
                 <Dropdown.Item
                   eventKey="2"
-                  onClick={() => history.push('/admin')}
+                  onClick={() => history.push('/admin/users')}
                 >
                   <img className={styles.link_admin} alt="admin" />
                   Admin Panel

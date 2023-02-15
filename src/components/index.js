@@ -1,4 +1,5 @@
 export { default as Dashboard } from './Dashboard/Dashboard';
+export { default as AsideMain } from './AsideMain/AsideMain';
 export { default as ProtectedRoute } from './Protected-route/Protected-route';
 export { default as MonthReport } from './Reports/MonthReport/MonthReport';
 export { default as MonthHashRate } from './MonthHashRate/MonthHashRate';

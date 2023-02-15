@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styles from './CompanyInfo.module.css';
 import { getData } from '../../../utils/projectUtils';
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import ENUMS from '../../../constants/appEnums';
 import { api } from '../../../utils/api';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { Button } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -14,16 +15,25 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import { adminApi } from '../../../utils/adminApi';
 import Spinner from 'react-bootstrap/Spinner';
 import { reportsApi } from '../../../utils/reportsApi';
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Overlay from 'react-bootstrap/Overlay'
 
-function CompanyInfo({ currentEditCompanyId, loadData }) {
+function CompanyInfo({ currentEditCompanyId, loadData}) {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [allUsers, setAllUsers] = useState([]);
   const [companyInfo, setCompanyInfo] = useState({});
   const [showToaster, setShowToaster] = useState(false);
   const [toasterText, setToasterText] = useState('');
   const [toasterStyles, setToasterStyles] = useState({});
   const [disableSaveBtn, setDisableSaveBtn] = useState(true);
   const [file, setFile] = useState();
+  const [showUsersAdd, setShowUsersAdd] = useState(false);
+  const [companyUsers, setCompanyUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [disableEdit, setDisableEdit] = React.useState(true);
+  const [showImg, setShowImg] = useState(false);
 
   const {
     register,
@@ -37,15 +47,44 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
     }, [companyInfo]),
   });
 
+  const handleChange = ({ target: { value } }) => {
+    setSearchTerm(value);
+  };
+
+  const renderTooltip = (username, email, first_name, last_name) => (
+    <Tooltip id="button-tooltip">
+     <span>User name: {username}</span>
+     <br/>
+     <span>Email: {email}</span>
+     <br/>
+     <span>First name: {first_name}</span>
+     <br/>
+     <span>Last name: {last_name}</span>
+    </Tooltip>
+  );
+
   const getCompanyInfo = () => {
     getData(null, setCompanyInfo, api.fetchData, `${ENUMS.API_ROUTES.COMPANIES_COMPANY}${currentEditCompanyId}`);
+    getData(
+      null,
+      setCompanyUsers,
+      api.fetchData,
+      `${ENUMS.API_ROUTES.USERS_COMPANIES}${currentEditCompanyId}`
+    );
     setDisableSaveBtn(true)
   };
 
+  const getUsers = () => {
+    getData(null, setAllUsers, api.fetchData, ENUMS.API_ROUTES.USERS);
+  };
+
+
   const handleSaveData = async (parameters) => {
+    const companyNewUsers = {users_id: companyUsers.map(elem => elem.id), company_id: parameters.id}
     try {
         setIsLoading(true);
         await adminApi.updateCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
+        await adminApi.updateCompany(companyNewUsers, ENUMS.API_ROUTES.COMPANIES_UPDATE_USERS);
         setToasterText(ENUMS.TOASTER.SUCCESS_UPDATE_COMPANY.label)
         setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
         setIsLoading(false);
@@ -53,7 +92,6 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
         loadData();
         setDisableSaveBtn(true)
       } catch (error) {
-        console.log(1)
         setIsLoading(false);
         reset();
         if (error.message === 'Username already registered') {
@@ -73,6 +111,19 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
       if (e.target.files) {
         setFile(e.target.files[0]);
       }
+    };
+
+    const addUser = (user) => {
+      setCompanyUsers((prevState) => {return [...prevState, user]});
+      setDisableSaveBtn(false);
+    };
+
+
+    const deleteUser = (user) => {
+      setCompanyUsers((prevState) =>
+        prevState.filter((elem) => elem.id !== user.id)
+      );
+      setDisableSaveBtn(false);
     };
   
     const handleUploadClick = async (e) => {
@@ -96,6 +147,7 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
 
   useEffect(() => {
     reset(companyInfo);
+    companyInfo.active = !companyInfo.inactive;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [companyInfo]);
 
@@ -104,6 +156,7 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
     if (currentEditCompanyId) {
         getCompanyInfo();
     }
+    getUsers()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditCompanyId]);
 
@@ -122,7 +175,9 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
         onChange={() => setDisableSaveBtn(false)}
       >
         <InputGroup className="mb-3">
-          <InputGroup.Text id="title">Company name</InputGroup.Text>
+          <InputGroup.Text id="title">
+            Company name <span style={{ color: 'red' }}>*</span>
+          </InputGroup.Text>
           <Form.Control
             {...register('title', {
               required: 'Company name is required',
@@ -142,7 +197,9 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
           />
         </InputGroup>
         <InputGroup className="mb-3">
-          <InputGroup.Text id="contact_email">Contact email</InputGroup.Text>
+          <InputGroup.Text id="contact_email">
+            Contact email <span style={{ color: 'red' }}>*</span>
+          </InputGroup.Text>
           <Form.Control
             type="email"
             {...register('contact_email', {
@@ -171,23 +228,133 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
         </InputGroup>
         <Form.Check
           type="switch"
-          //   defaultValue={!getValues('inactive')}
-          label={`Inactive`}
-        //   value={getValues('inactive')}
-          id={`cb_test_1`}
-          {...register('inactive')}
+          label={`Active`}
+          id={`active`}
+          {...register('active')}
         />
-         <h4>Upload excel file</h4>
-         <div className='d-flex justify-content-between'>
-          <Form.Group controlId="formFile" style={{width: '85%'}}>
-            <Form.Control onChange={handleFileChange} type="file"/>
+        {showUsersAdd ? (
+          <>
+            <div className={styles.company_info_users_wrapper}>
+              <h4>Connect users</h4>
+              <Button size="sm" onClick={() => setShowUsersAdd(false)}>
+                <img className={styles.arrow_icon} alt="back"></img>
+                Go back
+              </Button>
+            </div>
+            <InputGroup className="mb-3">
+              <InputGroup.Text style={{ width: 40 }} id="user_name_search">
+                <img className={styles.search_icon} alt="search" />
+              </InputGroup.Text>
+              <Form.Control placeholder={`User name`} onChange={handleChange} />
+            </InputGroup>
+            <ListGroup
+              style={{
+                maxHeight: '130px',
+                boxSizing: 'border-box',
+                overflow: 'scroll',
+              }}
+            >
+              {allUsers
+                .filter(
+                  ({ id: id1 }) =>
+                    !companyUsers.some(({ id: id2 }) => id2 === id1)
+                )
+                .filter((elem) =>
+                  elem.username.toLowerCase().includes(searchTerm)
+                )
+                .map((elem) => (
+                  <OverlayTrigger
+                    key={elem.username}
+                    placement="left"
+                    delay={{ show: 50, hide: 50 }}
+                    overlay={renderTooltip(
+                      elem.username,
+                      elem.email,
+                      elem.first_name,
+                      elem.last_name
+                    )}
+                  >
+                    <ListGroup.Item
+                      className={styles.company_info_user_add}
+                      key={elem.username}
+                    >
+                      <img
+                        onClick={() => addUser(elem)}
+                        className={styles.add_icon_green}
+                        alt="add_icon"
+                      ></img>
+                      {elem.username}
+                      {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                    </ListGroup.Item>
+                  </OverlayTrigger>
+                ))}
+            </ListGroup>
+          </>
+        ) : (
+          <>
+            <div className={styles.company_info_users_wrapper}>
+              <h4>Connected users</h4>
+              <Button size="sm" onClick={() => setShowUsersAdd(true)}>
+                <img className={styles.add_icon} alt="plus"></img>
+                Connect user
+              </Button>
+              <Button
+                onClick={() => setDisableEdit(!disableEdit)}
+                variant="outline-danger"
+              >
+                {disableEdit ? 'Enable editing' : 'Disable editing'}
+              </Button>
+            </div>
+            {companyUsers.length > 0 ? (
+              <div className={styles.company_info_check_wrapper}>
+                <ListGroup>
+                  {companyUsers.map((elem) => (
+                    <OverlayTrigger
+                      key={elem.username}
+                      placement="left"
+                      delay={{ show: 50, hide: 50 }}
+                      overlay={renderTooltip(
+                        elem.username,
+                        elem.email,
+                        elem.first_name,
+                        elem.last_name
+                      )}
+                    >
+                      <ListGroup.Item
+                        className={styles.company_info_user_add}
+                        key={elem.id}
+                      >
+                        {elem.username}
+                        {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                        {!disableEdit ? (
+                          <img
+                            disabled={disableEdit}
+                            onClick={() => deleteUser(elem)}
+                            className={styles.delete_icon}
+                            alt="delete"
+                          ></img>
+                        ) : null}
+                      </ListGroup.Item>
+                    </OverlayTrigger>
+                  ))}
+                </ListGroup>
+              </div>
+            ) : (
+              <div key={'empty'}>Empty</div>
+            )}
+          </>
+        )}
+        
+        <h4>Upload file to Data Base (Excel, CSV) <img onMouseEnter={() => setShowImg(true)} onMouseLeave={() => setShowImg(false)} className={styles.question_icon} alt="question"></img></h4>
+        <img className={showImg ? styles.question_xls : styles.question_xls_hide} alt='xls_example'></img>
+        <div className="d-flex justify-content-between">
+          <Form.Group controlId="formFile" style={{ width: '85%' }}>
+            <Form.Control onChange={handleFileChange} type="file" />
           </Form.Group>
-          
-          <Button onClick={(e) => handleUploadClick(e)}>Upload</Button>
 
-         </div>
-          
-          
+          <Button onClick={(e) => handleUploadClick(e)}>Upload</Button>
+        </div>
+
         <div className={styles.company_info_btn_wrapper}>
           <Button
             disabled={disableSaveBtn}
@@ -206,20 +373,27 @@ function CompanyInfo({ currentEditCompanyId, loadData }) {
             Cancel changes
           </Button>
         </div>
+        {!disableSaveBtn && (
+          <p className={styles.saving_notification}>
+            For saving changes press "Save" if you want cancel press "Cancel
+            changes"
+          </p>
+        )}
       </Form>
       <Row>
         <Col xs={6}>
-          <ToastContainer position="top-end" className="p-3">
+          <ToastContainer position="middle-center" className="p-3">
             <Toast
+              style={{ width: 500, height: 150 }}
               onClose={() => setShowToaster(false)}
               show={showToaster}
               delay={5000}
               autohide
             >
-              <Toast.Header style={toasterStyles}>
+              <Toast.Header>Change company data</Toast.Header>
+              <Toast.Body style={toasterStyles}>
                 <strong className="me-auto">{toasterText}</strong>
-              </Toast.Header>
-              <Toast.Body></Toast.Body>
+              </Toast.Body>
             </Toast>
           </ToastContainer>
         </Col>

@@ -7,18 +7,27 @@ h4 {
 }
 
 .user_info_btn_wrapper button{
-    margin: 20px 15px 0 0;
+    margin: 10px 15px 0 0;
 }
 
 .user_info_wrapper span {
     width: 130px ;
 }
 
+.user_info_comments_wrapper p{
+    margin: 0;
+}
+
 .user_info_check_wrapper {
-    height: 185px;
+    max-height: 170px;
     box-sizing: border-box;
     overflow: scroll;
 }
+
+.user_info_permissions_check_wrapper {
+    display: flex;
+}
+
 .search_icon {
     content: url('../../../assets/icons/search.svg');
 }
@@ -46,13 +55,10 @@ h4 {
 .user_info_companies_wrapper {
     display: flex;
     align-items: center;
+    gap: 15px;
 }
 .user_info_companies_wrapper h4{
-    width: 255px;
-}
-
-.user_info_companies_wrapper button{
-    height: 30px;
+    width: 270px;
 }
 
 .user_info_company_add {
@@ -62,4 +68,14 @@ h4 {
 .error {
     margin: 0 , 0 5px, 0;
     color: red;
+}
+
+.saving_notification {
+    margin-top: 10px;
+    color: #6C757D;
+}
+
+.question_icon {
+    content: url('../../../assets/icons/question-circle.svg');
+    margin: 3px 0 0px 5px;
 }

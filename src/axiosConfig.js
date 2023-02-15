@@ -1,14 +1,14 @@
 import axios from "axios";
 import ENUMS from './constants/appEnums';
 import { setCookie, getCookie, deleteCookie } from "./utils//cookie";
+const { REACT_APP_API_URL } = process.env
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL:  REACT_APP_API_URL,
   timeout: 1000,
   headers: {
     'Content-Type': 'application/json',
   },
-  // responseType: "json",
 });
 
 function axiosResponseInterceptor() {

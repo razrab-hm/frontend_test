@@ -5,7 +5,7 @@ import { authApi } from '../../utils/authApi';
 import { useHistory } from 'react-router-dom';
 
 
-function NoCompanies({setUserLoggedIn}) {
+function NoCompanies({setUserLoggedIn, logginMsg}) {
 
     const refreshToken = getCookie('accessToken');
     const history = useHistory();
@@ -21,14 +21,24 @@ function NoCompanies({setUserLoggedIn}) {
         })
       };
 
-
   return (
     <div className={styles.no_companies_wrapper}>
-        <h4>Sorry, you don't have any active companies.</h4>
-        <h4>Please contact with administrator</h4>
-        <div className={styles.no_companies_link} onClick={handleLogout}>Go back to login</div>
+      {logginMsg ? (
+        <>
+          <h4>Sorry, {logginMsg}.</h4>
+          <h4>Please contact with administrator</h4>
+        </>
+      ) : (
+        <>
+          <h4>Sorry, you don't have any active companies.</h4>
+          <h4>Please contact with administrator</h4>
+        </>
+      )}
+      <div className={styles.no_companies_link} onClick={handleLogout}>
+        Go back to login
+      </div>
     </div>
-  )
+  );
 }
 
 export default NoCompanies

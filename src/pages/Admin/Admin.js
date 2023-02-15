@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Dashboard, AdminMain } from '../../components';
+import { AdminMain } from '../../components';
 import ENUMS from '../../constants/appEnums';
 import styles from './Admin.module.css';
 

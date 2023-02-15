@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Dashboard, MonthReport, MonthHashRate, YQMReport, ReportSelect, Footer, NoCompanies } from '../../components'
+import { Dashboard, MonthReport, MonthHashRate, YQMReport, ReportSelect, Footer, NoCompanies, AsideMain } from '../../components'
 // eslint-disable-next-line no-unused-vars
 import styles from './Main.module.css'
 import Form from 'react-bootstrap/Form';
@@ -8,7 +8,7 @@ import ENUMS from '../../constants/appEnums';
 import { sortByMonthName, getData } from '../../utils/projectUtils';
 import { handlReport } from '../../utils/projectUtils';
 
-function Main({setUserLoggedIn, userRole, userLoggedIn}) {
+function Main({setUserLoggedIn, userRole, userLoggedIn, logginMsg}) {
   const [userCompanies, setUserCompanies] = useState([]);
   const [selectedCompanies, setSelectedCompanies] = useState(userCompanies);
   const [monthReportData, setMonthReportData] = useState([]);
@@ -17,6 +17,7 @@ function Main({setUserLoggedIn, userRole, userLoggedIn}) {
   const [year, setYear] = useState();
   const [month, setMonth] = useState(ENUMS.DATES.CURRENT_MONTH);
   const selectedCompaniesId = selectedCompanies.map(elem => elem.id);
+  const [showMenu, setShowMenu] = useState(true);
 
   const sendData = {
     year,
@@ -43,7 +44,7 @@ function Main({setUserLoggedIn, userRole, userLoggedIn}) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dates]);
 
-  useEffect(() => {
+  const getInitialReports = () => {
     if (year && month && userCompanies.length > 0) {
       handlReport(sendData, ENUMS.API_ROUTES.MONTH_DAY, setMonthReportData);
       handlReport(
@@ -52,24 +53,41 @@ function Main({setUserLoggedIn, userRole, userLoggedIn}) {
         setYQMReportData
       );
     }
+  };
+
+  useEffect(() => {
+    getInitialReports();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year]);
 
-  if(!userCompanies.length && userRole === ENUMS.ROLE.MANAGER) return <NoCompanies setUserLoggedIn={setUserLoggedIn}/>
+  if(!userCompanies.length && userRole !== ENUMS.ROLE.SUPERADMIN) return <NoCompanies logginMsg={logginMsg} setUserLoggedIn={setUserLoggedIn}/>
 
   return (
     <div
       className="wrapper d-flex flex-column min-vh-100"
       style={{ backgroundColor: 'rgb( 235, 237, 239)' }}
     >
-      <Dashboard userRole={userRole} setUserLoggedIn={setUserLoggedIn} userCompanies={userCompanies} setSelectedCompanies={setSelectedCompanies} selectedCompanies={selectedCompanies} setUserCompanies={setUserCompanies}/>
-      <div className="container">
-        <div className="row">
-          <div className="col-xl-6">
+      <Dashboard
+        userRole={userRole}
+        setUserLoggedIn={setUserLoggedIn}
+        userCompanies={userCompanies}
+        setSelectedCompanies={setSelectedCompanies}
+        setUserCompanies={setUserCompanies}
+        setShowMenu={setShowMenu}
+        showMenu={showMenu}
+      />
+      <div className="container-fluid">
+        <div className="row flex-nowrap">
+        <AsideMain showMenu={showMenu} userCompanies={userCompanies} selectedCompanies={selectedCompanies} setSelectedCompanies={setSelectedCompanies} getInitialReports={getInitialReports}/>
+          <div className='col py-3'>
+            <div className='container'>
+              <div className='row'>
+              <div className="col-xl-6">
             <MonthHashRate monthReportData={monthReportData} />
             <MonthReport data={monthReportData} />
           </div>
           <div className="col-xl-6">
-            <ReportSelect dates={dates} selectedCompanies={selectedCompanies}/>
+            <ReportSelect dates={dates} selectedCompanies={selectedCompanies} />
             <table className="table table-success table-striped">
               <tbody>
                 <tr>
@@ -77,37 +95,32 @@ function Main({setUserLoggedIn, userRole, userLoggedIn}) {
                     <Form
                       onSubmit={(e) => {
                         e.preventDefault();
-                        handlReport(sendData, ENUMS.API_ROUTES.MONTH_DAY, setMonthReportData)
-                        handlReport(sendData, ENUMS.API_ROUTES.YEAR_QUARTER_MONTH, setYQMReportData)
-                        // getData(
-                        //   {...data, companies: selectedCompaniesId},
-                        //   setMonthReportData,
-                        //   reportsApi.getReport,
-                        //   ENUMS.API_ROUTES.MONTH_DAY,
-                          
-                        // );
-                        // getData(
-                        //   {...data, companies: selectedCompaniesId},
-                        //   setYQMReportData,
-                        //   reportsApi.getReport,
-                        //   ENUMS.API_ROUTES.YEAR_QUARTER_MONTH,
-                        // );
+                        handlReport(
+                          sendData,
+                          ENUMS.API_ROUTES.MONTH_DAY,
+                          setMonthReportData
+                        );
+                        handlReport(
+                          sendData,
+                          ENUMS.API_ROUTES.YEAR_QUARTER_MONTH,
+                          setYQMReportData
+                        );
                       }}
                     >
                       <div className="input-group flex-nowrap">
                         <label className="input-group-text">Year</label>
-                            <Form.Select
-                              value={year}
-                              onChange={(e) => setYear(e.target.value)}
-                              className="form-select"
-                              id="year"
-                            >
-                              {dates?.years?.map((elem, i) => (
-                                <option key={elem} value={elem}>
-                                  {elem}
-                                </option>
-                              ))}
-                            </Form.Select>
+                        <Form.Select
+                          value={year}
+                          onChange={(e) => setYear(e.target.value)}
+                          className="form-select"
+                          id="year"
+                        >
+                          {dates?.years?.map((elem, i) => (
+                            <option key={elem} value={elem}>
+                              {elem}
+                            </option>
+                          ))}
+                        </Form.Select>
                         <label className="input-group-text">Month</label>
                         <Form.Select
                           className="form-select"
@@ -139,6 +152,10 @@ function Main({setUserLoggedIn, userRole, userLoggedIn}) {
             </table>
             <YQMReport data={YQMReportData} />
           </div>
+              </div>
+            </div>
+          </div>
+         
         </div>
       </div>
       <Footer />

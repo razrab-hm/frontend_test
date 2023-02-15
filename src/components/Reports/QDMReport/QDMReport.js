@@ -25,7 +25,7 @@ function QDMReport({data}) {
             <tr key={elem.date}>
               <td className='text-lg-start'>{elem.date}</td>
               <td className='text-lg-center'>{data?.year}</td>
-              <td className='text-lg-end'>{elem.hash}</td>
+              <td className='text-lg-end'>{elem.hash.toFixed(2)}</td>
             </tr>
           ))
         }

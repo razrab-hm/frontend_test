@@ -7,10 +7,6 @@ import { Route } from 'react-router-dom';
 
 function AdminMain({setUserLoggedIn, userRole}) {
 
-  // const history = useHistory();
-  // if (userRole === ENUMS.ROLE.MANAGER) history.replace('/login')
-
-
   const routes = useMemo(
     () => [
       {
@@ -32,13 +28,14 @@ function AdminMain({setUserLoggedIn, userRole}) {
         ),
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
 
   return (
     <>
-      <Dashboard adminPanel setUserLoggedIn={setUserLoggedIn} />
+      <Dashboard adminPanel setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
       <div className="container-fluid">
         <div className="row flex-nowrap">
           <div className={`col-auto bg-dark ${styles.admin_main_aside}`}>

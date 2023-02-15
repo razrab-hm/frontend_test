@@ -1,5 +1,6 @@
 import axios from "../axiosConfig";
 import { getCookie } from "./cookie";
+const { REACT_APP_API_URL } = process.env
 
 
 export const reportsApi = {
@@ -25,9 +26,9 @@ export const reportsApi = {
         throw new Error(error.message);
       }
     },
-    getXlsxReport: async (data) => {
+    getXlsxReport: async (data, url) => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/reports/year_quarter',
+        const response = await fetch(`${REACT_APP_API_URL}${url}`,
           {
             method: 'POST',
             body: JSON.stringify({...data, output_type: 'xlsx'}),
@@ -48,7 +49,7 @@ export const reportsApi = {
       const formData = new FormData();
       formData.append('file', file) 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/hashrates/import/${currentEditCompanyId}`, {
+        const response = await fetch(`${REACT_APP_API_URL}/hashrates/import/${currentEditCompanyId}`, {
           method: 'POST',
           body: formData,
           headers: {

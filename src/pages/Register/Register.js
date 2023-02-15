@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { authApi } from "../../utils/authApi";
 import Spinner from 'react-bootstrap/Spinner';
+import { removeSpaces } from '../../utils/projectUtils';
 
 function Register({userLoggedIn}) {
 
@@ -16,23 +17,36 @@ function Register({userLoggedIn}) {
     const history = useHistory();
 
     const formSchema = yup.object().shape({
-        username: yup.string()
-            .required("User name is required")
-            .min(3, "Username length should be at least 3 characters"),
-        email: yup.string()
-            .required("Email is required"),
-        password: yup.string()
-            .required("Password is required"),
-        cpassword: yup.string()
-            .required("Confirm Password is required")
-            .oneOf([yup.ref("password")], "Passwords do not match"),
-        first_name: yup.string()
-            .min(3, "First name length should be at least 3 characters"),
-        last_name: yup.string()
-            .min(3, "Last name length should be at least 3 characters"),
+      username: yup
+        .string()
+        .required('User name is required')
+        .min(3, 'Username length should be at least 3 characters')
+        .max(50, 'Username length should be less than 50 characters'),
+      email: yup
+        .string()
+        .required('Email is required')
+        .min(3, 'Email length should be at least 3 characters')
+        .max(50, 'Email length should be less than 50 characters'),
+      password: yup
+        .string()
+        .required('Password is required')
+        .min(4, 'Password length should be at least 4 characters'),
+      cpassword: yup
+        .string()
+        .required('Confirm Password is required')
+        .oneOf([yup.ref('password')], 'Passwords do not match'),
+      first_name: yup
+        .string()
+        .min(3, 'First name length should be at least 3 characters'),
+      last_name: yup
+        .string()
+        .min(3, 'Last name length should be at least 3 characters'),
+      description: yup
+        .string()
+        .max(50, 'Length should be not more than 50 characters'),
     });
 
-    const { register, setValue, setError, formState: { errors }, handleSubmit } = useForm({
+    const { register, setValue, setError, getValues, formState: { errors }, handleSubmit } = useForm({
         mode: "onTouched",
         resolver: yupResolver(formSchema)
       });
@@ -63,6 +77,10 @@ function Register({userLoggedIn}) {
         return <Redirect to={'/main'} />;
     }
 
+    const handleRemoveSpaves = (inputName) => {
+      setValue(`${inputName}`, removeSpaces(getValues(`${inputName}`)));
+    };
+
   return isLoading ? (
     <div className="spinner_wrapper">
       <Spinner variant="primary" animation="border" role="status">
@@ -80,7 +98,8 @@ function Register({userLoggedIn}) {
           </InputGroup.Text>
           <Form.Control
             {...register('username')}
-            placeholder="Username*"
+            onBlur={() => handleRemoveSpaves('username')}
+            placeholder="Username *"
             aria-invalid={errors.username ? 'true' : 'false'}
           />
         </InputGroup>
@@ -93,7 +112,8 @@ function Register({userLoggedIn}) {
           </InputGroup.Text>
           <Form.Control
             {...register('email')}
-            placeholder="Email*"
+            placeholder={'Email *'}
+            onBlur={() => handleRemoveSpaves('email')}
             aria-invalid={errors.email ? 'true' : 'false'}
             type="email"
           />
@@ -128,6 +148,19 @@ function Register({userLoggedIn}) {
           {errors.last_name?.message}
         </p>
         <InputGroup className="mb-3">
+          <InputGroup.Text id="description">
+            <img className={styles.description} alt="description" />
+          </InputGroup.Text>
+          <Form.Control
+            {...register('description')}
+            placeholder="Comments to admin"
+            aria-invalid={errors.description ? 'true' : 'false'}
+          />
+        </InputGroup>
+        <p className={styles.error} role="alert">
+          {errors.description?.message}
+        </p>
+        <InputGroup className="mb-3">
           <InputGroup.Text id="password">
             <img className={styles.password} alt="password" />
           </InputGroup.Text>
@@ -147,7 +180,7 @@ function Register({userLoggedIn}) {
           </InputGroup.Text>
           <Form.Control
             {...register('cpassword', { required: true })}
-            placeholder="Confirm password*"
+            placeholder="Confirm password *"
             aria-invalid={errors.cpassword ? 'true' : 'false'}
             type="password"
           />

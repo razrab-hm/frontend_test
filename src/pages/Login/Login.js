@@ -10,16 +10,15 @@ import styles from '../Login/Login.module.css';
 import { authApi } from "../../utils/authApi";
 import { setCookie } from '../../utils/cookie';
 import Spinner from 'react-bootstrap/Spinner';
-// import { getData } from '../../utils/projectUtils';
-// import { api } from '../../utils/api';
-// import ENUMS from '../../constants/appEnums';
+import { removeSpaces } from '../../utils/projectUtils';
 
-function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompanies}) {
+function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompanies, setLogginMsg}) {
 
     const [isLoading, setIsLoading] = useState(false);
     const [logginError, setLogginError] = useState(false);
     const location = useLocation();
     const history = useHistory();
+    
 
     const formSchema = yup.object().shape({
         username: yup.string()
@@ -28,7 +27,7 @@ function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompani
             .required("Password is required")
     });
 
-    const { register, formState: { errors }, handleSubmit } = useForm({
+    const { register, formState: { errors }, setValue, getValues, handleSubmit } = useForm({
         resolver: yupResolver(formSchema)
     });
 
@@ -39,12 +38,17 @@ function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompani
           // const companies = getData( null, setUserCompanies, api.fetchData, '/test');
           setIsLoading(false);
           saveUserState(data);
+          setLogginMsg(data?.message)
           setUserLoggedIn(true)
         } catch (error) {
           setLogginError(error.message)
           setIsLoading(false);
           console.log(error.message);
         }
+    };
+
+    const handleRemoveSpaves = (inputName) => {
+      setValue(`${inputName}`, removeSpaces(getValues(`${inputName}`)));
     };
 
 
@@ -77,17 +81,13 @@ function Login({setUserLoggedIn, userLoggedIn, data, setUserRole, setUserCompani
           <Form.Control
             {...register('username', { required: true })}
             placeholder="Username"
+            onBlur={() => handleRemoveSpaves('username')}
             aria-invalid={errors.username ? 'true' : 'false'}
           />
         </InputGroup>
         <p className={styles.error} role="alert">
           {errors.username?.message}
         </p>
-        {/* {errors.email?.type === 'required' && (
-          <p className={styles.error} role="alert">
-            Email is required
-          </p>
-        )} */}
         <InputGroup className="mb-3">
           <InputGroup.Text id="password">
             <img className={styles.password} alt="password" />

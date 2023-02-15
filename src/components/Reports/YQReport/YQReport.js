@@ -30,7 +30,7 @@ function YQReport({ data }) {
               {data?.year}
             </td>
             <td className="text-lg-end">
-              {elem.total}
+              {elem.total.toFixed(2)}
             </td>
           </tr>
         ))}

@@ -22,7 +22,7 @@ export const adminApi = {
               role: newRole ? newRole : data.role,
               companies_id: data.companies_id,
               user_id: data.user_id,
-              inactive: data.inactive,
+              inactive: !data.active,
               first_name: data.first_name,
               last_name: data.last_name
             },
@@ -77,8 +77,10 @@ export const adminApi = {
               contact_phone: data.contact_phone,
               img_logo: data.img_logo,
               description: data.description,
-              inactive: data.inactive,
+              inactive: !data.active,
               id: data.id,
+              company_id: data.company_id,
+              users_id: data.users_id
             },
             {  headers: {
               'Content-Type': 'application/json' ,

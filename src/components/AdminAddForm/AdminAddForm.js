@@ -50,45 +50,49 @@ function AdminAddForm({header, usage, loadData}) {
     const getCompanies = () => {
       getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
     };
-
+    //TO DO!!ERROR!!!!
     const handleSaveData = async (parameters) => {
-      if(userCompanies.length > 0) {
         try {
           setIsLoading(true);
           if(usage === ENUMS.USAGE.USERS) {
-              await adminApi.createUser({...parameters, companies_id: userCompanies.map(elem => elem.id)}, ENUMS.API_ROUTES.ADMIN_NEW_USER);
-              setToasterText(ENUMS.TOASTER.SUCCESS_ADD_USER.label)
+            if(userCompanies.length > 0) {
+              await adminApi.createUser({...parameters, companies_id: userCompanies.map(elem => elem.id)}, ENUMS.API_ROUTES.ADMIN_NEW_USER)
+              handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_USER.label)
+            } else {
+              setIsLoading(false);
+              setShowToaster(true);
+              setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
+              setToasterText("Please select at least 1 company")
+            }
           } else if(usage === ENUMS.USAGE.COMPANIES){
               await adminApi.createCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
-              setToasterText(ENUMS.TOASTER.SUCCESS_ADD_COMPANY.label)
+              handleSuccesSaveData(ENUMS.TOASTER.SUCCESS_ADD_COMPANY.label)
           }
-          setShowToaster(true);
-          loadData();
-          setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
-          setIsLoading(false);
-          reset();
         } catch (error) {
           setIsLoading(false);
           setShowToaster(true);
           setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
-
+          setToasterText(ENUMS.TOASTER.FAIL.label)
           if (error.message === 'Username already registered') {
             setError('username', {type: 'custom', message: 'This username has already registered'})
           }
           if (error.message === 'Email already registered') {
             setError('email', {type: 'custom', message: 'This email has already registered'})
           }
-          //reset passwords
+          //reset passwords input
           setValue('password', '');
           setValue('cpassword', '');
         }
-
-      } else {
-        setShowToaster(true);
-        setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
-        setToasterText("Please select at least 1 company")
-      }
     };
+
+    const handleSuccesSaveData = (toasterText) => {
+      setShowToaster(true);
+      loadData();
+      setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
+      setToasterText(toasterText)
+      setIsLoading(false);
+      reset();
+    }
 
     useEffect(() => {
       getCompanies();
@@ -110,7 +114,7 @@ function AdminAddForm({header, usage, loadData}) {
         {usage === ENUMS.USAGE.USERS ? (
           <>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="username">User name</InputGroup.Text>
+              <InputGroup.Text id="username">User name*</InputGroup.Text>
               <Form.Control
                 {...register('username', {
                   required: 'User name is required',
@@ -123,7 +127,7 @@ function AdminAddForm({header, usage, loadData}) {
               {errors.username?.message}
             </p>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="email">Email</InputGroup.Text>
+              <InputGroup.Text id="email">Email*</InputGroup.Text>
               <Form.Control
                 type="email"
                 {...register('email', { required: 'Email is required' })}
@@ -134,7 +138,7 @@ function AdminAddForm({header, usage, loadData}) {
               {errors.email?.message}
             </p>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="password">Password</InputGroup.Text>
+              <InputGroup.Text id="password">Password*</InputGroup.Text>
               <Form.Control
                 type="password"
                 {...register('password', {
@@ -247,7 +251,7 @@ function AdminAddForm({header, usage, loadData}) {
         {usage === ENUMS.USAGE.COMPANIES ? (
           <>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="title">Company name</InputGroup.Text>
+              <InputGroup.Text id="title">Company name*</InputGroup.Text>
               <Form.Control
                 {...register('title', { required: 'Company name is required' })}
                 aria-invalid={errors.username ? 'true' : 'false'}
@@ -262,7 +266,7 @@ function AdminAddForm({header, usage, loadData}) {
             </InputGroup>
             <InputGroup className="mb-3">
               <InputGroup.Text id="contact_email">
-                Contact email
+                Contact email*
               </InputGroup.Text>
               <Form.Control
                 type="email"
@@ -301,17 +305,18 @@ function AdminAddForm({header, usage, loadData}) {
       </Form>
       <Row>
         <Col xs={6}>
-          <ToastContainer position="top-end" className="p-3">
+          <ToastContainer position="middle-center" className="p-3">
             <Toast
+              style={{ width: 500, height: 150 }}
               onClose={() => setShowToaster(false)}
               show={showToaster}
               delay={5000}
               autohide
             >
-              <Toast.Header style={toasterStyles}>
+              <Toast.Header>Create {usage}</Toast.Header>
+              <Toast.Body style={toasterStyles}>
                 <strong className="me-auto">{toasterText}</strong>
-              </Toast.Header>
-              <Toast.Body></Toast.Body>
+              </Toast.Body>
             </Toast>
           </ToastContainer>
         </Col>

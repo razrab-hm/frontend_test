@@ -13,7 +13,10 @@ import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Spinner from 'react-bootstrap/Spinner';
+
 
 
 function UserInfo({ currentEditUserId, loadData, userRole }) {
@@ -29,6 +32,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   const [showCompanyAdd, setShowCompanyAdd] = useState(false);
   const [allCompanies, setAllCompanies] = useState([]);
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [disableEdit, setDisableEdit] = React.useState(true);
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
@@ -41,7 +45,8 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
     formState: { errors },
     handleSubmit,
     reset,
-    setError
+    setError,
+    setValue,
   } = useForm({
     defaultValues: useMemo(() => {
       return userInfo;
@@ -63,6 +68,16 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
     );
   };
 
+  const renderTooltip = (title, contact_email, contact_fio) => (
+    <Tooltip id="button-tooltip">
+     <span>Company name: {title}</span>
+     <br/>
+     <span>Email: {contact_email}</span>
+     <br/>
+     <span>Contact name: {contact_fio}</span>
+    </Tooltip>
+  );
+
   const getCompanies = () => {
     getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES);
   };
@@ -75,13 +90,18 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   };
 
   const addCompany = (company) => {
-    console.log(company)
     setUserCompanies((prevState) => {return [...prevState, company]});
-    console.log('userCompanies', userCompanies)
     setDisableSaveBtn(false);
   };
 
   const saveData = async (parameters) => {
+    if(!parameters.admin && !parameters.manager && !parameters.superadmin) {
+       setShowToaster(true);
+       setToasterText('Please select user role!');
+       setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
+       return console.log(parameters)
+    }
+
     const userNewCompanies = {companies_id: userCompanies.map(elem => elem.id), user_id: parameters.id}
     try {
       setIsLoading(true);
@@ -115,16 +135,33 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
     }
   };
 
+  const handleChangeRole = (role) => {
+    switch (role) {
+      case ENUMS.ROLE.MANAGER:
+        setValue('admin', false)
+        setValue('superadmin', false);
+        break;
+        case ENUMS.ROLE.ADMIN:
+          setValue('manager', false)
+          setValue('superadmin', false);
+        break;
+        case ENUMS.ROLE.SUPERADMIN:
+          setValue('manager', false)
+          setValue('admin', false);
+        break;
+      default: return
+      }
+  };
+
   useEffect(() => {
     reset(userInfo);
     userInfo.superadmin = userInfo.role === 'root' ? true : false;
     userInfo.admin = userInfo.role === 'admin' ? true : false;
+    userInfo.manager = userInfo.role === 'manager' ? true : false;
+    userInfo.active = !userInfo.inactive;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
-  // useEffect(() => {
-  //   setSelectedCompanies(userCompanies);
-  // }, [userCompanies]);
 
   useEffect(() => {
     if (currentEditUserId) {
@@ -150,7 +187,9 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         onChange={() => setDisableSaveBtn(false)}
       >
         <InputGroup className="mb-3">
-          <InputGroup.Text id="user_name">User name</InputGroup.Text>
+          <InputGroup.Text id="user_name">
+            User name <span style={{ color: 'red' }}>*</span>
+          </InputGroup.Text>
           <Form.Control
             {...register('username', { required: true })}
             aria-invalid={errors.username ? 'true' : 'false'}
@@ -189,7 +228,9 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
           />
         </InputGroup>
         <InputGroup className="mb-3">
-          <InputGroup.Text id="email">Email address</InputGroup.Text>
+          <InputGroup.Text id="email">
+            Email address <span style={{ color: 'red' }}>*</span>
+          </InputGroup.Text>
           <Form.Control
             {...register('email')}
             aria-invalid={errors.email ? 'true' : 'false'}
@@ -198,10 +239,17 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         <p className={styles.error} role="alert">
           {errors.email?.message}
         </p>
+        {userCompanies.length === 0 ? (
+          <div className={styles.user_info_comments_wrapper}>
+            <h4>Comments during registration</h4>
+            <p>{userInfo?.description ? userInfo?.description : 'Empty'}</p>
+          </div>
+        ) : null}
+
         {showCompanyAdd ? (
           <>
             <div className={styles.user_info_companies_wrapper}>
-              <h4>Set companies for user</h4>
+              <h4>Connect companies</h4>
               <Button size="sm" onClick={() => setShowCompanyAdd(false)}>
                 <img className={styles.arrow_icon} alt="back"></img>
                 Go back
@@ -218,7 +266,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             </InputGroup>
             <ListGroup
               style={{
-                height: '130px',
+                maxHeight: '130px',
                 boxSizing: 'border-box',
                 overflow: 'scroll',
               }}
@@ -230,38 +278,77 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
                 )
                 .filter((elem) => elem.title.toLowerCase().includes(searchTerm))
                 .map((elem) => (
-                  <ListGroup.Item
-                    className={styles.user_info_company_add}
+                  <OverlayTrigger
                     key={elem.title}
-                    onClick={() => addCompany(elem)}
+                    placement="left"
+                    delay={{ show: 50, hide: 50 }}
+                    overlay={renderTooltip(
+                      elem.title,
+                      elem.contact_email,
+                      elem.contact_fio
+                    )}
                   >
-                    <img className={styles.add_icon_green} alt="add_icon"></img>
-                    {elem.title}
-                  </ListGroup.Item>
+                    <ListGroup.Item
+                      className={styles.user_info_company_add}
+                      key={elem.title}
+                    >
+                      <img
+                        onClick={() => addCompany(elem)}
+                        className={styles.add_icon_green}
+                        alt="add_icon"
+                      ></img>
+                      {elem.title}
+                      {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                    </ListGroup.Item>
+                  </OverlayTrigger>
                 ))}
             </ListGroup>
           </>
         ) : (
           <>
             <div className={styles.user_info_companies_wrapper}>
-              <h4>User companies</h4>
+              <h4>Connected companies</h4>
               <Button size="sm" onClick={() => setShowCompanyAdd(true)}>
                 <img className={styles.add_icon} alt="plus"></img>
-                Add company
+                Connect company
+              </Button>
+              <Button
+                onClick={() => setDisableEdit(!disableEdit)}
+                variant="outline-danger"
+              >
+                {disableEdit ? 'Enable editing' : 'Disable editing'}
               </Button>
             </div>
             {userCompanies.length > 0 ? (
               <div className={styles.user_info_check_wrapper}>
                 <ListGroup>
                   {userCompanies.map((elem) => (
-                    <ListGroup.Item className={styles.user_info_company_add} key={elem.id}>
-                      {elem.title}
-                      <img
-                        onClick={() => deleteCompany(elem)}
-                        className={styles.delete_icon}
-                        alt="delete"
-                      ></img>
-                    </ListGroup.Item>
+                    <OverlayTrigger
+                      key={elem.title}
+                      placement="left"
+                      delay={{ show: 50, hide: 50 }}
+                      overlay={renderTooltip(
+                        elem.title,
+                        elem.contact_email,
+                        elem.contact_fio
+                      )}
+                    >
+                      <ListGroup.Item
+                        className={styles.user_info_company_add}
+                        key={elem.id}
+                      >
+                        {elem.title}
+                        {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                        {!disableEdit ? (
+                          <img
+                            disabled={disableEdit}
+                            onClick={() => deleteCompany(elem)}
+                            className={styles.delete_icon}
+                            alt="delete"
+                          ></img>
+                        ) : null}
+                      </ListGroup.Item>
+                    </OverlayTrigger>
                   ))}
                 </ListGroup>
               </div>
@@ -273,28 +360,80 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
         <h4>Permissions</h4>
         <Form.Check
-          {...register('inactive')}
+          style={{paddingLeft: '2.8em'}}
+          {...register('active')}
           type="switch"
-          label={`Inactive (User will be treated as inactive)`}
-          id={`inactive`}
+          label={`Active (User will be treated as active)`}
+          id={`active`}
         />
-        <Form.Check
-          {...register('admin')}
-          type="switch"
-          label={`Staff status (User can log into this admin site)`}
-          id={`admin`}
-        />
-        {
-          userRole === ENUMS.ROLE.SUPERADMIN ?
+        <div className={styles.user_info_permissions_check_wrapper}>
           <Form.Check
-          {...register('superadmin')}
-          type="switch"
-          label={`Superuser status (User has all permissions)`}
-          id={`root`}
-        />
-        : ''
-        }
-        
+            style={{paddingLeft: '2.8em'}}
+            {...register('manager')}
+            onChange={() => handleChangeRole(ENUMS.ROLE.MANAGER)}
+            type="switch"
+            id={`manager`}
+          />
+
+          <div>Manager</div>
+          <OverlayTrigger
+            placement="right"
+            overlay={
+              <Tooltip id={`tooltip-manager`}>
+                User can not login to admin site.
+              </Tooltip>
+            }
+          >
+            <img className={styles.question_icon} alt="question"></img>
+          </OverlayTrigger>
+        </div>
+
+        <div className={styles.user_info_permissions_check_wrapper}>
+          <Form.Check
+            style={{paddingLeft: '2.8em'}}
+            {...register('admin')}
+            onChange={() => handleChangeRole(ENUMS.ROLE.ADMIN)}
+            type="switch"
+            id={`admin`}
+          />
+          <div>Admin</div>
+          <OverlayTrigger
+            placement="right"
+            overlay={
+              <Tooltip id={`tooltip-admin`}>
+                User can log into this admin site and manage companies and users
+              </Tooltip>
+            }
+          >
+            <img className={styles.question_icon} alt="question"></img>
+          </OverlayTrigger>
+        </div>
+
+        {userRole === ENUMS.ROLE.SUPERADMIN ? (
+          <div className={styles.user_info_permissions_check_wrapper}>
+            <Form.Check
+              style={{paddingLeft: '2.8em'}}
+              {...register('superadmin')}
+              onChange={() => handleChangeRole(ENUMS.ROLE.SUPERADMIN)}
+              type="switch"
+              id={`superadmin`}
+            />
+            <div>Superadmin</div>
+            <OverlayTrigger
+              placement="right"
+              overlay={
+                <Tooltip id={`tooltip-superadmin`}>
+                  User has all permissions
+                </Tooltip>
+              }
+            >
+              <img className={styles.question_icon} alt="question"></img>
+            </OverlayTrigger>
+          </div>
+        ) : (
+          ''
+        )}
+
         <div className={styles.user_info_btn_wrapper}>
           <Button
             disabled={disableSaveBtn}
@@ -315,20 +454,29 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             Cancel changes
           </Button>
         </div>
+        {!disableSaveBtn && (
+          <p className={styles.saving_notification}>
+            For saving changes press "Save" if you want cancel press "Cancel
+            changes"
+          </p>
+        )}
       </Form>
       <Row>
         <Col xs={6}>
-          <ToastContainer position="top-end" className="p-3">
+          <ToastContainer position="middle-center" className="p-3">
             <Toast
+              style={{ width: 500, height: 150 }}
               onClose={() => setShowToaster(false)}
               show={showToaster}
               delay={5000}
               autohide
             >
-              <Toast.Header style={toasterStyles}>
-                <strong className="me-auto">{toasterText}</strong>
-              </Toast.Header>
-              <Toast.Body></Toast.Body>
+              <Toast.Header>Change user data</Toast.Header>
+              <Toast.Body>
+                <strong style={toasterStyles} className="me-auto">
+                  {toasterText}
+                </strong>
+              </Toast.Body>
             </Toast>
           </ToastContainer>
         </Col>

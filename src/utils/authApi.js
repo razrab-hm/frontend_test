@@ -2,6 +2,7 @@ import axios from "../axiosConfig";
 import ENUMS from '../constants/appEnums';
 import { deleteCookie } from "./cookie";
 import { setCookie } from "./cookie";
+import { removeSpaces } from "./projectUtils";
 
 const authHttpHeaders = {
     headers: {
@@ -35,7 +36,6 @@ export const authApi = {
           { ...authHttpHeaders },
         );
         if (response.status === 202 && response.data) {
-          console.log(1)
           setCookie('accessToken', response.data.access_token);
           setCookie('refreshToken', response.data.refresh_token);
           return response.data
@@ -52,11 +52,12 @@ export const authApi = {
           const response = await axios.post(
             ENUMS.API_ROUTES.AUTH_REGISTER,
             {
-              username: data.username?.toLowerCase(),
-              email: data.email.toLowerCase(),
+              username: removeSpaces(data.username?.toLowerCase()),
+              email: removeSpaces(data.email?.toLowerCase()),
               password: data.password,
               first_name: data.first_name,
-              last_name: data.last_name
+              last_name: data.last_name,
+              description: data.description,
             },
             { ...authHttpHeaders }
           );

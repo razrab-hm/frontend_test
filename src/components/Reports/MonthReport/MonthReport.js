@@ -22,12 +22,12 @@ function MonthReport({data, modal = false}) {
         {data?.report?.map((elem) => (
           <tr key={elem.date}>
             <td className="text-lg-start">{elem.date}</td>
-            <td className="text-lg-end">{elem.average}</td>
-            <td className="text-lg-end">{elem.total}</td>
+            <td className="text-lg-end">{elem.average.toFixed(2)}</td>
+            <td className="text-lg-end">{elem.total.toFixed(2)}</td>
           </tr>
         ))}
         {modal && data?.report?.length > 0 ? (
-          <tr className="table-dark">
+          <tr className="table">
             <th scope="col" className="text-lg-start">
               Totals
             </th>

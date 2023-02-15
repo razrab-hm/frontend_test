@@ -2,6 +2,8 @@ import axios from "../axiosConfig";
 import { getCookie } from "./cookie";
 
 
+//TEST
+
 export const adminApi = {
     updateUserInfo: async (data, url) => {
       let newRole = null;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import { Register, Login, Main, Admin, NotFound } from '../../pages';
 import { ProtectedRoute } from '..';
@@ -28,6 +28,9 @@ function App() {
       <Switch>
         <Route exact path={ENUMS.ROUTES.REGISTER}>
           <Register userLoggedIn={userLoggedIn} />
+        </Route>
+        <Route exact path={'/'}>
+          <Redirect to={{ pathname: ENUMS.ROUTES.LOGIN}} />
         </Route>
         <Route exact path={ENUMS.ROUTES.LOGIN}>
           <Login setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} setLogginMsg={setLogginMsg} setUserRole={setUserRole}/>

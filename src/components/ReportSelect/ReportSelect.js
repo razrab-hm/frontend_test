@@ -95,7 +95,6 @@ function ReportSelect({dates, selectedCompanies}) {
                 url={ENUMS.API_ROUTES.YEAR_QUARTER_MONTH_DAY}
                 header={`Year by day/months/quarters`}
                 setData={setYDMQReportData}
-                // handleReport={handleYDMQReport}
                 modalControls={modalControlsYDMQ}
                 selectedCompanies={selectedCompanies}
               />
@@ -115,7 +114,6 @@ function ReportSelect({dates, selectedCompanies}) {
                 url={ENUMS.API_ROUTES.QUARTER_MONTH}
                 header={'Quarterly by months/quarters'}
                 setData={setQMReportData}
-                // handleReport={handleYDMQReport}
                 modalControls={modalControlsQM}
                 selectedCompanies={selectedCompanies}
               />
@@ -139,7 +137,6 @@ function ReportSelect({dates, selectedCompanies}) {
                 url={ENUMS.API_ROUTES.QUARTE_MONTH_DAY}
                 header={'Quarterly by days/months'}
                 setData={setQDMReportData}
-                // handleReport={handleYDMQReport}
                 modalControls={modalControlsQDM}
                 selectedCompanies={selectedCompanies}
               />
@@ -163,7 +160,6 @@ function ReportSelect({dates, selectedCompanies}) {
                 url={ENUMS.API_ROUTES.MONTH_DAY}
                 header={'Month by Day'}
                 setData={setMDReportData}
-                // handleReport={handleYDMQReport}
                 modalControls={modalControlsMD}
                 selectedCompanies={selectedCompanies}
               />

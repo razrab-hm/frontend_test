@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import { useForm } from "react-hook-form";
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Button } from 'react-bootstrap';
-// import { authApi } from '../../utils/authApi';
 import ENUMS from '../../constants/appEnums';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -50,7 +49,6 @@ function AdminAddForm({header, usage, loadData}) {
     const getCompanies = () => {
       getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
     };
-    //TO DO!!ERROR!!!!
     const handleSaveData = async (parameters) => {
         try {
           setIsLoading(true);

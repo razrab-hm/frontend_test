@@ -8,7 +8,7 @@ import ENUMS from '../../constants/appEnums';
 import { sortByMonthName, getData } from '../../utils/projectUtils';
 import { handlReport } from '../../utils/projectUtils';
 
-function Main({setUserLoggedIn, userRole, userLoggedIn, logginMsg}) {
+function Main({setUserLoggedIn, userRole, userLoggedIn}) {
   const [userCompanies, setUserCompanies] = useState([]);
   const [selectedCompanies, setSelectedCompanies] = useState(userCompanies);
   const [monthReportData, setMonthReportData] = useState([]);

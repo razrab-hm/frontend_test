@@ -48,7 +48,6 @@ function Login({setUserLoggedIn, userLoggedIn, setUserRole, setLogginError}) {
         }
     };
 
-    // console.log('errorL', logginError?.message)
     const handleRemoveSpaves = (inputName) => {
       setValue(`${inputName}`, removeSpaces(getValues(`${inputName}`)));
     };

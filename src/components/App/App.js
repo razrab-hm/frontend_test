@@ -48,9 +48,6 @@ function App() {
         <ProtectedRoute exact path={ENUMS.ROUTES.ADMIN_USERS} userLoggedIn={userLoggedIn}>
           <Admin  setUserRole={setUserRole} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn}/>
         </ProtectedRoute>
-        {/* <ProtectedRoute exact path={ENUMS.ROUTES.ADMIN_USERS_ID} userLoggedIn={userLoggedIn}>
-          <Admin userRole={userRole} userLoggedIn={userLoggedIn}/>
-        </ProtectedRoute> */}
          <ProtectedRoute exact path={ENUMS.ROUTES.ADMIN_UPLOAD} userLoggedIn={userLoggedIn}>
           <Admin userRole={userRole}/>
         </ProtectedRoute>

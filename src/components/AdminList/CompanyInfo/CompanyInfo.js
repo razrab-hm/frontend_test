@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from './CompanyInfo.module.css';
 import { getData } from '../../../utils/projectUtils';
 import { useForm } from "react-hook-form";
@@ -17,7 +17,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import { reportsApi } from '../../../utils/reportsApi';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Overlay from 'react-bootstrap/Overlay'
 
 function CompanyInfo({ currentEditCompanyId, loadData}) {
 

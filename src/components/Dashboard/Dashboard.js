@@ -11,7 +11,6 @@ import ENUMS from '../../constants/appEnums';
 
 function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu}) {
 
-
   const refreshToken = getCookie('accessToken');
   const history = useHistory();
 
@@ -49,7 +48,6 @@ function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu
                 fontSize: '1rem',
               }}
             >
-              {' '}
               {adminPanel ? 'Admin Panel' : 'Dashboard'}
             </div>
           </Navbar.Brand>

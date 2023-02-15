@@ -5,7 +5,7 @@ import ENUMS from '../../constants/appEnums';
 import styles from './Admin.module.css';
 
 
-function Admin({userRole, setUserLoggedIn, logginMsg}) {
+function Admin({userRole, setUserLoggedIn}) {
 
   const history = useHistory();
 

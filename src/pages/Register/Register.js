@@ -53,7 +53,6 @@ function Register({userLoggedIn}) {
           history.replace('/login');
         } catch (error) {
           setIsLoading(false);
-          console.log(error.message);
           //show username or email error
           if (error.message === 'Username already registered') {
             setError('username', {type: 'custom', message: `Username ${authData.username} has already registered`})

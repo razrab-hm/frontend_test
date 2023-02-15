@@ -99,7 +99,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
        setShowToaster(true);
        setToasterText('Please select user role!');
        setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
-       return console.log(parameters)
+       return
     }
 
     const userNewCompanies = {companies_id: userCompanies.map(elem => elem.id), user_id: parameters.id}

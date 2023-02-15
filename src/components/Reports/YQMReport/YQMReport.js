@@ -34,31 +34,6 @@ function YQMReport({ data, modal = false }) {
             );
         }
         )}
-        {/* {
-                Object.keys(YQMReportData?.report).map((key, i) =>
-                <>
-                    {YQMReportData.report[key].map((elem) => (
-                        <tr key={elem.name}>
-                            <td className='text-lg-start'>{elem.name}</td>
-                            <td className='text-lg-center'>{elem.date}</td>
-                            <td className='text-lg-end'>{elem.total}</td>
-                        </tr>
-                    ))}
-                        <tr key={`${key}${i}`} className={styles.quarter_title}>
-                            <td className='text-lg-start'>{`${romanize(i + 1)} Quarter`}</td>
-                            <td className='text-lg-center'>2022</td>
-                            <td className='text-lg-end'>
-                                {
-                                YQMReportData.report[key].reduce( function(a, b){
-                                    return (a + b.total);
-                                }, 0).toFixed(2)
-                                }
-                            </td>
-                        </tr>
-                </>
-                )
-            } */}
-        {/* Total */}
         {
           <tr className={styles.quarter_title}>
             <td className="text-lg-start">Total:</td>

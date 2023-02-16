@@ -15,17 +15,11 @@ function NoCompanies({logginError}) {
 
   return (
     <div className={styles.no_companies_wrapper}>
-      {logginError ? (
         <>
           <h4>Sorry, {logginError}.</h4>
           <h4>Please contact with administrator</h4>
         </>
-      ) : (
-        <>
-          <h4>Sorry, you don't have any active companies.</h4>
-          <h4>Please contact with administrator</h4>
-        </>
-      )}
+      
       <div className={styles.no_companies_link} onClick={handleLogout}>
         Go back to login
       </div>

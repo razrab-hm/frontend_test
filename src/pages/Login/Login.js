@@ -43,6 +43,10 @@ function Login({setUserLoggedIn, userLoggedIn, setUserRole, setLogginError}) {
             setLogginError(error.message)
             history.replace('/inactive')
           }
+          if(error.message === "You don't have companies") {
+            setLogginError(error.message)
+            history.replace('/inactive')
+          }
           setError(error.message)
           setIsLoading(false);
         }

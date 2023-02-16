@@ -237,7 +237,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Text id="email">
-            Email address <span style={{marginLeft: 8, color: 'red' }}>*</span>
+            Email address <span style={{ marginLeft: 8, color: 'red' }}>*</span>
           </InputGroup.Text>
           <Form.Control
             type="email"
@@ -420,7 +420,8 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-admin`}>
-                 User can see reports, log in to admin panel and manage his companies and users.
+                User can see reports, log in to admin panel and manage his
+                companies and users.
               </Tooltip>
             }
           >
@@ -494,6 +495,13 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
               <Toast.Body>
                 <strong style={toasterStyles} className="me-auto">
                   {toasterText}
+                  <Button
+                    style={{ position: 'absolute', right: 30, bottom: 30 }}
+                    variant="secondary"
+                    onClick={() => setShowToaster(false)}
+                  >
+                    Close
+                  </Button>
                 </strong>
               </Toast.Body>
             </Toast>

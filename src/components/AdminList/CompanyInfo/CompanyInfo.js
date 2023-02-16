@@ -197,7 +197,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Text id="contact_email">
-            Contact email <span style={{ marginLeft: 8,color: 'red' }}>*</span>
+            Contact email <span style={{ marginLeft: 8, color: 'red' }}>*</span>
           </InputGroup.Text>
           <Form.Control
             type="email"
@@ -413,6 +413,13 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
               <Toast.Header>Change company data</Toast.Header>
               <Toast.Body style={toasterStyles}>
                 <strong className="me-auto">{toasterText}</strong>
+                <Button
+                  style={{ position: 'absolute', right: 30, bottom: 30 }}
+                  variant="secondary"
+                  onClick={() => setShowToaster(false)}
+                >
+                  Close
+                </Button>
               </Toast.Body>
             </Toast>
           </ToastContainer>

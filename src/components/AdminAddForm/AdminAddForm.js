@@ -112,7 +112,9 @@ function AdminAddForm({header, usage, loadData}) {
         {usage === ENUMS.USAGE.USERS ? (
           <>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="username">User name<div style={{ marginLeft: 8, color: 'red' }}>*</div></InputGroup.Text>
+              <InputGroup.Text id="username">
+                User name<div style={{ marginLeft: 8, color: 'red' }}>*</div>
+              </InputGroup.Text>
               <Form.Control
                 {...register('username', {
                   required: 'User name is required',
@@ -125,7 +127,9 @@ function AdminAddForm({header, usage, loadData}) {
               {errors.username?.message}
             </p>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="email">Email <div style={{ marginLeft: 8, color: 'red' }}>*</div></InputGroup.Text>
+              <InputGroup.Text id="email">
+                Email <div style={{ marginLeft: 8, color: 'red' }}>*</div>
+              </InputGroup.Text>
               <Form.Control
                 type="email"
                 {...register('email', { required: 'Email is required' })}
@@ -136,7 +140,9 @@ function AdminAddForm({header, usage, loadData}) {
               {errors.email?.message}
             </p>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="password">Password<div style={{ marginLeft: 8, color: 'red' }}>*</div></InputGroup.Text>
+              <InputGroup.Text id="password">
+                Password<div style={{ marginLeft: 8, color: 'red' }}>*</div>
+              </InputGroup.Text>
               <Form.Control
                 type="password"
                 {...register('password', {
@@ -208,7 +214,11 @@ function AdminAddForm({header, usage, loadData}) {
                           alt="add_icon"
                         ></img>
                         {elem.title}
-                        {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                        {elem.inactive ? (
+                          <span style={{ marginLeft: 5, color: '#ff9999' }}>
+                            (inactive)
+                          </span>
+                        ) : null}
                       </ListGroup.Item>
                     ))}
                 </ListGroup>
@@ -231,7 +241,11 @@ function AdminAddForm({header, usage, loadData}) {
                           key={elem.id}
                         >
                           {elem.title}
-                          {elem.inactive ? <span style={{marginLeft: 5 ,color: '#ff9999'}}>(inactive)</span> : null}
+                          {elem.inactive ? (
+                            <span style={{ marginLeft: 5, color: '#ff9999' }}>
+                              (inactive)
+                            </span>
+                          ) : null}
                           <img
                             onClick={() => deleteCompany(elem)}
                             className={styles.delete_icon}
@@ -251,7 +265,10 @@ function AdminAddForm({header, usage, loadData}) {
         {usage === ENUMS.USAGE.COMPANIES ? (
           <>
             <InputGroup className="mb-3">
-              <InputGroup.Text id="title">Company name <div style={{ marginLeft: 8, color: 'red' }}>*</div></InputGroup.Text>
+              <InputGroup.Text id="title">
+                Company name{' '}
+                <div style={{ marginLeft: 8, color: 'red' }}>*</div>
+              </InputGroup.Text>
               <Form.Control
                 {...register('title', { required: 'Company name is required' })}
                 aria-invalid={errors.username ? 'true' : 'false'}
@@ -266,7 +283,8 @@ function AdminAddForm({header, usage, loadData}) {
             </InputGroup>
             <InputGroup className="mb-3">
               <InputGroup.Text id="contact_email">
-                Contact email <div style={{ marginLeft: 8, color: 'red' }}>*</div>
+                Contact email{' '}
+                <div style={{ marginLeft: 8, color: 'red' }}>*</div>
               </InputGroup.Text>
               <Form.Control
                 type="email"
@@ -316,6 +334,13 @@ function AdminAddForm({header, usage, loadData}) {
               <Toast.Header>Create {usage}</Toast.Header>
               <Toast.Body style={toasterStyles}>
                 <strong className="me-auto">{toasterText}</strong>
+                <Button
+                  style={{ position: 'absolute', right: 30, bottom: 30 }}
+                  variant="secondary"
+                  onClick={() => setShowToaster(false)}
+                >
+                  Close
+                </Button>
               </Toast.Body>
             </Toast>
           </ToastContainer>

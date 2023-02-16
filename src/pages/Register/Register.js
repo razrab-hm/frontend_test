@@ -160,7 +160,7 @@ function Register({userLoggedIn}) {
           </InputGroup.Text>
           <Form.Control
             {...register('password', { required: true })}
-            placeholder="Password*"
+            placeholder="Password *"
             aria-invalid={errors.password ? 'true' : 'false'}
             type="password"
           />

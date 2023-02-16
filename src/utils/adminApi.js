@@ -37,7 +37,7 @@ export const adminApi = {
             if (error.response.status === 409) {
                 throw new Error(error.response.data.detail);
               } else {
-                throw new Error(error.message);
+                throw new Error(error.response.data.detail);
               }
         }
       },

@@ -175,7 +175,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
       >
         <InputGroup className="mb-3">
           <InputGroup.Text id="title">
-            Company name <span style={{ color: 'red' }}>*</span>
+            Company name <span style={{ marginLeft: 8, color: 'red' }}>*</span>
           </InputGroup.Text>
           <Form.Control
             {...register('title', {
@@ -197,7 +197,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Text id="contact_email">
-            Contact email <span style={{ color: 'red' }}>*</span>
+            Contact email <span style={{ marginLeft: 8,color: 'red' }}>*</span>
           </InputGroup.Text>
           <Form.Control
             type="email"

@@ -109,9 +109,10 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
       await adminApi.updateUserInfo(userNewCompanies, ENUMS.API_ROUTES.USERS_UPDATE_COMPANIES);
       setToasterText(ENUMS.TOASTER.SUCCESS_UPDATE_USER.label);
       setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE);
-      setIsLoading(false);
+      setIsLoading(false);   
       setShowToaster(true);
       setDisableSaveBtn(true);
+      setValue('password', '');
       loadData();
     } catch (error) {
       setIsLoading(false);
@@ -129,6 +130,12 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         setError('email', {
           type: 'custom',
           message: `Email '${parameters.email}' has already exists`,
+        });
+      }
+      if (error.message === 'Email is not valid') {
+        setError('email', {
+          type: 'custom',
+          message: `Email '${parameters.email}' is not valid`,
         });
       }
     
@@ -155,6 +162,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
   useEffect(() => {
     reset(userInfo);
+    setValue('password', '');
     userInfo.superadmin = userInfo.role === 'root' ? true : false;
     userInfo.admin = userInfo.role === 'admin' ? true : false;
     userInfo.manager = userInfo.role === 'manager' ? true : false;
@@ -229,9 +237,10 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Text id="email">
-            Email address <span style={{ color: 'red' }}>*</span>
+            Email address <span style={{marginLeft: 8, color: 'red' }}>*</span>
           </InputGroup.Text>
           <Form.Control
+            type="email"
             {...register('email')}
             aria-invalid={errors.email ? 'true' : 'false'}
           />

@@ -399,7 +399,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-manager`}>
-                User can not login to admin site.
+                User can see only reports. (Default role)
               </Tooltip>
             }
           >
@@ -420,7 +420,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-admin`}>
-                User can log into this admin site and manage his companies and users
+                User can see reports, log in to admin panel and manage his companies and users.
               </Tooltip>
             }
           >
@@ -442,7 +442,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
               placement="right"
               overlay={
                 <Tooltip id={`tooltip-superadmin`}>
-                  User has all permissions
+                  User has all permissions and can see all reports.
                 </Tooltip>
               }
             >

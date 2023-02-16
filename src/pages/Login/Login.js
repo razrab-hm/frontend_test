@@ -12,7 +12,7 @@ import { setCookie } from '../../utils/cookie';
 import Spinner from 'react-bootstrap/Spinner';
 import { removeSpaces } from '../../utils/projectUtils';
 
-function Login({setUserLoggedIn, userLoggedIn, setUserRole, setLogginError}) {
+function Login({setUserLoggedIn, userLoggedIn, setUserRole, setLogginError, setUserName}) {
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -62,6 +62,7 @@ function Login({setUserLoggedIn, userLoggedIn, setUserRole, setLogginError}) {
         setCookie('accessToken', data.access_token);
         setCookie('refreshToken', data.refresh_token);
         setUserRole(data.role);
+        setUserName(data.username)
         history.replace('/main')
     };
 

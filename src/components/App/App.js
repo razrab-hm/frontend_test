@@ -12,10 +12,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState();
+  const [userName, setUserName] = useState();
   const [logginError, setLogginError] = useState(null);
 
   useEffect(() => {
-    checkAuthStatus(setUserLoggedIn, setUserRole, setIsLoading);
+    checkAuthStatus(setUserLoggedIn, setUserRole, setIsLoading, setUserName);
   },[]);
 
   return isLoading ? (
@@ -37,13 +38,13 @@ function App() {
           <NoCompanies logginError={logginError}/>
         </Route>
         <Route exact path={ENUMS.ROUTES.LOGIN}>
-          <Login setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} setLogginError={setLogginError} setUserRole={setUserRole} logginError={logginError}/>
+          <Login setUserName={setUserName} setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} setLogginError={setLogginError} setUserRole={setUserRole} logginError={logginError}/>
         </Route>
         <ProtectedRoute exact path={ENUMS.ROUTES.MAIN} userLoggedIn={userLoggedIn}>
-          <Main userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
+          <Main userName={userName} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
         </ProtectedRoute>
         <ProtectedRoute path={ENUMS.ROUTES.ADMIN} userLoggedIn={userLoggedIn}>
-          <Admin userRole={userRole} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn}/>
+          <Admin userName={userName} userRole={userRole} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn}/>
         </ProtectedRoute>
         <ProtectedRoute exact path={ENUMS.ROUTES.ADMIN_USERS} userLoggedIn={userLoggedIn}>
           <Admin  setUserRole={setUserRole} userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn}/>

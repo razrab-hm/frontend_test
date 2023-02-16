@@ -420,7 +420,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
             placement="right"
             overlay={
               <Tooltip id={`tooltip-admin`}>
-                User can see reports, log in to admin panel and manage his companies and users.
+                 User can see reports, log in to admin panel and manage his companies and users.
               </Tooltip>
             }
           >

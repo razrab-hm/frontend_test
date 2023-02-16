@@ -9,7 +9,7 @@ import { authApi } from '../../utils/authApi';
 import {getCookie} from '../../utils/cookie';
 import ENUMS from '../../constants/appEnums';
 
-function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu}) {
+function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu, userName}) {
 
   const refreshToken = getCookie('accessToken');
   const history = useHistory();
@@ -56,7 +56,7 @@ function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu
             align={{ lg: 'end' }}
             title={
             <div className={styles.nav_user_wrapper}>
-            <span style={{pointerEvents: 'none'}}>User role: {userRole === 'root' ? 'superadmin' : userRole}</span>
+            <span style={{pointerEvents: 'none', fontWeight: 500}}><span style={{fontWeight: 400}}>{userName}</span>role: {userRole === 'root' ? 'superadmin' : userRole}</span>
             <div className={styles.nav_user}></div>
             </div>
             }

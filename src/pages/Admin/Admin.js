@@ -5,7 +5,7 @@ import ENUMS from '../../constants/appEnums';
 import styles from './Admin.module.css';
 
 
-function Admin({userRole, setUserLoggedIn}) {
+function Admin({userRole, setUserLoggedIn, userName}) {
 
   const history = useHistory();
 
@@ -13,7 +13,7 @@ function Admin({userRole, setUserLoggedIn}) {
   
   return (
     <div className={styles.admin_wrapper}>
-      <AdminMain setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
+      <AdminMain setUserLoggedIn={setUserLoggedIn} userRole={userRole} userName={userName}/>
     </div>
   )
 }

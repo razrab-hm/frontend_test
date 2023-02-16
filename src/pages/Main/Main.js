@@ -8,7 +8,7 @@ import ENUMS from '../../constants/appEnums';
 import { sortByMonthName, getData } from '../../utils/projectUtils';
 import { handlReport } from '../../utils/projectUtils';
 
-function Main({setUserLoggedIn, userRole, userLoggedIn}) {
+function Main({setUserLoggedIn, userRole, userLoggedIn, userName}) {
   const [userCompanies, setUserCompanies] = useState([]);
   const [selectedCompanies, setSelectedCompanies] = useState(userCompanies);
   const [monthReportData, setMonthReportData] = useState([]);
@@ -66,6 +66,7 @@ function Main({setUserLoggedIn, userRole, userLoggedIn}) {
       style={{ backgroundColor: 'rgb( 235, 237, 239)' }}
     >
       <Dashboard
+        userName={userName}
         userRole={userRole}
         setUserLoggedIn={setUserLoggedIn}
         userCompanies={userCompanies}

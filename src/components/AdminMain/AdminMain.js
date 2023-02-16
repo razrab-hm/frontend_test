@@ -5,7 +5,7 @@ import { AdminList, Dashboard } from '..';
 import ENUMS from '../../constants/appEnums';
 import { Route } from 'react-router-dom';
 
-function AdminMain({setUserLoggedIn, userRole}) {
+function AdminMain({setUserLoggedIn, userRole, userName}) {
 
   const routes = useMemo(
     () => [
@@ -35,7 +35,7 @@ function AdminMain({setUserLoggedIn, userRole}) {
 
   return (
     <>
-      <Dashboard adminPanel setUserLoggedIn={setUserLoggedIn} userRole={userRole}/>
+      <Dashboard adminPanel setUserLoggedIn={setUserLoggedIn} userRole={userRole} userName={userName}/>
       <div className="container-fluid">
         <div className="row flex-nowrap">
           <div className={`col-auto bg-dark ${styles.admin_main_aside}`}>

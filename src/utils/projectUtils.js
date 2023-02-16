@@ -3,7 +3,7 @@ import { getCookie } from "./cookie";
 import { authApi } from "./authApi";
 
 
-export const checkAuthStatus = async (setterUser, setterUserRole, setterLoading) => {
+export const checkAuthStatus = async (setterUser, setterUserRole, setterLoading, setterUserName) => {
   const data = {
     accessToken: getCookie('accessToken'),
     refreshToken: getCookie('refreshToken')
@@ -16,6 +16,7 @@ export const checkAuthStatus = async (setterUser, setterUserRole, setterLoading)
         if(res && res.message === "success") {
           setterUser(true);
           setterUserRole(res.role)
+          setterUserName(res.username)
           setterLoading(false)
         }
     })

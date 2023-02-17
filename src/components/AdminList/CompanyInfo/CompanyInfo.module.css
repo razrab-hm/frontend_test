@@ -69,8 +69,8 @@
     content: url('../../../assets/images/xls_example.png');
     position: absolute;
     height: 300px;
-    top: 200px;
-    right: 115px;
+    bottom: 30px;
+    right: 90px;
     border: 2px solid black;
 }
 

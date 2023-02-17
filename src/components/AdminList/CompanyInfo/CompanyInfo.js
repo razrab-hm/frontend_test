@@ -353,8 +353,8 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
             )}
           </>
         )}
-
-        <h4>
+    <div className="position-relative">
+    <h4>
           Upload file to Data Base (Excel, CSV){' '}
           <img
             onMouseEnter={() => setShowImg(true)}
@@ -367,6 +367,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
           className={showImg ? styles.question_xls : styles.question_xls_hide}
           alt="xls_example"
         ></img>
+    </div>
         <div className="d-flex justify-content-between">
           <Form.Group controlId="formFile" style={{ width: '85%' }}>
             <Form.Control onChange={handleFileChange} type="file" />

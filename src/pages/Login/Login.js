@@ -57,7 +57,7 @@ function Login({setUserLoggedIn, userLoggedIn, setUserRole, setLogginError, setU
     };
 
 
-    //Method to save JWT in cookies and update data
+    //Method to save JWT in cookies and update user data
     const saveUserState = (data) => {
         setCookie('accessToken', data.access_token);
         setCookie('refreshToken', data.refresh_token);

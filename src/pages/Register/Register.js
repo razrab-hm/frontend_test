@@ -10,10 +10,15 @@ import * as yup from "yup";
 import { authApi } from "../../utils/authApi";
 import Spinner from 'react-bootstrap/Spinner';
 import { removeSpaces } from '../../utils/projectUtils';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 function Register({userLoggedIn}) {
 
     const [isLoading, setIsLoading] = useState(false);
+    const [showToaster, setShowToaster] = useState(false);
     const history = useHistory();
 
     const formSchema = yup.object().shape({
@@ -50,7 +55,10 @@ function Register({userLoggedIn}) {
           setIsLoading(true);
           await authApi.register(authData);
           setIsLoading(false);
-          history.replace('/login');
+          setShowToaster(true);
+          setTimeout(() => {
+            history.replace('/login');
+          }, "4000")
         } catch (error) {
           setIsLoading(false);
           //show username or email error
@@ -189,6 +197,31 @@ function Register({userLoggedIn}) {
           <Link to="/login">Already registered?</Link>
         </div>
       </Form>
+      <Row>
+        <Col xs={6}>
+          <ToastContainer position="middle-center" className="p-3">
+            <Toast
+              style={{ width: 500, height: 150 }}
+              onClose={() => setShowToaster(false)}
+              show={showToaster}
+              delay={4000}
+              autohide
+            >
+              <Toast.Header>Register</Toast.Header>
+              <Toast.Body style={{color: 'green'}}>
+                <strong className="me-auto">You have successfully registered. You will be automatically redirect to login page.</strong>
+                <Button
+                  style={{ position: 'absolute', right: 30, bottom: 30 }}
+                  variant="secondary"
+                  onClick={() => history.replace('/login')}
+                >
+                  Ok
+                </Button>
+              </Toast.Body>
+            </Toast>
+          </ToastContainer>
+        </Col>
+      </Row>
     </div>
   );
 }

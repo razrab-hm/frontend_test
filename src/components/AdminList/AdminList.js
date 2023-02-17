@@ -26,11 +26,11 @@ function AdminUsers({header, usage, userRole}) {
   
 
   const handleNameSearch = ({ target: { value } }) => {
-    setSearchTermName(value);
+    setSearchTermName(value?.toLowerCase());
   };
 
   const handleDescrSearch = ({ target: { value } }) => {
-    setSearchTermDescr(value);
+    setSearchTermDescr(value?.toLowerCase());
   };
 
   const toggleShowAddForm = () => setShowAddForm(!showAddForm);

@@ -102,7 +102,7 @@ export const adminApi = {
             const response = await axios.post(url,
               {
                 username: data.username.toLowerCase(),
-                password: data.password.toLowerCase(),
+                password: data.password,
                 email: data.email,
                 companies_id: data.companies_id,
                 first_name: data.first_name,

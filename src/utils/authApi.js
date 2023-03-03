@@ -31,7 +31,7 @@ export const authApi = {
         const response = await axios.post(ENUMS.API_ROUTES.AUTH_LOGIN,
           {
             username: data.username?.toLowerCase(),
-            password: data.password?.toLowerCase(),
+            password: data.password,
           },
           { ...authHttpHeaders },
         );

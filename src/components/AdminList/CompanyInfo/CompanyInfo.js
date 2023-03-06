@@ -355,7 +355,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         )}
     <div className="position-relative">
     <h4>
-          Upload file to Data Base (Excel, CSV){' '}
+          Upload file to Data Base (XLS, CSV){' '}
           <img
             onMouseEnter={() => setShowImg(true)}
             onMouseLeave={() => setShowImg(false)}

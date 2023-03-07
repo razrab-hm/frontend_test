@@ -103,7 +103,7 @@ function AccordionItem({
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <button
               onClick={() =>
-                handlReport(sendData, url, setData).then(modalControls.open())
+                handlReport(sendData, url, setData).then(modalControls.open()).catch(() => setShowToaster(true))
               }
               className="btn btn-outline-primary"
               type="button"
@@ -114,7 +114,11 @@ function AccordionItem({
             <button
               onClick={() =>
                 handlReport(sendData, url, setData, true, false).catch(() =>
+                {
                   setShowToaster(true)
+                  console.log('pdf')
+                }
+                  
                 )
               }
               className="btn btn-outline-primary"

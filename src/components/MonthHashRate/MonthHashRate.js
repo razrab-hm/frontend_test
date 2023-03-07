@@ -14,7 +14,7 @@ function MonthHashRate({monthReportData}) {
         <tbody>
             <tr className={styles.month_hash_rate_tr}>
                 {
-                  monthReportData?.total ? <td className="fs-4 text-lg-center">{monthReportData?.total?.toFixed(2)} EH</td>
+                  monthReportData?.total ? <td className="fs-4 text-lg-center">{monthReportData?.total} EH</td>
                   : 
                   <td className="fs-4 text-lg-center">0 EH</td>
                 }

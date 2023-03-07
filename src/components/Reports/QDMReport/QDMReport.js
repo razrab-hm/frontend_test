@@ -19,20 +19,20 @@ function QDMReport({data}) {
             <tr key={elem.date}>
               <th scope='col' className='text-lg-start'>Totals for {elem.date}</th>
               <th scope='col' className='text-lg-center'>{data?.year}</th>
-              <th scope='col' className='text-lg-end'>{elem?.total?.toFixed(2)}</th>
+              <th scope='col' className='text-lg-end'>{elem?.total}</th>
             </tr>
             :
             <tr key={elem.date}>
               <td className='text-lg-start'>{elem.date}</td>
               <td className='text-lg-center'>{data?.year}</td>
-              <td className='text-lg-end'>{elem.hash.toFixed(2)}</td>
+              <td className='text-lg-end'>{elem.hash}</td>
             </tr>
           ))
         }
          <tr>
               <th scope='col' className='text-lg-start'>Total {romanize(data?.quarter)} Quarter</th>
               <th scope='col' className='text-lg-center'>{data?.year}</th>
-              <th scope='col' className='text-lg-end'>{data?.total?.toFixed(2)}</th>
+              <th scope='col' className='text-lg-end'>{data?.total}</th>
             </tr>
       </tbody>
     </table>

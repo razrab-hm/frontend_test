@@ -22,8 +22,8 @@ function MonthReport({data, modal = false}) {
         {data?.report?.map((elem) => (
           <tr key={elem.date}>
             <td className="text-lg-start">{elem.date}</td>
-            <td className="text-lg-end">{elem.average.toFixed(2)}</td>
-            <td className="text-lg-end">{elem.total.toFixed(2)}</td>
+            <td className="text-lg-end">{elem.average}</td>
+            <td className="text-lg-end">{elem.total}</td>
           </tr>
         ))}
         {modal && data?.report?.length > 0 ? (
@@ -35,7 +35,7 @@ function MonthReport({data, modal = false}) {
               {data?.year}
             </th>
             <th scope="col" className="text-lg-end">
-              {data?.total?.toFixed(2)}
+              {data?.total}
             </th>
           </tr>
         ) : (

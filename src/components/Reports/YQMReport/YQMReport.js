@@ -23,13 +23,13 @@ function YQMReport({ data, modal = false }) {
               <tr key={elem.date} className={styles.quarter_title}>
                 <td className="text-lg-start">{elem.date}</td>
                 <td className="text-lg-center">{data?.year}</td>
-                <td className="text-lg-end">{elem.total.toFixed(2)}</td>
+                <td className="text-lg-end">{elem.total}</td>
               </tr>
             ) : (
               <tr key={elem.date}>
                 <td className="text-lg-start">{elem.date}</td>
                 <td className="text-lg-center">{data?.year}</td>
-                <td className="text-lg-end">{elem.total.toFixed(2)}</td>
+                <td className="text-lg-end">{elem.total}</td>
               </tr>
             );
         }
@@ -38,7 +38,7 @@ function YQMReport({ data, modal = false }) {
           <tr className={styles.quarter_title}>
             <td className="text-lg-start">Total:</td>
             <td className="text-lg-center">{data?.year}</td>
-            <td className="text-lg-end">{data?.total?.toFixed(2)}</td>
+            <td className="text-lg-end">{data?.total}</td>
           </tr>
         }
       </thead>

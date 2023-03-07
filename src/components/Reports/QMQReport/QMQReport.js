@@ -23,7 +23,7 @@ function QMQReport({data}) {
           <tr key={elem.date}>
             <td className="text-lg-start">{elem.date}</td>
             <td className="text-lg-center">{data.year}</td>
-            <td className="text-lg-end">{elem.total.toFixed(2)}</td>
+            <td className="text-lg-end">{elem.total}</td>
           </tr>
         ))}
         <tr>

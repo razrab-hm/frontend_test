@@ -53,7 +53,7 @@ export const reportsApi = {
     formData.append('file', file);
     try {
       const response = await fetch(
-        `${REACT_APP_API_URL}/hashrates/import/${currentEditCompanyId}`,
+        `${REACT_APP_API_URL}hashrates/import/${currentEditCompanyId}`,
         {
           method: 'POST',
           body: formData,

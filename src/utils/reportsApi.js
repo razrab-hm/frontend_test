@@ -28,7 +28,7 @@ export const reportsApi = {
     },
     getXlsxReport: async (data, url) => {
       try {
-        const response = await fetch(`${REACT_APP_API_URL}${url}`,
+        const response = await fetch(`${REACT_APP_API_URL.slice(0, -1)}${url}`,
           {
             method: 'POST',
             body: JSON.stringify({...data, output_type: 'xlsx'}),

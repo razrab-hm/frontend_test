@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f8c231d4-ce9c-4082-9cb5-86706436c18d" name="Changes" comment="Deploy" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LlyBtC2CT1dHQIhBV3Ky2AzW5l" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/vadim/Desktop/CS/1.Projects/cod_test/frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.deploy.options",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f8c231d4-ce9c-4082-9cb5-86706436c18d" name="Changes" comment="" />
+      <created>1676459832019</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676459832019</updated>
+      <workItem from="1676459834665" duration="348000" />
+      <workItem from="1676460374181" duration="20901000" />
+    </task>
+    <task id="LOCAL-00001" summary="First commit">
+      <created>1676461957898</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676461957898</updated>
+    </task>
+    <task id="LOCAL-00002" summary="First commit">
+      <created>1676462093954</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676462093954</updated>
+    </task>
+    <task id="LOCAL-00003" summary="First commit">
+      <created>1676462204917</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676462204917</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Second commit">
+      <created>1676462494938</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676462494938</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Change favicon and title">
+      <created>1676468470052</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1676468470052</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Smooth changes in UI">
+      <created>1676472451974</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1676472451974</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Register changes">
+      <created>1676474075143</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676474075143</updated>
+    </task>
+    <task id="LOCAL-00008" summary="User5 bug">
+      <created>1676479769188</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676479769189</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fix bugs before video record">
+      <created>1676481680338</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1676481680338</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fix bugs with no companies">
+      <created>1676492947048</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1676492947048</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Remove all comments">
+      <created>1676495734160</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1676495734160</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Changes for NoCompanies">
+      <created>1676542543598</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1676542543598</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fix password reset">
+      <created>1676552700163</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1676552700163</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Change tips">
+      <created>1676558927809</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1676558927809</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Change user role">
+      <created>1676568231097</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1676568231097</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Change user role 2">
+      <created>1676568678157</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1676568678157</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Update Toaster Button">
+      <created>1676570692808</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1676570692808</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Change img position">
+      <created>1676627688460</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1676627688460</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Update register message and search">
+      <created>1676670097097</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1676670097097</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Deploy">
+      <created>1677853381440</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1677853381440</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit" />
+    <MESSAGE value="Second commit" />
+    <MESSAGE value="Change favicon and title" />
+    <MESSAGE value="Smooth changes in UI" />
+    <MESSAGE value="Register changes" />
+    <MESSAGE value="User5 bug" />
+    <MESSAGE value="Fix bugs before video record" />
+    <MESSAGE value="Fix bugs with no companies" />
+    <MESSAGE value="Remove all comments" />
+    <MESSAGE value="Changes for NoCompanies" />
+    <MESSAGE value="Fix password reset" />
+    <MESSAGE value="Change tips" />
+    <MESSAGE value="Change user role" />
+    <MESSAGE value="Change user role 2" />
+    <MESSAGE value="Update Toaster Button" />
+    <MESSAGE value="Change img position" />
+    <MESSAGE value="Update register message and search" />
+    <MESSAGE value="Deploy" />
+    <option name="LAST_COMMIT_MESSAGE" value="Deploy" />
+  </component>
+</project>

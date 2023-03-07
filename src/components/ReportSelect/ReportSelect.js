@@ -141,8 +141,12 @@ function ReportSelect({ dates, selectedCompanies }) {
               <Modal
                 header={`Quarterly by months/quarters - ${
                   QMReportData?.quarter || ''
-                } quarter ${QMReportData.year || ''} (${
-                  ENUMS.QUARTERS[QMReportData?.quarter || '']
+                } ${QMReportData?.quarter ? 'quarter' : ''} ${
+                  QMReportData.year || ''
+                } (${
+                  QMReportData?.quarter
+                    ? ENUMS.QUARTERS[QMReportData?.quarter]
+                    : ''
                 })`}
                 isOpen={modalControlsQM.isModalOpen}
                 close={modalControlsQM.close}
@@ -164,10 +168,12 @@ function ReportSelect({ dates, selectedCompanies }) {
               />
               <Modal
                 header={`Quarter by Day Report - ${
-                  QDMReportData.quarter || ''
-                } quarter ${QDMReportData.year || ''} (${
+                  QDMReportData?.quarter || ''
+                } ${QDMReportData?.quarter ? 'quarter' : ''} ${
+                  QDMReportData?.year || ''
+                } (${
                   QDMReportData?.quarter
-                    ? ENUMS.QUARTERS[QDMReportData.quarter]
+                    ? ENUMS.QUARTERS[QDMReportData?.quarter]
                     : ''
                 })`}
                 isOpen={modalControlsQDM.isModalOpen}
@@ -189,7 +195,7 @@ function ReportSelect({ dates, selectedCompanies }) {
                 selectedCompanies={selectedCompanies}
               />
               <Modal
-                header={'Month by Day Report'}
+                header={`Month by Day Report ${MDReportData?.year || ''}`}
                 isOpen={modalControlsMD.isModalOpen}
                 close={modalControlsMD.close}
               >

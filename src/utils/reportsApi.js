@@ -44,7 +44,7 @@ export const reportsApi = {
     } catch (error) {
       if (error.response?.status === 403)
         throw new Error('Error during downloading file');
-      if (error.response?.status === 404) throw new Error('Empty data');
+      if (error.response?.status === 409) throw new Error('Empty data');
       throw new Error(error);
     }
   },
@@ -67,7 +67,6 @@ export const reportsApi = {
     } catch (error) {
       if (error.response.status === 403)
         throw new Error('Error during upload file');
-      if (error.response.status === 409) throw new Error('Empty data');
       throw new Error(error.message);
     }
   },

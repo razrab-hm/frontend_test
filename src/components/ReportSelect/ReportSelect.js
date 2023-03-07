@@ -1,47 +1,62 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import Card from 'react-bootstrap/Card';
 import useModalControls from '../../hooks/modal-controls';
 import ENUMS from '../../constants/appEnums';
-import { YQReport, YDMQReport, YQMReport, QMQReport, QDMReport, MonthReport, Modal, AccordionItem } from '..';
+import {
+  YQReport,
+  YDMQReport,
+  YQMReport,
+  QMQReport,
+  QDMReport,
+  MonthReport,
+  Modal,
+  AccordionItem,
+} from '..';
 import styles from './AccordionItem/AccordionItem.module.css';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
+import { Button } from 'react-bootstrap';
 
-function ReportSelect({dates, selectedCompanies}) {
-  
-    const modalControlsYQ = useModalControls();
-    const modalControlsYQM = useModalControls();
-    const modalControlsYDMQ = useModalControls();
-    const modalControlsQM = useModalControls();
-    const modalControlsQDM = useModalControls();
-    const modalControlsMD = useModalControls();
+function ReportSelect({ dates, selectedCompanies }) {
+  const modalControlsYQ = useModalControls();
+  const modalControlsYQM = useModalControls();
+  const modalControlsYDMQ = useModalControls();
+  const modalControlsQM = useModalControls();
+  const modalControlsQDM = useModalControls();
+  const modalControlsMD = useModalControls();
 
-    const [YQReportData, setYQReportData] = useState([]);
-    const [YQMReportData, setYQMReportData] = useState([]);
-    const [YDMQReportData, setYDMQReportData] = useState([]);
-    const [QMReportData, setQMReportData] = useState([]);
-    const [QDMReportData, setQDMReportData] = useState([]);
-    const [MDReportData, setMDReportData] = useState([]);
+  const [YQReportData, setYQReportData] = useState([]);
+  const [YQMReportData, setYQMReportData] = useState([]);
+  const [YDMQReportData, setYDMQReportData] = useState([]);
+  const [QMReportData, setQMReportData] = useState([]);
+  const [QDMReportData, setQDMReportData] = useState([]);
+  const [MDReportData, setMDReportData] = useState([]);
 
-    function CustomToggle({ children, eventKey }) {
-        const decoratedOnClick = useAccordionButton(eventKey);
-        return (
-          <button
-            type="button"
-            style={{
-              padding: '0.05rem 0.1rem 0.05rem 0.1rem',
-              fontSize: '0.875rem',
-              borderRadius: '0 0.2rem 0.2rem 0',
-              float: 'right',
-              backgroundColor: '#321fdb',
-            }}
-            className="btn btn-primary"
-            onClick={decoratedOnClick}
-          >
-            {children}
-          </button>
-        );
-      }
+  const [showToaster, setShowToaster] = useState(false);
+
+  function CustomToggle({ children, eventKey }) {
+    const decoratedOnClick = useAccordionButton(eventKey);
+    return (
+      <button
+        type="button"
+        style={{
+          padding: '0.05rem 0.1rem 0.05rem 0.1rem',
+          fontSize: '0.875rem',
+          borderRadius: '0 0.2rem 0.2rem 0',
+          float: 'right',
+          backgroundColor: '#321fdb',
+        }}
+        className="btn btn-primary"
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </button>
+    );
+  }
 
   return (
     <Accordion>
@@ -54,6 +69,7 @@ function ReportSelect({dates, selectedCompanies}) {
             {/* 1 */}
             <Accordion.Item eventKey="0" style={styles.accordion_item}>
               <AccordionItem
+                setShowToaster={() => setShowToaster(true)}
                 dates={dates}
                 url={ENUMS.API_ROUTES.YEAR_QUARTER}
                 header={'Year by quarter'}
@@ -72,6 +88,7 @@ function ReportSelect({dates, selectedCompanies}) {
             {/* 2 */}
             <Accordion.Item eventKey="1" style={styles.accordion_item}>
               <AccordionItem
+                setShowToaster={() => setShowToaster(true)}
                 dates={dates}
                 url={ENUMS.API_ROUTES.YEAR_QUARTER_MONTH}
                 header={'Year by months/quarters'}
@@ -91,6 +108,7 @@ function ReportSelect({dates, selectedCompanies}) {
             {/* 3 */}
             <Accordion.Item eventKey="2" style={styles.accordion_item}>
               <AccordionItem
+                setShowToaster={() => setShowToaster(true)}
                 dates={dates}
                 url={ENUMS.API_ROUTES.YEAR_QUARTER_MONTH_DAY}
                 header={`Year by day/months/quarters`}
@@ -109,6 +127,7 @@ function ReportSelect({dates, selectedCompanies}) {
             {/* 4 */}
             <Accordion.Item eventKey="3" style={styles.accordion_item}>
               <AccordionItem
+                setShowToaster={() => setShowToaster(true)}
                 quarterly
                 dates={dates}
                 url={ENUMS.API_ROUTES.QUARTER_MONTH}
@@ -132,6 +151,7 @@ function ReportSelect({dates, selectedCompanies}) {
             {/* 5 */}
             <Accordion.Item eventKey="4" style={styles.accordion_item}>
               <AccordionItem
+                setShowToaster={() => setShowToaster(true)}
                 quarterly
                 dates={dates}
                 url={ENUMS.API_ROUTES.QUARTE_MONTH_DAY}
@@ -155,6 +175,7 @@ function ReportSelect({dates, selectedCompanies}) {
             {/* 6 */}
             <Accordion.Item eventKey="5" style={styles.accordion_item}>
               <AccordionItem
+                setShowToaster={() => setShowToaster(true)}
                 monthly
                 dates={dates}
                 url={ENUMS.API_ROUTES.MONTH_DAY}
@@ -174,8 +195,35 @@ function ReportSelect({dates, selectedCompanies}) {
           </Accordion>
         </Accordion.Collapse>
       </Card>
+      <Row>
+        <Col xs={6}>
+          <ToastContainer position="middle-center" className="p-3">
+            <Toast
+              style={{ width: 500, height: 150 }}
+              onClose={() => setShowToaster(false)}
+              show={showToaster}
+              delay={5000}
+              autohide
+            >
+              <Toast.Header>Download file</Toast.Header>
+              <Toast.Body style={ENUMS.TOASTER.FAIL_STYLE}>
+                <strong className="me-auto">
+                  Sorry, there is no data to download.
+                </strong>
+                <Button
+                  style={{ position: 'absolute', right: 30, bottom: 30 }}
+                  variant="secondary"
+                  onClick={() => setShowToaster(false)}
+                >
+                  Close
+                </Button>
+              </Toast.Body>
+            </Toast>
+          </ToastContainer>
+        </Col>
+      </Row>
     </Accordion>
   );
 }
 
-export default ReportSelect
+export default ReportSelect;

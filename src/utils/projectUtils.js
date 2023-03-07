@@ -103,19 +103,14 @@ export const handlReport = async (
 ) => {
   setter([]);
   if (pdf) {
-    reportsApi
-      .getReport(parameters, url, pdf)
-      .then((res) => {
-        const blob = new Blob([res], { type: 'application/pdf' });
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = `Report-${+new Date()}`;
-        link.click();
-      })
-      .catch((error) => {
-        setter([]);
-        console.log(error);
-      });
+    const res = await reportsApi.getReport(parameters, url, pdf);
+    if (res) {
+      const blob = new Blob([res], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `Report-${+new Date()}`;
+      link.click();
+    }
   } else if (xlsx) {
     const res = await reportsApi.getXlsxReport(parameters, url);
     let blob = await res.blob();

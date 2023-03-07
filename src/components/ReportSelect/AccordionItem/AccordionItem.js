@@ -60,7 +60,6 @@ function AccordionItem({
               <>
                 <label className="input-group-text">Quarter</label>
                 <Form.Select
-                  // {...register('quarter', { required: true })}
                   className="form-select"
                   id="quarter"
                   value={quarter}
@@ -103,7 +102,7 @@ function AccordionItem({
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <button
               onClick={() =>
-                handlReport(sendData, url, setData).then(modalControls.open()).catch(() => setShowToaster(true))
+                handlReport(sendData, url, setData).then(modalControls.open())
               }
               className="btn btn-outline-primary"
               type="button"
@@ -113,13 +112,9 @@ function AccordionItem({
             </button>
             <button
               onClick={() =>
-                handlReport(sendData, url, setData, true, false).catch(() =>
-                {
-                  setShowToaster(true)
-                  console.log('pdf')
-                }
-                  
-                )
+                handlReport(sendData, url, setData, true, false).catch(() => {
+                  setShowToaster(true);
+                })
               }
               className="btn btn-outline-primary"
               type="button"

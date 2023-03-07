@@ -78,7 +78,7 @@ function ReportSelect({ dates, selectedCompanies }) {
                 selectedCompanies={selectedCompanies}
               />
               <Modal
-                header={'Year by Quarter Report'}
+                header={`Year by Quarter Report ${YQReportData?.year}`}
                 isOpen={modalControlsYQ.isModalOpen}
                 close={modalControlsYQ.close}
               >
@@ -97,7 +97,7 @@ function ReportSelect({ dates, selectedCompanies }) {
                 selectedCompanies={selectedCompanies}
               />
               <Modal
-                header={'Year by months/quarters'}
+                header={`Year by months/quarters ${YQMReportData?.year}`}
                 isOpen={modalControlsYQM.isModalOpen}
                 close={modalControlsYQM.close}
                 selectedCompanies={selectedCompanies}
@@ -117,7 +117,7 @@ function ReportSelect({ dates, selectedCompanies }) {
                 selectedCompanies={selectedCompanies}
               />
               <Modal
-                header={'Year by day/months/quarters'}
+                header={`Year by day/months/quarters ${YDMQReportData?.year}`}
                 isOpen={modalControlsYDMQ.isModalOpen}
                 close={modalControlsYDMQ.close}
               >

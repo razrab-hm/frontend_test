@@ -1,4 +1,4 @@
-import React , {useState, useEffect}from 'react';
+import React, { useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
 import styles from './AccordionItem.module.css';
@@ -6,22 +6,28 @@ import ENUMS from '../../../constants/appEnums';
 import { sortByMonthName } from '../../../utils/projectUtils';
 import { handlReport } from '../../../utils/projectUtils';
 
-
-
-
-function AccordionItem({setData, modalControls, header, quarterly = false, monthly = false, url, dates, selectedCompanies}) {
-
+function AccordionItem({
+  setData,
+  modalControls,
+  header,
+  quarterly = false,
+  monthly = false,
+  url,
+  dates,
+  selectedCompanies,
+  setShowToaster,
+}) {
   const [year, setYear] = useState();
   const [month, setMonth] = useState(ENUMS.DATES.CURRENT_MONTH);
   const [quarter, setQuarter] = useState(ENUMS.DATES.CURRENT_QUARTER);
-  const selectedCompaniesId = selectedCompanies.map(elem => elem.id);
+  const selectedCompaniesId = selectedCompanies.map((elem) => elem.id);
 
   const sendData = {
     year,
     month,
     quarter,
-    companies: selectedCompaniesId
-  }
+    companies: selectedCompaniesId,
+  };
 
   useEffect(() => {
     if (dates.years && dates.months) {
@@ -29,8 +35,6 @@ function AccordionItem({setData, modalControls, header, quarterly = false, month
     }
   }, [dates]);
 
-
-  
   return (
     <>
       <Accordion.Header className={styles.accordion_header}>
@@ -41,12 +45,10 @@ function AccordionItem({setData, modalControls, header, quarterly = false, month
           <div className="input-group flex-nowrap">
             <label className="input-group-text">Year</label>
             <Form.Select
-              // {...register('year', { required: true })}
               className="form-select"
               id="year"
               value={year}
               onChange={(e) => setYear(e.target.value)}
-              // defaultValue={defaultDates.year}
             >
               {dates?.years?.map((elem) => (
                 <option key={elem} value={elem}>
@@ -82,7 +84,6 @@ function AccordionItem({setData, modalControls, header, quarterly = false, month
               <>
                 <label className="input-group-text">Month</label>
                 <Form.Select
-                  // {...register('month', { required: true })}
                   className="form-select"
                   id="month"
                   value={month}
@@ -101,7 +102,9 @@ function AccordionItem({setData, modalControls, header, quarterly = false, month
           <br />
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <button
-              onClick={() => handlReport(sendData, url, setData).then(modalControls.open())}
+              onClick={() =>
+                handlReport(sendData, url, setData).then(modalControls.open())
+              }
               className="btn btn-outline-primary"
               type="button"
               id="dashboard_from_submit"
@@ -109,7 +112,11 @@ function AccordionItem({setData, modalControls, header, quarterly = false, month
               View
             </button>
             <button
-              onClick={() => handlReport(sendData, url, setData, true, false)}
+              onClick={() =>
+                handlReport(sendData, url, setData, true, false).catch(() =>
+                  setShowToaster(true)
+                )
+              }
               className="btn btn-outline-primary"
               type="button"
               id="dashboard_from_submit"
@@ -117,7 +124,11 @@ function AccordionItem({setData, modalControls, header, quarterly = false, month
               PDF
             </button>
             <button
-              onClick={() => handlReport(sendData, url, setData, false, true)}
+              onClick={() =>
+                handlReport(sendData, url, setData, false, true).catch(() =>
+                  setShowToaster(true)
+                )
+              }
               className="btn btn-outline-primary"
               type="button"
               id="dashboard_from_submit"
@@ -131,4 +142,4 @@ function AccordionItem({setData, modalControls, header, quarterly = false, month
   );
 }
 
-export default AccordionItem
+export default AccordionItem;

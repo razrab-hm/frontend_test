@@ -78,3 +78,31 @@
     display: none;
 }
 
+.company_info_delete_data {
+    display: flex;
+    flex-direction: column;
+}
+
+.company_info_delete_form {
+    display: flex;
+    flex-direction: row;
+}
+
+.company_info_delete_form > h5 {
+    align-self: end;
+    margin-right: 10px;
+}
+
+.company_info_delete_form > input {
+    max-width: 27%;
+    align-self: end;
+    margin-right: 1%;
+}
+
+.company_info_delete_form > input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+
+.company_info_delete_form > button {
+    margin-left: auto;
+}

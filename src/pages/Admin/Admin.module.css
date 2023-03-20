@@ -1,5 +1,5 @@
 .admin_wrapper {
   height: 100vh;
   box-sizing: border-box;
-  overflow: hidden;
+  /* overflow: hidden; */
 }

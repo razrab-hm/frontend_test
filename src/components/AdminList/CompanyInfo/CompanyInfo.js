@@ -33,6 +33,12 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [disableEdit, setDisableEdit] = React.useState(true);
   const [showImg, setShowImg] = useState(false);
+  const [deleteDate, setDeleteDate] = useState({
+    from: '',
+    to: '',
+    done: false,
+    error: false,
+  });
 
   const {
     register,
@@ -70,7 +76,13 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
       api.fetchData,
       `${ENUMS.API_ROUTES.USERS_COMPANIES}${currentEditCompanyId}`
     );
-    setDisableSaveBtn(true)
+    setDisableSaveBtn(true);
+    setDeleteDate({
+      from: '',
+      to: '',
+      done: false,
+      error: false
+    });
   };
 
   const getUsers = () => {
@@ -144,6 +156,57 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
       }
     };
 
+    const handleChangeDateFrom = (e) => {
+      setDeleteDate({...deleteDate, from: e.target.value});
+    };
+
+    const handleChangeDateTo = (e) => {
+      setDeleteDate((prev) => {
+        const fromDate = new Date(deleteDate.from).getTime();
+        const toDate = new Date(e.target.value).getTime();
+        if (fromDate < toDate) {
+          return {
+            ...prev,
+            to: e.target.value,
+            done: true,
+            error: false
+          }
+        }
+        return {
+          ...prev,
+          error: true
+        }
+      });
+    };
+
+    const handleDeleteData = async () => {
+      try {
+        await api.deleteData(ENUMS.API_ROUTES.DELETE_DATA, {
+          from: deleteDate.from,
+          to: deleteDate.to,
+          id: companyInfo.id
+        });
+        setDeleteDate({
+          from: '',
+          to: '',
+          done: false,
+          error: false,
+        });
+
+        setToasterText(ENUMS.TOASTER.SUCCESS_DELETE_DATA.label)
+        setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
+      } catch (error) {
+        setDeleteDate({
+          from: '',
+          to: '',
+          done: false,
+          error: false,
+        });
+        setToasterText(ENUMS.TOASTER.FAIL.label)
+        setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
+      }
+    };
+
   useEffect(() => {
     reset(companyInfo);
     companyInfo.active = !companyInfo.inactive;
@@ -158,6 +221,12 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
     getUsers()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditCompanyId]);
+
+  useEffect(() => {
+    if (!showToaster) {
+      setToasterStyles({});
+    }
+  }, [showToaster])
 
   if (!currentEditCompanyId) return null;
   return isLoading ? (
@@ -376,6 +445,38 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
           <Button onClick={(e) => handleUploadClick(e)}>Upload</Button>
         </div>
 
+        <div className={`d-flex justify-content-between ${styles.company_info_delete_data}`}>
+          <h4>
+            Delete Data for a period
+          </h4>
+          <Form.Group controlId='input_to_date' className={styles.company_info_delete_form}>
+            <h5>From: </h5>
+            <Form.Control
+              value={deleteDate.from}
+              onChange={handleChangeDateFrom}
+              type="date" />
+            <h5>To: </h5>
+            <Form.Control
+              value={deleteDate.to}
+              min={deleteDate.from}
+              disabled={!deleteDate.from}
+              onChange={handleChangeDateTo}
+              type="date"
+            />
+
+            <Button
+              onClick={() => setShowToaster(true)}
+              disabled={!deleteDate.done}
+              type="button"
+              variant="primary"
+              size="s"
+            >
+              Delete data
+            </Button>
+          </Form.Group>
+          {deleteDate.error && <p className={styles.saving_notification}>Enter the correct date!</p>}
+        </div>
+
         <div className={styles.company_info_btn_wrapper}>
           <Button
             disabled={disableSaveBtn}
@@ -403,17 +504,32 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
       </Form>
       <Row>
         <Col xs={6}>
-          <ToastContainer position="middle-center" className="p-3">
+          <ToastContainer containerPosition='fixed' position="middle-center" className="p-3">
             <Toast
               style={{ width: 500, height: 150 }}
               onClose={() => setShowToaster(false)}
               show={showToaster}
-              delay={5000}
+              delay={deleteDate.done ? 30000 : 5000}
               autohide
             >
-              <Toast.Header>Change company data</Toast.Header>
+              <Toast.Header>
+                {deleteDate.done ? 'Deleting data for the specified period' : 'Change company data'}
+              </Toast.Header>
               <Toast.Body style={toasterStyles}>
-                <strong className="me-auto">{toasterText}</strong>
+                <strong className="me-auto">
+                  {deleteDate.done ?
+                    'Are you sure want to delete the data for the specified period?'
+                    :
+                    toasterText}
+                </strong>
+                {deleteDate.done &&
+                <Button
+                  style={{ position: 'absolute', right: 110, bottom: 30 }}
+                  variant="primary"
+                  onClick={handleDeleteData}
+                >
+                  Delete
+                </Button>}
                 <Button
                   style={{ position: 'absolute', right: 30, bottom: 30 }}
                   variant="secondary"

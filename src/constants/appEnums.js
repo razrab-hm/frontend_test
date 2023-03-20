@@ -41,6 +41,7 @@ const API_ROUTES = {
   COMPANIES_USER: '/companies/user/',
   UPLOAD: '/hashrates/import/',
   ADMIN_NEW_USER: '/users/new',
+  DELETE_DATA: '/hashrates/company/',
 }
 
 const QUARTERS = {
@@ -76,6 +77,9 @@ const TOASTER = {
   },
   SUCCESS_UPDATE_USER: {
     label: 'User successfully updated',
+  },
+  SUCCESS_DELETE_DATA: {
+    label: 'Deleted successfully',
   },
   FAIL: {
     label: 'Something went wrong...',

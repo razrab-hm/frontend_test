@@ -1,7 +1,7 @@
 .main_aside {
     width: 150px !important;
     box-sizing: border-box;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .main_aside_hide {

@@ -8,4 +8,14 @@ tr {
     line-height: 12px;
     min-height: 25px;
     height: 25px;
- }
+}
+
+thead > tr {
+    line-height: 16px;
+}
+
+thead > tr > th {
+    /* min-width: 120px; */
+    /* text-align: left; */
+    vertical-align: baseline;
+}

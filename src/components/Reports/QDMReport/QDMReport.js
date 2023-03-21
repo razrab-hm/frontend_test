@@ -12,7 +12,7 @@ function QDMReport({data}) {
           <th scope='col' className='text-lg-end'>Day/Months Hashrate (EH)</th>
           {
             data.total_profit ? 
-            <th scope='col' className='text-lg-end'>Total profit (BTC)</th>
+            <th scope='col' className='text-lg-end'>BTC</th>
             : null
           }
         </tr>

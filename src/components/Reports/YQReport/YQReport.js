@@ -21,7 +21,7 @@ function YQReport({ data }) {
           {
             data.total_profit ?
             <th scope="col" className="text-lg-end">
-              Profit total (BTC)
+              BTC
             </th>
             : null
           }

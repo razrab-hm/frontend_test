@@ -19,7 +19,7 @@ function QMQReport({data}) {
           {
             data.total_profit ?
             <th scope="col" className="text-lg-end">
-              Total profit (BTC)
+              BTC
             </th>
             : null
           }

@@ -12,12 +12,19 @@ function YQReport({ data }) {
           <th scope="col" className="text-lg-start">
             Quarter
           </th>
-          <th scope="col" className="text-lg-center">
+          <th scope="col" className="text-lg-end">
             Year
           </th>
           <th scope="col" className="text-lg-end">
             Quarter hashrate (EH)
           </th>
+          {
+            data.total_profit ?
+            <th scope="col" className="text-lg-end">
+              Profit total (BTC)
+            </th>
+            : null
+          }
         </tr>
       </thead>
       <tbody>
@@ -26,24 +33,38 @@ function YQReport({ data }) {
             <td className="text-lg-start">
               {romanize(elem.Quarter)} Quarter ({ENUMS.QUARTERS[index + 1]})
             </td>
-            <td className="text-lg-center">
+            <td className="text-lg-end">
               {data?.year}
             </td>
             <td className="text-lg-end">
               {elem.total}
             </td>
+            {
+              elem.total_profit ?
+              <td className="text-lg-end">
+                {elem.total_profit}
+              </td>
+              : null
+            }
           </tr>
         ))}
         <tr>
           <th scope="col" className="text-lg-start">
             Totals:
           </th>
-          <th scope="col" className="text-lg-center">
+          <th scope="col" className="text-lg-end">
             {data?.year}
           </th>
           <th scope="col" className="text-lg-end">
             {data?.total}
           </th>
+          {
+            data.total_profit ?
+            <th scope="col" className="text-lg-end">
+              {data?.total_profit}
+            </th>
+            : null
+          }
         </tr>
       </tbody>
     </table>

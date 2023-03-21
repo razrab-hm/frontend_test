@@ -16,6 +16,13 @@ function MonthReport({data, modal = false}) {
           <th scope="col" className="text-lg-end">
             HASHRATE PER DAY (EH)
           </th>
+          {
+            data.total_profit ?
+            <th scope="col" className="text-lg-end">
+              TOTAL PROFIT (BTC)
+            </th>
+            : null
+          }
         </tr>
       </thead>
       <tbody>
@@ -24,6 +31,11 @@ function MonthReport({data, modal = false}) {
             <td className="text-lg-start">{elem.date}</td>
             <td className="text-lg-end">{elem.average}</td>
             <td className="text-lg-end">{elem.total}</td>
+            {
+              elem.total_profit ?
+             <td className="text-lg-end">{elem.total_profit}</td>
+              : null
+            }
           </tr>
         ))}
         {modal && data?.report?.length > 0 ? (
@@ -37,6 +49,13 @@ function MonthReport({data, modal = false}) {
             <th scope="col" className="text-lg-end">
               {data?.total}
             </th>
+            {
+              data.total_profit ?
+              <th scope="col" className="text-lg-end">
+                {data?.total_profit}
+              </th>
+              : null
+            }
           </tr>
         ) : (
           null

@@ -16,6 +16,13 @@ function QMQReport({data}) {
           <th scope="col" className="text-lg-end">
             Months/Quarterly Hashrate (EH)
           </th>
+          {
+            data.total_profit ?
+            <th scope="col" className="text-lg-end">
+              Total profit (BTC)
+            </th>
+            : null
+          }
         </tr>
       </thead>
       <tbody>
@@ -24,6 +31,11 @@ function QMQReport({data}) {
             <td className="text-lg-start">{elem.date}</td>
             <td className="text-lg-center">{data.year}</td>
             <td className="text-lg-end">{elem.total}</td>
+            {
+              elem.total_profit ?
+              <td className="text-lg-end">{elem.total_profit}</td>
+              : null
+            }
           </tr>
         ))}
         <tr>
@@ -36,6 +48,13 @@ function QMQReport({data}) {
           <th scope="col" className="text-lg-end">
             {data.total}
           </th>
+          {
+            data.total_profit ?
+            <th scope="col" className="text-lg-end">
+              {data.total_profit}
+            </th>
+            : null
+          }
         </tr>
       </tbody>
     </table>

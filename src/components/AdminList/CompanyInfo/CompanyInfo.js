@@ -134,7 +134,6 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         console.error(error);
       };
 
-      console.log('add-user: ', data);
       setCompanyUsers((prevState) => {return [...prevState, user]});
       setDisableSaveBtn(false);
     };
@@ -152,7 +151,6 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         console.error(error);
       };
 
-      console.log('delete-user: ', data);
       setCompanyUsers((prevState) =>
         prevState.filter((elem) => elem.id !== user.id)
       );

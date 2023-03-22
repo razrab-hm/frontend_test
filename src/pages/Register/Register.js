@@ -64,15 +64,61 @@ function Register({userLoggedIn}) {
           //show username or email error
           if (error.message === 'Username already registered') {
             setError('username', {type: 'custom', message: `Username ${authData.username} has already registered`})
-          }
-          if (error.message === 'Email already registered') {
+          } else if (error.message === 'Email already registered') {
             setError('email', {type: 'custom', message: `Email ${authData.email} has already registered`})
+          } else if (error.message === 'Symbols in your username not ascii symbols or numerics') {
+            setError('username', {type: 'custom', message: 'Symbols in your username invalid'})
+          } else if (error.message.includes('firstname or lastname')) {
+            setError('first_name', {type: 'custom', message: 'Input firstname or lastname invalid'});
+            setError('last_name', {type: 'custom', message: 'Input firstname or lastname invalid'});
+          } else {
+            const { name, text } = inputErrorsAlert(error.message);
+            setError(name, {type: 'custom', message: text});
           }
+
           //reset passwords
           setValue('password', '');
           setValue('cpassword', '');
         }
     };
+
+    function inputErrorsAlert(message) {
+      if (message.includes('username')) {
+        return {
+          name: 'username',
+          text: 'Input username invalid'
+        };
+      } else if (message.includes('email')) {
+        return {
+          name: 'email',
+          text: 'Input email invalid'
+        };
+      } else if (message.includes('firstname')) {
+        return {
+          name: 'first_name',
+          text: 'Input firstname invalid'
+        };
+      } else if (message.includes('lastname')) {
+        return {
+          name: 'last_name',
+          text: 'Input lastname invalid'
+        };
+      } else if (message.includes('description')) {
+        return {
+          name: 'description',
+          text: 'Input description invalid'
+        };
+      } else if (message.includes('password')) {
+        return {
+          name: 'password',
+          text: 'Input password invalid'
+        };
+      }
+      return {
+        name: '',
+        text: ''
+      };
+    }
 
     if (userLoggedIn) {
         return <Redirect to={'/main'} />;

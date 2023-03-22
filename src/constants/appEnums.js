@@ -42,8 +42,8 @@ const API_ROUTES = {
   UPLOAD: '/hashrates/import/',
   ADMIN_NEW_USER: '/users/new',
   DELETE_DATA: '/hashrates/company/',
-  ADD_COMPANY: '/users/add_company',
-  REMOVE_COMPANY: '/users/remove_company'
+  USERS_ADD_COMPANY: '/users/add_company',
+  USERS_REMOVE_COMPANY: '/users/remove_company'
 }
 
 const QUARTERS = {

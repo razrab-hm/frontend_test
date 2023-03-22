@@ -40,6 +40,7 @@ h4 {
 .add_icon {
     content: url('../../../assets/icons/plus-circle.svg');
     margin: 0 10px 4px 0;
+    cursor: pointer;
 }
 
 .delete_icon {

@@ -36,6 +36,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
   const [deleteDate, setDeleteDate] = useState({
     from: '',
     to: '',
+    done: false,
   });
 
   const {
@@ -78,6 +79,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
     setDeleteDate({
       from: '',
       to: '',
+      done: false,
     });
   };
 
@@ -87,11 +89,11 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
 
 
   const handleSaveData = async (parameters) => {
-    const companyNewUsers = {users_id: companyUsers.map(elem => elem.id), company_id: parameters.id}
+    // const companyNewUsers = {users_id: companyUsers.map(elem => elem.id), company_id: parameters.id}
     try {
         setIsLoading(true);
         await adminApi.updateCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
-        await adminApi.updateCompany(companyNewUsers, ENUMS.API_ROUTES.COMPANIES_UPDATE_USERS);
+        // await adminApi.updateCompany(companyNewUsers, ENUMS.API_ROUTES.COMPANIES_UPDATE_USERS);
         setToasterText(ENUMS.TOASTER.SUCCESS_UPDATE_COMPANY.label)
         setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
         setIsLoading(false);
@@ -120,13 +122,37 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
       }
     };
 
-    const addUser = (user) => {
+    const addUser = async (user) => {
+      const data = {
+        userId: user.id,
+        companyId: currentEditCompanyId
+      };
+
+      try {
+        await adminApi.toggleCompanyAndUser(data, ENUMS.API_ROUTES.USERS_ADD_COMPANY);
+      } catch (error) {
+        console.error(error);
+      };
+
+      console.log('add-user: ', data);
       setCompanyUsers((prevState) => {return [...prevState, user]});
       setDisableSaveBtn(false);
     };
 
 
-    const deleteUser = (user) => {
+    const deleteUser = async (user) => {
+      const data = {
+        userId: user.id,
+        companyId: currentEditCompanyId
+      };
+
+      try {
+        await adminApi.toggleCompanyAndUser(data, ENUMS.API_ROUTES.USERS_REMOVE_COMPANY);
+      } catch (error) {
+        console.error(error);
+      };
+
+      console.log('delete-user: ', data);
       setCompanyUsers((prevState) =>
         prevState.filter((elem) => elem.id !== user.id)
       );
@@ -153,11 +179,19 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
     };
 
     const handleChangeDateFrom = (e) => {
-      setDeleteDate({...deleteDate, from: e.target.value});
+      setDeleteDate({
+        ...deleteDate,
+        from: e.target.value,
+        done: e.target.value !== '' && deleteDate.to !== '',
+      });
     };
 
     const handleChangeDateTo = (e) => {
-      setDeleteDate({...deleteDate, to: e.target.value});
+      setDeleteDate({
+        ...deleteDate,
+        to: e.target.value,
+        done: deleteDate.from !== '' && e.target.value !== '',
+      });
     };
 
     const handleDeleteData = async () => {
@@ -170,6 +204,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         setDeleteDate({
           from: '',
           to: '',
+          done: false,
         });
 
         setToasterText(ENUMS.TOASTER.SUCCESS_DELETE_DATA.label)
@@ -178,6 +213,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         setDeleteDate({
           from: '',
           to: '',
+          done: false,
         });
         setToasterText(ENUMS.TOASTER.FAIL.label)
         setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
@@ -444,7 +480,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
 
             <Button
               onClick={() => setShowToaster(true)}
-              disabled={deleteDate.from === '' || deleteDate.to === ''}
+              disabled={!deleteDate.done}
               type="button"
               variant="primary"
               size="s"

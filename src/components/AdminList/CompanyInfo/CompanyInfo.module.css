@@ -43,16 +43,19 @@
 .add_icon_green {
     content: url('../../../assets/icons/plus-circle_green.svg');
     margin: 0 10px 2px 0;
+    cursor: pointer;
 }
 
 .add_icon {
     content: url('../../../assets/icons/plus-circle.svg');
     margin: 0 10px 4px 0;
+    cursor: pointer;
 }
 
 .delete_icon {
     content: url('../../../assets/icons/x-circle.svg');
     margin: 0 10px 2px 10px;
+    cursor: pointer;
 }
 
 .arrow_icon {

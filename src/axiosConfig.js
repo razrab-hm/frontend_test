@@ -55,3 +55,16 @@ axiosResponseInterceptor();
 
 
 export default instance;
+
+
+// /api/users/add_company
+// {
+// "company_id": 0,
+// "user_id": 0
+// }
+
+// /api/users/remove_company
+// {
+// "company_id": 0,
+// "user_id": 0
+// }

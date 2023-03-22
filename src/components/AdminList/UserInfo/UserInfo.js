@@ -86,7 +86,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
       companyId: company.id,
     }
     try {
-      await adminApi.removeCompany(data, ENUMS.API_ROUTES.REMOVE_COMPANY);
+      await adminApi.toggleCompanyAndUser(data, ENUMS.API_ROUTES.USERS_REMOVE_COMPANY);
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +103,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
       companyId: company.id,
     }
     try {
-      await adminApi.addCompany(data, ENUMS.API_ROUTES.ADD_COMPANY);
+      await adminApi.toggleCompanyAndUser(data, ENUMS.API_ROUTES.USERS_ADD_COMPANY);
     } catch (error) {
       console.error(error);
     }

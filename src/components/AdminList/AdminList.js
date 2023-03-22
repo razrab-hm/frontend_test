@@ -37,7 +37,7 @@ function AdminUsers({header, usage, userRole}) {
 
   useEffect(() => {
     loadData()
-    if(userRole === ENUMS.ROLE.SUPERADMIN) setRoles(['All', ENUMS.ROLE.ADMIN, ENUMS.ROLE.MANAGER, 'superadmin'])
+    if(userRole === ENUMS.ROLE.SUPERADMIN) setRoles(['All', ENUMS.ROLE.ADMIN, ENUMS.ROLE.MANAGER, ENUMS.ROLE.SUPERADMIN])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -238,7 +238,7 @@ function AdminUsers({header, usage, userRole}) {
               >
                 {roles.map((role) => (
                   <option key={role} value={role}>
-                    {role}
+                    {role === 'root' ? 'superadmin' : role}
                   </option>
                 ))}
               </Form.Select></>

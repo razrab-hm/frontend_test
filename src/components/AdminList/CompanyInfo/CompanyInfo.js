@@ -36,8 +36,6 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
   const [deleteDate, setDeleteDate] = useState({
     from: '',
     to: '',
-    done: false,
-    error: false,
   });
 
   const {
@@ -80,8 +78,6 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
     setDeleteDate({
       from: '',
       to: '',
-      done: false,
-      error: false
     });
   };
 
@@ -161,22 +157,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
     };
 
     const handleChangeDateTo = (e) => {
-      setDeleteDate((prev) => {
-        const fromDate = new Date(deleteDate.from).getTime();
-        const toDate = new Date(e.target.value).getTime();
-        if (fromDate < toDate) {
-          return {
-            ...prev,
-            to: e.target.value,
-            done: true,
-            error: false
-          }
-        }
-        return {
-          ...prev,
-          error: true
-        }
-      });
+      setDeleteDate({...deleteDate, to: e.target.value});
     };
 
     const handleDeleteData = async () => {
@@ -189,8 +170,6 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         setDeleteDate({
           from: '',
           to: '',
-          done: false,
-          error: false,
         });
 
         setToasterText(ENUMS.TOASTER.SUCCESS_DELETE_DATA.label)
@@ -199,8 +178,6 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
         setDeleteDate({
           from: '',
           to: '',
-          done: false,
-          error: false,
         });
         setToasterText(ENUMS.TOASTER.FAIL.label)
         setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
@@ -453,6 +430,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
             <h5>From: </h5>
             <Form.Control
               value={deleteDate.from}
+              max={deleteDate.to}
               onChange={handleChangeDateFrom}
               type="date" />
             <h5>To: </h5>
@@ -466,7 +444,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
 
             <Button
               onClick={() => setShowToaster(true)}
-              disabled={!deleteDate.done}
+              disabled={deleteDate.from === '' || deleteDate.to === ''}
               type="button"
               variant="primary"
               size="s"
@@ -474,7 +452,6 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
               Delete data
             </Button>
           </Form.Group>
-          {deleteDate.error && <p className={styles.saving_notification}>Enter the correct date!</p>}
         </div>
 
         <div className={styles.company_info_btn_wrapper}>

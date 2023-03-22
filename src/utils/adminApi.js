@@ -123,5 +123,48 @@ export const adminApi = {
                 }
           }
         },
-
+      addCompany: async (data, url) => {
+        try {
+          const response = await axios.post(url,
+            {
+              company_id: data.companyId,
+              user_id: data.userId
+            },
+            {  headers: {
+              'Content-Type': 'application/json' ,
+              'Authorization': `Bearer ${getCookie('accessToken')}`
+          }, },
+          );
+          if (response.status === 200) return response.data;
+          throw new Error(`Response status code: ${response.status}`);
+        } catch (error) {
+            if (error.response.status === 409) {
+                throw new Error(error.response.data.detail);
+              } else {
+                throw new Error(error.message);
+              }
+        }
+      },
+      removeCompany: async (data, url) => {
+        try {
+          const response = await axios.post(url,
+            {
+              company_id: data.companyId,
+              user_id: data.userId
+            },
+            {  headers: {
+              'Content-Type': 'application/json' ,
+              'Authorization': `Bearer ${getCookie('accessToken')}`
+          }, },
+          );
+          if (response.status === 200) return response.data;
+          throw new Error(`Response status code: ${response.status}`);
+        } catch (error) {
+            if (error.response.status === 409) {
+                throw new Error(error.response.data.detail);
+              } else {
+                throw new Error(error.message);
+              }
+        }
+      }
 }

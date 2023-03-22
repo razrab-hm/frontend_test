@@ -17,8 +17,6 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Spinner from 'react-bootstrap/Spinner';
 
-
-
 function UserInfo({ currentEditUserId, loadData, userRole }) {
 
   const [isLoading, setIsLoading] = useState(false);
@@ -82,14 +80,34 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
     getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES);
   };
 
-  const deleteCompany = (company) => {
+  const deleteCompany = async (company) => {
+    const data = {
+      userId: userInfo.id,
+      companyId: company.id,
+    }
+    try {
+      await adminApi.removeCompany(data, ENUMS.API_ROUTES.REMOVE_COMPANY);
+    } catch (error) {
+      console.error(error);
+    }
+
     setUserCompanies((prevState) =>
       prevState.filter((elem) => elem.id !== company.id)
     );
     setDisableSaveBtn(false);
   };
 
-  const addCompany = (company) => {
+  const addCompany = async (company) => {
+    const data = {
+      userId: userInfo.id,
+      companyId: company.id,
+    }
+    try {
+      await adminApi.addCompany(data, ENUMS.API_ROUTES.ADD_COMPANY);
+    } catch (error) {
+      console.error(error);
+    }
+
     setUserCompanies((prevState) => {return [...prevState, company]});
     setDisableSaveBtn(false);
   };
@@ -102,11 +120,11 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
        return
     }
 
-    const userNewCompanies = {companies_id: userCompanies.map(elem => elem.id), user_id: parameters.id}
+    // const userNewCompanies = {companies_id: userCompanies.map(elem => elem.id), user_id: parameters.id}
     try {
       setIsLoading(true);
       await adminApi.updateUserInfo(parameters, ENUMS.API_ROUTES.USERS);
-      await adminApi.updateUserInfo(userNewCompanies, ENUMS.API_ROUTES.USERS_UPDATE_COMPANIES);
+      // await adminApi.updateUserInfo(userNewCompanies, ENUMS.API_ROUTES.USERS_UPDATE_COMPANIES);
       setToasterText(ENUMS.TOASTER.SUCCESS_UPDATE_USER.label);
       setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE);
       setIsLoading(false);   

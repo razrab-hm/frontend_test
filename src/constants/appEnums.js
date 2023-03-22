@@ -33,7 +33,7 @@ const API_ROUTES = {
   USERS: '/users/',
   USERS_COMPANIES: '/users/companies/',
   USERS_COMPANIES_EMPTY: '/users?companies_id=-1',
-  USERS_UPDATE_COMPANIES: '/users/update_companies',
+  // USERS_UPDATE_COMPANIES: '/users/update_companies',
   COMPANIES: '/companies',
   COMPANIES_COMPANY: '/companies/company/',
   COMPANIES_UPDATE_USERS: '/companies/update_users',
@@ -42,6 +42,8 @@ const API_ROUTES = {
   UPLOAD: '/hashrates/import/',
   ADMIN_NEW_USER: '/users/new',
   DELETE_DATA: '/hashrates/company/',
+  ADD_COMPANY: '/users/add_company',
+  REMOVE_COMPANY: '/users/remove_company'
 }
 
 const QUARTERS = {

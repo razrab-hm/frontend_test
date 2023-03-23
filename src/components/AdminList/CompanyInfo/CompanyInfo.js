@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from './CompanyInfo.module.css';
-import { getData } from '../../../utils/projectUtils';
+import { getData, validateDate, getCurrentDate } from '../../../utils/projectUtils';
 import { useForm } from "react-hook-form";
 import ENUMS from '../../../constants/appEnums';
 import { api } from '../../../utils/api';
@@ -180,7 +180,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
       setDeleteDate({
         ...deleteDate,
         from: e.target.value,
-        done: e.target.value !== '' && deleteDate.to !== '',
+        done: validateDate(e.target.value, deleteDate.to),
       });
     };
 
@@ -188,7 +188,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
       setDeleteDate({
         ...deleteDate,
         to: e.target.value,
-        done: deleteDate.from !== '' && e.target.value !== '',
+        done: validateDate(deleteDate.from, e.target.value),
       });
     };
 
@@ -464,13 +464,14 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
             <h5>From: </h5>
             <Form.Control
               value={deleteDate.from}
-              max={deleteDate.to}
+              max={deleteDate.to || getCurrentDate()}
               onChange={handleChangeDateFrom}
               type="date" />
             <h5>To: </h5>
             <Form.Control
               value={deleteDate.to}
               min={deleteDate.from}
+              max={getCurrentDate()}
               disabled={!deleteDate.from}
               onChange={handleChangeDateTo}
               type="date"

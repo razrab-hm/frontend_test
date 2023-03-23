@@ -196,3 +196,15 @@ export function sortByMonthName(monthNames, isReverse = false) {
   safeCopyMonthNames.sort(comparator);
   return safeCopyMonthNames;
 }
+
+export function validateDate(from, to) {
+  const isEmptyInput = from === '' || to === '';
+  const currentDate = new Date().getTime();
+  const fromDate = new Date(from).getTime();
+  const toDate = new Date(to).getTime();
+  return !isEmptyInput && fromDate <= toDate && toDate <= currentDate;
+}
+
+export function getCurrentDate() {
+  return new Date().toISOString().slice(0, 10);
+}

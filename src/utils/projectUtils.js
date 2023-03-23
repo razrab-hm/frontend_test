@@ -210,7 +210,7 @@ export function getCurrentDate() {
 }
 
 export function errorsRegisterForm(error) {
-  const options = ["username", "email", "firstname", "lastname", "description", "password"]
+  const options = ["username", "email", "first_name", "last_name", "description", "password"]
   const errorDetail = options.find((e) => error.toLowerCase().includes(e));
   return {
     name: errorDetail,

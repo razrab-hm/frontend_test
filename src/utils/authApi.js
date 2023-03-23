@@ -56,8 +56,8 @@ export const authApi = {
               username: removeSpaces(data.username?.toLowerCase()),
               email: removeSpaces(data.email?.toLowerCase()),
               password: data.password,
-              first_name: data.firstname,
-              last_name: data.lastname,
+              first_name: data.first_name,
+              last_name: data.last_name,
               description: data.description,
             },
             { ...authHttpHeaders }

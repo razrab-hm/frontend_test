@@ -123,30 +123,30 @@ function Register({userLoggedIn}) {
           {errors.email?.message}
         </p>
         <InputGroup className="mb-3">
-          <InputGroup.Text id="firstname">
-            <img className={styles.first_name} alt="firstname" />
+          <InputGroup.Text id="first_name">
+            <img className={styles.first_name} alt="first_name" />
           </InputGroup.Text>
           <Form.Control
-            {...register('firstname')}
+            {...register('first_name')}
             placeholder="First name"
-            aria-invalid={errors.firstname ? 'true' : 'false'}
+            aria-invalid={errors.first_name ? 'true' : 'false'}
           />
         </InputGroup>
         <p className={styles.error} role="alert">
-          {errors.firstname?.message}
+          {errors.first_name?.message}
         </p>
         <InputGroup className="mb-3">
-          <InputGroup.Text id="lastname">
-            <img className={styles.last_name} alt="lastname" />
+          <InputGroup.Text id="last_name">
+            <img className={styles.last_name} alt="last_name" />
           </InputGroup.Text>
           <Form.Control
-            {...register('lastname')}
+            {...register('last_name')}
             placeholder="Last name"
-            aria-invalid={errors.lastname ? 'true' : 'false'}
+            aria-invalid={errors.last_name ? 'true' : 'false'}
           />
         </InputGroup>
         <p className={styles.error} role="alert">
-          {errors.lastname?.message}
+          {errors.last_name?.message}
         </p>
         <InputGroup className="mb-3">
           <InputGroup.Text id="description">

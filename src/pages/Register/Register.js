@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { authApi } from "../../utils/authApi";
 import Spinner from 'react-bootstrap/Spinner';
-import { removeSpaces } from '../../utils/projectUtils';
+import { removeSpaces, errorsRegisterForm } from '../../utils/projectUtils';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
@@ -51,6 +51,7 @@ function Register({userLoggedIn}) {
       });
 
     const handleRegister = async (authData) => {
+      console.log(authData);
         try {
           setIsLoading(true);
           await authApi.register(authData);
@@ -62,63 +63,15 @@ function Register({userLoggedIn}) {
         } catch (error) {
           setIsLoading(false);
           //show username or email error
-          if (error.message === 'Username already registered') {
-            setError('username', {type: 'custom', message: `Username ${authData.username} has already registered`})
-          } else if (error.message === 'Email already registered') {
-            setError('email', {type: 'custom', message: `Email ${authData.email} has already registered`})
-          } else if (error.message === 'Symbols in your username not ascii symbols or numerics') {
-            setError('username', {type: 'custom', message: 'Symbols in your username invalid'})
-          } else if (error.message.includes('firstname or lastname')) {
-            setError('first_name', {type: 'custom', message: 'Input firstname or lastname invalid'});
-            setError('last_name', {type: 'custom', message: 'Input firstname or lastname invalid'});
-          } else {
-            const { name, text } = inputErrorsAlert(error.message);
-            setError(name, {type: 'custom', message: text});
+          if (error.message) {
+            const { name, message } = errorsRegisterForm(error.message);
+            setError(name, {type: 'custom', message})
           }
-
           //reset passwords
           setValue('password', '');
           setValue('cpassword', '');
         }
     };
-
-    function inputErrorsAlert(message) {
-      if (message.includes('username')) {
-        return {
-          name: 'username',
-          text: 'Input username invalid'
-        };
-      } else if (message.includes('email')) {
-        return {
-          name: 'email',
-          text: 'Input email invalid'
-        };
-      } else if (message.includes('firstname')) {
-        return {
-          name: 'first_name',
-          text: 'Input firstname invalid'
-        };
-      } else if (message.includes('lastname')) {
-        return {
-          name: 'last_name',
-          text: 'Input lastname invalid'
-        };
-      } else if (message.includes('description')) {
-        return {
-          name: 'description',
-          text: 'Input description invalid'
-        };
-      } else if (message.includes('password')) {
-        return {
-          name: 'password',
-          text: 'Input password invalid'
-        };
-      }
-      return {
-        name: '',
-        text: ''
-      };
-    }
 
     if (userLoggedIn) {
         return <Redirect to={'/main'} />;
@@ -170,30 +123,30 @@ function Register({userLoggedIn}) {
           {errors.email?.message}
         </p>
         <InputGroup className="mb-3">
-          <InputGroup.Text id="first_name">
-            <img className={styles.first_name} alt="first_name" />
+          <InputGroup.Text id="firstname">
+            <img className={styles.first_name} alt="firstname" />
           </InputGroup.Text>
           <Form.Control
-            {...register('first_name')}
+            {...register('firstname')}
             placeholder="First name"
-            aria-invalid={errors.first_name ? 'true' : 'false'}
+            aria-invalid={errors.firstname ? 'true' : 'false'}
           />
         </InputGroup>
         <p className={styles.error} role="alert">
-          {errors.first_name?.message}
+          {errors.firstname?.message}
         </p>
         <InputGroup className="mb-3">
-          <InputGroup.Text id="last_name">
-            <img className={styles.last_name} alt="last_name" />
+          <InputGroup.Text id="lastname">
+            <img className={styles.last_name} alt="lastname" />
           </InputGroup.Text>
           <Form.Control
-            {...register('last_name')}
+            {...register('lastname')}
             placeholder="Last name"
-            aria-invalid={errors.last_name ? 'true' : 'false'}
+            aria-invalid={errors.lastname ? 'true' : 'false'}
           />
         </InputGroup>
         <p className={styles.error} role="alert">
-          {errors.last_name?.message}
+          {errors.lastname?.message}
         </p>
         <InputGroup className="mb-3">
           <InputGroup.Text id="description">

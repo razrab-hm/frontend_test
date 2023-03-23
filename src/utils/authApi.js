@@ -56,8 +56,8 @@ export const authApi = {
               username: removeSpaces(data.username?.toLowerCase()),
               email: removeSpaces(data.email?.toLowerCase()),
               password: data.password,
-              first_name: data.first_name,
-              last_name: data.last_name,
+              first_name: data.firstname,
+              last_name: data.lastname,
               description: data.description,
             },
             { ...authHttpHeaders }
@@ -66,7 +66,7 @@ export const authApi = {
           throw new Error(`Response status code: ${response.status}`);
         } catch (error) {
           if (error.response.status === 406) {
-            throw new Error(error.response.data.detail);
+            throw new Error(error.response.data.detail, {cause: error});
           } else {
             throw new Error(error.message);
           }

@@ -208,3 +208,12 @@ export function validateDate(from, to) {
 export function getCurrentDate() {
   return new Date().toISOString().slice(0, 10);
 }
+
+export function errorsRegisterForm(error) {
+  const options = ["username", "email", "firstname", "lastname", "description", "password"]
+  const errorDetail = options.find((e) => error.toLowerCase().includes(e));
+  return {
+    name: errorDetail,
+    message: error
+  }
+}

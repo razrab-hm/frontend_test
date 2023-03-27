@@ -79,7 +79,10 @@ function Main({setUserLoggedIn, userRole, userLoggedIn, userName}) {
         <div className="row flex-nowrap">
         <AsideMain showMenu={showMenu} userCompanies={userCompanies} selectedCompanies={selectedCompanies} setSelectedCompanies={setSelectedCompanies} getInitialReports={getInitialReports}/>
           <div className='col py-3'>
-            <div className='container'>
+            <div
+              // className='container'
+              className={styles.container}
+            >
               <div className='row'>
               <div className="col-xl-6">
             <MonthHashRate monthReportData={monthReportData} />

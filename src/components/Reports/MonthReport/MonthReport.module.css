@@ -19,3 +19,11 @@ thead > tr > th {
     /* text-align: left; */
     vertical-align: baseline;
 }
+
+.td_end {
+    text-align: right !important;
+}
+
+.td_start {
+    text-align: left !important;
+}

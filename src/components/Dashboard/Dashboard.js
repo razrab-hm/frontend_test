@@ -51,9 +51,9 @@ function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu
               {adminPanel ? 'Admin Panel' : 'Dashboard'}
             </div>
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbar-dark-example" />
+          {/* <Navbar.Toggle aria-controls="navbar-dark-example" /> */}
           <DropdownButton
-            align={{ lg: 'end' }}
+            align='end'
             title={
             <div className={styles.nav_user_wrapper}>
             <span style={{pointerEvents: 'none', fontWeight: 500}}><span style={{fontWeight: 400}}>{userName}</span>role: {userRole === 'root' ? 'superadmin' : userRole}</span>

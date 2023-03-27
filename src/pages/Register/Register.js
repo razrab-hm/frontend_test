@@ -51,7 +51,6 @@ function Register({userLoggedIn}) {
       });
 
     const handleRegister = async (authData) => {
-      console.log(authData);
         try {
           setIsLoading(true);
           await authApi.register(authData);

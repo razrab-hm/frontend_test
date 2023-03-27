@@ -7,3 +7,7 @@ table {
     width: 50px;
     height: 200px;
 }
+
+.container {
+    width: auto;
+}

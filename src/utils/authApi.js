@@ -19,8 +19,7 @@ export const authApi = {
                 Authorization: `Bearer ${token}`,
               },
             });
-            if (response.status === 200 && response.data) return response.data
-            ;
+            if (response.status === 200 && response.data) return response.data;
             throw new Error(`Response status code: ${response.status}`);
           } catch (error) {
             throw new Error(error.message);

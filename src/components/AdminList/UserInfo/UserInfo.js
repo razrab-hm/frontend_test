@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useForm } from "react-hook-form";
 import styles from './UserInfo.module.css';
-import { getData } from '../../../utils/projectUtils';
+import { getCurrentLoggedUser, getData } from '../../../utils/projectUtils';
 import { api } from '../../../utils/api';
 import ENUMS from '../../../constants/appEnums';
 import Button from 'react-bootstrap/Button';
@@ -21,6 +21,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const [loggedUser, setLoggedUser] = useState({});
   const [showToaster, setShowToaster] = useState(false);
   const [userCompanies, setUserCompanies] = useState([]);
   const [toasterText, setToasterText] = useState('');
@@ -38,7 +39,6 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   });
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
-
   const handleChange = ({ target: { value } }) => {
     setSearchTerm(value);
   };
@@ -240,8 +240,9 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   useEffect(() => {
     if (currentEditUserId) {
       getUserInfo();
+      getCurrentLoggedUser(setLoggedUser);
+      getCompanies();
     }
-    getCompanies();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditUserId]);
 
@@ -539,7 +540,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
           >
             Cancel changes
           </Button>
-          {userRole === ENUMS.ROLE.SUPERADMIN && !userInfo.superadmin ? <Button
+          {userRole === ENUMS.ROLE.SUPERADMIN && userInfo.id !== loggedUser.id ? <Button
             onClick={handleShowToastDeleteUser}
             variant="primary"
             size="s"

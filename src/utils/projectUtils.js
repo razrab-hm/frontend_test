@@ -36,6 +36,25 @@ export const checkAuthStatus = async (
   }
 };
 
+export const getCurrentLoggedUser = async (setterUser) => {
+  const data = {
+    accessToken: getCookie('accessToken'),
+    refreshToken: getCookie('refreshToken'),
+  };
+
+  try {
+    if (data.accessToken && data.refreshToken) {
+      const response = await authApi.authStatus(data.accessToken);
+      if (response.message === 'success') {
+        setterUser(response);
+        return response;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export function arraysEqual(a, b) {
   if (a === b) return true;
   if (a == null || b == null) return false;

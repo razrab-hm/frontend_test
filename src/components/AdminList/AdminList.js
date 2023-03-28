@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import styles from './AdminList.module.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -65,7 +65,7 @@ function AdminUsers({header, usage, userRole}) {
       setInactiveFilter(event.target.checked);
     };
   
-    const filteredListUsers = allUsers
+    const filteredListUsers = useMemo(() => allUsers
       .filter(item => {
         if (selectedRole === 'All') {
           return true;
@@ -86,9 +86,9 @@ function AdminUsers({header, usage, userRole}) {
       .filter((user) => {
         if(!searchTermDescr) return true
         return user.description?.toLowerCase().includes(searchTermDescr)
-      })
+      }), [allUsers, filter, inactiveFilter, searchTermDescr, searchTermName, selectedRole])
 
-      const filteredListCompanies = allCompanies
+      const filteredListCompanies = useMemo(() => allCompanies
         .filter((item) => {
           if (!inactiveFilter) {
             return true;
@@ -100,10 +100,9 @@ function AdminUsers({header, usage, userRole}) {
         .filter((company) => {
           if(!searchTermDescr) return true
           return company.description?.toLowerCase().includes(searchTermDescr)
-        })
-
-
-  const filterNames = () => {
+        }), [allCompanies, inactiveFilter, searchTermDescr, searchTermName]);
+  
+  const filterNames = useCallback(() => {
     if (usage === ENUMS.USAGE.USERS) {
       return filteredListUsers.map((elem) => (
         <ListGroup.Item
@@ -157,9 +156,8 @@ function AdminUsers({header, usage, userRole}) {
         </ListGroup.Item>
       ));
     }
-    
-   
-  };
+  }, [filteredListCompanies, filteredListUsers, usage]);
+
   return (
     <div className="container">
       <div className="row">

@@ -29,8 +29,13 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   const [disableSaveBtn, setDisableSaveBtn] = useState(true);
   const [showCompanyAdd, setShowCompanyAdd] = useState(false);
   const [allCompanies, setAllCompanies] = useState([]);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [disableEdit, setDisableEdit] = React.useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [disableEdit, setDisableEdit] = useState(true);
+  const [toastDelete, setToastDelete] = useState({
+    title: false,
+    btn: false,
+    delay: false
+  });
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
@@ -120,11 +125,9 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
        return
     }
 
-    // const userNewCompanies = {companies_id: userCompanies.map(elem => elem.id), user_id: parameters.id}
     try {
       setIsLoading(true);
       await adminApi.updateUserInfo(parameters, ENUMS.API_ROUTES.USERS);
-      // await adminApi.updateUserInfo(userNewCompanies, ENUMS.API_ROUTES.USERS_UPDATE_COMPANIES);
       setToasterText(ENUMS.TOASTER.SUCCESS_UPDATE_USER.label);
       setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE);
       setIsLoading(false);   
@@ -163,31 +166,76 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   const handleChangeRole = (role) => {
     switch (role) {
       case ENUMS.ROLE.MANAGER:
-        setValue('admin', false)
-        setValue('superadmin', false);
+        setValue(ENUMS.ROLE.ADMIN, false)
+        setValue(ENUMS.ROLE.SUPERADMIN, false);
         break;
         case ENUMS.ROLE.ADMIN:
-          setValue('manager', false)
-          setValue('superadmin', false);
+          setValue(ENUMS.ROLE.MANAGER, false)
+          setValue(ENUMS.ROLE.SUPERADMIN, false);
         break;
         case ENUMS.ROLE.SUPERADMIN:
-          setValue('manager', false)
-          setValue('admin', false);
+          setValue(ENUMS.ROLE.MANAGER, false)
+          setValue(ENUMS.ROLE.ADMIN, false);
         break;
       default: return
       }
   };
 
+  const handleDeleteUser = async (id) => {
+    setShowToaster(false);
+    setToastDelete({
+      title: true,
+      btn: false,
+      delay: false
+    });
+    try {
+      const response = await adminApi.deleteUser(`${ENUMS.API_ROUTES.USERS_REMOVE}${id}`);
+      if (response.detail === 'success') {
+        setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE);
+        setToasterText(ENUMS.TOASTER.SUCCESS_DELETE_DATA.label);
+        setShowToaster(true);
+        loadData();
+      }
+    } catch (error) {
+      setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
+      setToasterText(ENUMS.TOASTER.FAIL.label);
+      console.error(error);
+      setShowToaster(true);
+    };
+  }
+
+  const handleShowToastDeleteUser = () => {
+    setShowToaster(true);
+    setToastDelete({
+      title: true,
+      btn: true,
+      delay: true
+    });
+    setToasterText(`Do you want to delete this ${userInfo.username} user?`);
+  }
+
+  const onCloseToast = () => {
+    if (toastDelete.title && !toastDelete.btn) {
+      setToastDelete({
+        title: false,
+        btn: false,
+        delay: false
+      });
+      setToasterStyles({});
+      getUserInfo();
+    }
+    setShowToaster(false)
+  }
+
   useEffect(() => {
     reset(userInfo);
     setValue('password', '');
-    userInfo.superadmin = userInfo.role === 'root' ? true : false;
-    userInfo.admin = userInfo.role === 'admin' ? true : false;
-    userInfo.manager = userInfo.role === 'manager' ? true : false;
+    userInfo.superadmin = userInfo.role === ENUMS.ROLE.SUPERADMIN ? true : false;
+    userInfo.admin = userInfo.role === ENUMS.ROLE.ADMIN ? true : false;
+    userInfo.manager = userInfo.role === ENUMS.ROLE.MANAGER ? true : false;
     userInfo.active = !userInfo.inactive;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
-
 
   useEffect(() => {
     if (currentEditUserId) {
@@ -197,7 +245,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditUserId]);
 
-  if (!currentEditUserId) return null;
+  if (!userInfo.id) return null
 
   return isLoading ? (
     <div className="spinner_wrapper">
@@ -491,6 +539,13 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
           >
             Cancel changes
           </Button>
+          {userRole === ENUMS.ROLE.SUPERADMIN && !userInfo.superadmin ? <Button
+            onClick={handleShowToastDeleteUser}
+            variant="primary"
+            size="s"
+          >
+            Delete user
+          </Button> : null}
         </div>
         {!disableSaveBtn && (
           <p className={styles.saving_notification}>
@@ -504,19 +559,29 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
           <ToastContainer position="middle-center" className="p-3">
             <Toast
               style={{ width: 500, height: 150 }}
-              onClose={() => setShowToaster(false)}
+              onClose={onCloseToast}
               show={showToaster}
-              delay={5000}
+              delay={toastDelete.delay ? 15000 : 5000}
               autohide
             >
-              <Toast.Header>Change user data</Toast.Header>
+              <Toast.Header>
+                {toastDelete.title ? 'Delete user' : 'Change user data'}
+              </Toast.Header>
               <Toast.Body>
                 <strong style={toasterStyles} className="me-auto">
                   {toasterText}
+                  {toastDelete.btn &&
+                  <Button
+                    style={{ position: 'absolute', right: 110, bottom: 30 }}
+                    variant="primary"
+                    onClick={() => handleDeleteUser(userInfo.id)}
+                  >
+                    Delete
+                  </Button>}
                   <Button
                     style={{ position: 'absolute', right: 30, bottom: 30 }}
                     variant="secondary"
-                    onClick={() => setShowToaster(false)}
+                    onClick={onCloseToast}
                   >
                     Close
                   </Button>

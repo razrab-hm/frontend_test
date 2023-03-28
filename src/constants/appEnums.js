@@ -33,6 +33,7 @@ const API_ROUTES = {
   USERS: '/users/',
   USERS_COMPANIES: '/users/companies/',
   USERS_COMPANIES_EMPTY: '/users?companies_id=-1',
+  USERS_REMOVE: '/users/remove/',
   // USERS_UPDATE_COMPANIES: '/users/update_companies',
   COMPANIES: '/companies',
   COMPANIES_COMPANY: '/companies/company/',

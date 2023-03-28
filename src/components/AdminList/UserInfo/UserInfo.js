@@ -17,7 +17,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Spinner from 'react-bootstrap/Spinner';
 
-function UserInfo({ currentEditUserId, loadData, userRole }) {
+function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({});
@@ -222,9 +222,9 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
         delay: false
       });
       setToasterStyles({});
-      getUserInfo();
+      handleClose();
     }
-    setShowToaster(false)
+    setShowToaster(false);
   }
 
   useEffect(() => {
@@ -246,7 +246,7 @@ function UserInfo({ currentEditUserId, loadData, userRole }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditUserId]);
 
-  if (!userInfo.id) return null
+  // if (!currentEditUserId) return null
 
   return isLoading ? (
     <div className="spinner_wrapper">

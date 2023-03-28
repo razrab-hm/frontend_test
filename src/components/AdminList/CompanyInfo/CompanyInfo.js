@@ -18,7 +18,7 @@ import { reportsApi } from '../../../utils/reportsApi';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
-function CompanyInfo({ currentEditCompanyId, loadData}) {
+function CompanyInfo({ currentEditCompanyId, loadData, handleClose}) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
@@ -89,11 +89,9 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
 
 
   const handleSaveData = async (parameters) => {
-    // const companyNewUsers = {users_id: companyUsers.map(elem => elem.id), company_id: parameters.id}
     try {
         setIsLoading(true);
         await adminApi.updateCompany(parameters, ENUMS.API_ROUTES.COMPANIES);
-        // await adminApi.updateCompany(companyNewUsers, ENUMS.API_ROUTES.COMPANIES_UPDATE_USERS);
         setToasterText(ENUMS.TOASTER.SUCCESS_UPDATE_COMPANY.label)
         setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
         setIsLoading(false);
@@ -240,6 +238,7 @@ function CompanyInfo({ currentEditCompanyId, loadData}) {
   }, [showToaster])
 
   if (!currentEditCompanyId) return null;
+
   return isLoading ? (
     <div className="spinner_wrapper">
       <Spinner variant="primary" animation="border" role="status">

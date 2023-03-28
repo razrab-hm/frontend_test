@@ -23,8 +23,11 @@ function AdminUsers({header, usage, userRole}) {
   const [filter, setFilter] = useState('');
   const [inactiveFilter, setInactiveFilter] = useState(false);
   const [selectedRole, setSelectedRole] = useState('All');
+  const [currentDataInfo, setCurrentDataInfo] = useState({
+    userInfo: false,
+    companyInfo: false
+  })
   
-
   const handleNameSearch = ({ target: { value } }) => {
     setSearchTermName(value?.toLowerCase());
   };
@@ -35,17 +38,10 @@ function AdminUsers({header, usage, userRole}) {
 
   const toggleShowAddForm = () => setShowAddForm(!showAddForm);
 
-  useEffect(() => {
-    loadData()
-    if(userRole === ENUMS.ROLE.SUPERADMIN) setRoles(['All', ENUMS.ROLE.ADMIN, ENUMS.ROLE.MANAGER, ENUMS.ROLE.SUPERADMIN])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const loadData = () => {
     if(usage === ENUMS.USAGE.USERS) getData(null, setAllUsers, api.fetchData, ENUMS.API_ROUTES.USERS);
     if(usage === ENUMS.USAGE.COMPANIES) getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES);
   };
-
 
   const switchUserCompaniesFilter = (e) => {
     if(e.target.checked && usage === ENUMS.USAGE.USERS) {
@@ -55,15 +51,34 @@ function AdminUsers({header, usage, userRole}) {
     }
   };
 
-  
-    const handleRoleChange = event => {
-      setSelectedRole(event.target.value);
-      setFilter('');
-    };
+  const handleRoleChange = event => {
+    setSelectedRole(event.target.value);
+    setFilter('');
+  };
 
-    const handleFilterChange = event => {
-      setInactiveFilter(event.target.checked);
-    };
+  const handleFilterChange = event => {
+    setInactiveFilter(event.target.checked);
+  };
+
+  const handleCloseUserInfo = () => {
+    setCurrentDataInfo({
+      ...currentDataInfo,
+      userInfo: false
+    })
+  }
+
+  const handleCloseCompanyInfo = () => {
+    setCurrentDataInfo({
+      ...currentDataInfo,
+      companyInfo: false
+    })
+  }
+
+    useEffect(() => {
+      loadData()
+      if(userRole === ENUMS.ROLE.SUPERADMIN) setRoles(['All', ENUMS.ROLE.ADMIN, ENUMS.ROLE.MANAGER, ENUMS.ROLE.SUPERADMIN])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
   
     const filteredListUsers = useMemo(() => allUsers
       .filter(item => {
@@ -109,6 +124,10 @@ function AdminUsers({header, usage, userRole}) {
           key={elem.username}
           onClick={() => {
             setCurrentEditUser(elem);
+            setCurrentDataInfo({
+              ...currentDataInfo,
+              userInfo: true
+            });
             setShowAddForm(false);
           }}
           action
@@ -135,6 +154,10 @@ function AdminUsers({header, usage, userRole}) {
           key={elem.title}
           onClick={() => {
             setCurrentEditCompany(elem);
+            setCurrentDataInfo({
+              ...currentDataInfo,
+              companyInfo: true
+            });
             setShowAddForm(false);
           }}
           action
@@ -156,7 +179,12 @@ function AdminUsers({header, usage, userRole}) {
         </ListGroup.Item>
       ));
     }
-  }, [filteredListCompanies, filteredListUsers, usage]);
+  }, [
+    currentDataInfo,
+    filteredListCompanies,
+    filteredListUsers,
+    usage
+  ]);
 
   return (
     <div className="container">
@@ -260,18 +288,21 @@ function AdminUsers({header, usage, userRole}) {
               header={`Add ${usage}`}
               usage={usage}
               loadData={loadData}
+              handleClose={toggleShowAddForm}
             />
           ) : (
             <>
-              <UserInfo
+              {currentDataInfo.userInfo ? <UserInfo
                 currentEditUserId={currentEditUser?.id}
                 loadData={loadData}
                 userRole={userRole}
-              />
+                handleClose={handleCloseUserInfo}
+              /> : null}
               <CompanyInfo
                 currentEditCompanyId={currentEditCompany?.id}
                 loadData={loadData}
                 allUsers={allUsers}
+                handleClose={handleCloseCompanyInfo}
               />
             </>
           )}

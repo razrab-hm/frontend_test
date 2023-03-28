@@ -15,7 +15,7 @@ import { getData } from '../../utils/projectUtils';
 import { api } from '../../utils/api';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-function AdminAddForm({header, usage, loadData}) {
+function AdminAddForm({header, usage, loadData, handleClose}) {
     const [isLoading, setIsLoading] = useState(false);
     const [showToaster, setShowToaster] = useState(false);
     const [toasterText, setToasterText] = useState('');
@@ -25,13 +25,13 @@ function AdminAddForm({header, usage, loadData}) {
     const [allCompanies, setAllCompanies] = useState([]);
     const [userCompanies, setUserCompanies] = useState([]);
     const [showCompanyAdd, setShowCompanyAdd] = useState(false);
+    const [responseCreate, setResponseCreate] = useState(false);
 
     const { register, setValue, reset ,setError, formState: { errors }, handleSubmit } = useForm();
 
     const handleChange = ({ target: { value } }) => {
       setSearchTerm(value);
     };
-
 
     const deleteCompany = (company) => {
       setUserCompanies((prevState) =>
@@ -49,6 +49,7 @@ function AdminAddForm({header, usage, loadData}) {
     const getCompanies = () => {
       getData(null, setAllCompanies, api.fetchData, ENUMS.API_ROUTES.COMPANIES_ME);
     };
+
     const handleSaveData = async (parameters) => {
         try {
           setIsLoading(true);
@@ -89,7 +90,15 @@ function AdminAddForm({header, usage, loadData}) {
       setToasterStyles(ENUMS.TOASTER.SUCCESS_STYLE)
       setToasterText(toasterText)
       setIsLoading(false);
+      setResponseCreate(true);
       reset();
+    }
+
+    const closeToast = () => {
+      if (responseCreate) {
+        handleClose();
+      }
+      setShowToaster(false);
     }
 
     useEffect(() => {
@@ -326,7 +335,7 @@ function AdminAddForm({header, usage, loadData}) {
           <ToastContainer position="middle-center" className="p-3">
             <Toast
               style={{ width: 500, height: 150 }}
-              onClose={() => setShowToaster(false)}
+              onClose={closeToast}
               show={showToaster}
               delay={5000}
               autohide
@@ -337,7 +346,7 @@ function AdminAddForm({header, usage, loadData}) {
                 <Button
                   style={{ position: 'absolute', right: 30, bottom: 30 }}
                   variant="secondary"
-                  onClick={() => setShowToaster(false)}
+                  onClick={closeToast}
                 >
                   Close
                 </Button>

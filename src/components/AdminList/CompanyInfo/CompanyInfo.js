@@ -101,15 +101,15 @@ function CompanyInfo({ currentEditCompanyId, loadData, handleClose}) {
       } catch (error) {
         setIsLoading(false);
         reset();
+        setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
         if (error.message === 'Username already registered') {
           setError('username', {type: 'custom', message: 'This company name has already registered'})
-        }
-        if (error.message === 'Email already registered') {
+        } else if (error.message === 'Email already registered') {
           setError('email', {type: 'custom', message: 'This company email has already registered'})
+        } else {
+          setShowToaster(true);
+          setToasterText(error.message);
         }
-        setShowToaster(true);
-        setToasterText(ENUMS.TOASTER.FAIL.label);
-        setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
       }
     }
 

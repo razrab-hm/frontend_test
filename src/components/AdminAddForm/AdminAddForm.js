@@ -69,14 +69,16 @@ function AdminAddForm({header, usage, loadData, handleClose}) {
           }
         } catch (error) {
           setIsLoading(false);
-          setShowToaster(true);
           setToasterStyles(ENUMS.TOASTER.FAIL_STYLE)
-          setToasterText(ENUMS.TOASTER.FAIL.label)
-          if (error.message === 'Username already registered') {
+          if (error.message === 'User already exists') {
             setError('username', {type: 'custom', message: 'This username has already registered'})
-          }
-          if (error.message === 'Email already registered') {
+          } else if (error.message === 'Email already exists') {
             setError('email', {type: 'custom', message: 'This email has already registered'})
+          } else if (error.message === 'Email is not valid') {
+            setError('email', {type: 'custom', message: 'This email is not valid'})
+          } else {
+            setShowToaster(true);
+            setToasterText(error.message)
           }
           //reset passwords input
           setValue('password', '');

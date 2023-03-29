@@ -138,28 +138,26 @@ function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
     } catch (error) {
       setIsLoading(false);
       reset();
-      setShowToaster(true);
-      setToasterText(ENUMS.TOASTER.FAIL.label);
       setToasterStyles(ENUMS.TOASTER.FAIL_STYLE);
       if (error.message === 'User already exists') {
         setError('username', {
           type: 'custom',
           message: `User name '${parameters.username}' has already exists`,
         });
-      }
-      if (error.message === 'Email already exists') {
+      } else if (error.message === 'Email already exists') {
         setError('email', {
           type: 'custom',
           message: `Email '${parameters.email}' has already exists`,
         });
-      }
-      if (error.message === 'Email is not valid') {
+      } else if (error.message === 'Email is not valid') {
         setError('email', {
           type: 'custom',
           message: `Email '${parameters.email}' is not valid`,
         });
+      } else {
+        setShowToaster(true);
+        setToasterText(error.message);
       }
-    
     }
   };
 

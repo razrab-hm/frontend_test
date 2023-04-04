@@ -131,6 +131,8 @@ function AdminUsers({header, usage, userRole}) {
             setShowAddForm(false);
           }}
           action
+          eventKey={elem.id}
+          // variant="light"
         >
           {elem.username}
           {
@@ -161,6 +163,8 @@ function AdminUsers({header, usage, userRole}) {
             setShowAddForm(false);
           }}
           action
+          eventKey={elem.id}
+          // variant="light"
         >
           {elem.title}
           {

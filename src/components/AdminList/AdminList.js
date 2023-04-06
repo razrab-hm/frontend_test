@@ -76,7 +76,7 @@ function AdminUsers({header, usage, userRole}) {
 
     useEffect(() => {
       loadData()
-      if(userRole === ENUMS.ROLE.SUPERADMIN) setRoles(['All', ENUMS.ROLE.ADMIN, ENUMS.ROLE.MANAGER, ENUMS.ROLE.SUPERADMIN])
+      if(userRole === ENUMS.ROLE.ROOT) setRoles(['All', ENUMS.ROLE.ADMIN, ENUMS.ROLE.MANAGER, ENUMS.ROLE.SUPERADMIN])
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
   
@@ -85,6 +85,11 @@ function AdminUsers({header, usage, userRole}) {
         if (selectedRole === 'All') {
           return true;
         }
+
+        if (selectedRole === 'superadmin' && item.role === 'root') {
+          return true;
+        }
+
         return item.role === selectedRole;
       })
       .filter(item => {
@@ -132,7 +137,6 @@ function AdminUsers({header, usage, userRole}) {
           }}
           action
           eventKey={elem.id}
-          // variant="light"
         >
           {elem.username}
           {
@@ -164,7 +168,6 @@ function AdminUsers({header, usage, userRole}) {
           }}
           action
           eventKey={elem.id}
-          // variant="light"
         >
           {elem.title}
           {
@@ -196,7 +199,7 @@ function AdminUsers({header, usage, userRole}) {
         <div className="col-xl-6">
           <div className={styles.admin_list_header_wrapper}>
             <h4>{header}</h4>
-            {userRole === ENUMS.ROLE.SUPERADMIN ? (
+            {userRole === ENUMS.ROLE.ROOT ? (
               <Button
                 className={styles.admin_list_add_btn}
                 onClick={toggleShowAddForm}
@@ -268,7 +271,7 @@ function AdminUsers({header, usage, userRole}) {
               >
                 {roles.map((role) => (
                   <option key={role} value={role}>
-                    {role === 'root' ? 'superadmin' : role}
+                    {role}
                   </option>
                 ))}
               </Form.Select></>

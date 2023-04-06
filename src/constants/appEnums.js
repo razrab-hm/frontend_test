@@ -11,9 +11,10 @@ const ROUTES = {
 };
 
 const ROLE = {
-  SUPERADMIN: "root",
+  SUPERADMIN: "superadmin",
   ADMIN: "admin",
-  MANAGER: "manager"
+  MANAGER: "manager",
+  ROOT: "root",
 };
 
 
@@ -34,7 +35,6 @@ const API_ROUTES = {
   USERS_COMPANIES: '/users/companies/',
   USERS_COMPANIES_EMPTY: '/users?companies_id=-1',
   USERS_REMOVE: '/users/remove/',
-  // USERS_UPDATE_COMPANIES: '/users/update_companies',
   COMPANIES: '/companies',
   COMPANIES_COMPANY: '/companies/company/',
   COMPANIES_UPDATE_USERS: '/companies/update_users',

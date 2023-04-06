@@ -56,7 +56,10 @@ function Dashboard({setUserLoggedIn, adminPanel, userRole, setShowMenu, showMenu
             align='end'
             title={
             <div className={styles.nav_user_wrapper}>
-            <span style={{pointerEvents: 'none', fontWeight: 500}}><span style={{fontWeight: 400}}>{userName}</span>role: {userRole === 'root' ? 'superadmin' : userRole}</span>
+            <span style={{pointerEvents: 'none', fontWeight: 500}}>
+              <span style={{fontWeight: 400}}>{userName}</span>
+              role: {userRole === 'root' ? 'superadmin' : userRole}
+            </span>
             <div className={styles.nav_user}></div>
             </div>
             }

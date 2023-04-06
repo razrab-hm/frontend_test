@@ -80,7 +80,6 @@ function Main({setUserLoggedIn, userRole, userLoggedIn, userName}) {
         <AsideMain showMenu={showMenu} userCompanies={userCompanies} selectedCompanies={selectedCompanies} setSelectedCompanies={setSelectedCompanies} getInitialReports={getInitialReports}/>
           <div className='col py-3'>
             <div
-              // className='container'
               className={styles.container}
             >
               <div className='row'>

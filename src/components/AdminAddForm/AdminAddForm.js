@@ -80,7 +80,6 @@ function AdminAddForm({header, usage, loadData, handleClose}) {
             setShowToaster(true);
             setToasterText(error.message)
           }
-          //reset passwords input
           setValue('password', '');
           setValue('cpassword', '');
         }
@@ -129,7 +128,15 @@ function AdminAddForm({header, usage, loadData, handleClose}) {
               <Form.Control
                 {...register('username', {
                   required: 'User name is required',
-                  minLength: 3,
+                  minLength: {
+                    value: 3,
+                    message: 'Name must be at least 3 characters'
+                  },
+                  maxLength:
+                  {
+                    value: 30,
+                    message: 'Name must not exceed 30 characters'
+                  }
                 })}
                 aria-invalid={errors.username ? 'true' : 'false'}
               />

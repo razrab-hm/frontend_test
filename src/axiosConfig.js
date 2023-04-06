@@ -1,6 +1,6 @@
 import axios from "axios";
 import ENUMS from './constants/appEnums';
-import { setCookie, getCookie, deleteCookie } from "./utils//cookie";
+import { setCookie, getCookie, deleteCookie } from "./utils/cookie";
 const { REACT_APP_API_URL } = process.env
 
 const instance = axios.create({

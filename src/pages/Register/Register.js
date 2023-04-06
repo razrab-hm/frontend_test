@@ -61,12 +61,10 @@ function Register({userLoggedIn}) {
           }, "4000")
         } catch (error) {
           setIsLoading(false);
-          //show username or email error
           if (error.message) {
             const { name, message } = errorsRegisterForm(error.message);
             setError(name, {type: 'custom', message})
           }
-          //reset passwords
           setValue('password', '');
           setValue('cpassword', '');
         }

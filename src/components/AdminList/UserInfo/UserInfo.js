@@ -18,7 +18,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Spinner from 'react-bootstrap/Spinner';
 
 function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
-
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [loggedUser, setLoggedUser] = useState({});
@@ -171,7 +170,7 @@ function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
           setValue(ENUMS.ROLE.MANAGER, false)
           setValue(ENUMS.ROLE.SUPERADMIN, false);
         break;
-        case ENUMS.ROLE.SUPERADMIN:
+        case ENUMS.ROLE.ROOT:
           setValue(ENUMS.ROLE.MANAGER, false)
           setValue(ENUMS.ROLE.ADMIN, false);
         break;
@@ -228,7 +227,7 @@ function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
   useEffect(() => {
     reset(userInfo);
     setValue('password', '');
-    userInfo.superadmin = userInfo.role === ENUMS.ROLE.SUPERADMIN ? true : false;
+    userInfo.superadmin = userInfo.role === ENUMS.ROLE.ROOT ? true : false;
     userInfo.admin = userInfo.role === ENUMS.ROLE.ADMIN ? true : false;
     userInfo.manager = userInfo.role === ENUMS.ROLE.MANAGER ? true : false;
     userInfo.active = !userInfo.inactive;
@@ -243,8 +242,6 @@ function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEditUserId]);
-
-  // if (!currentEditUserId) return null
 
   return isLoading ? (
     <div className="spinner_wrapper">
@@ -264,7 +261,18 @@ function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
             User name <span style={{ color: 'red' }}>*</span>
           </InputGroup.Text>
           <Form.Control
-            {...register('username', { required: true })}
+                {...register('username', {
+                  required: 'User name is required',
+                  minLength: {
+                    value: 3,
+                    message: 'Name must be at least 3 characters'
+                  },
+                  maxLength:
+                  {
+                    value: 30,
+                    message: 'Name must not exceed 30 characters'
+                  }
+                })}
             aria-invalid={errors.username ? 'true' : 'false'}
           />
         </InputGroup>
@@ -494,12 +502,12 @@ function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
           </OverlayTrigger>
         </div>
 
-        {userRole === ENUMS.ROLE.SUPERADMIN ? (
+        {userRole === ENUMS.ROLE.ROOT ? (
           <div className={styles.user_info_permissions_check_wrapper}>
             <Form.Check
               style={{ paddingLeft: '2.8em' }}
               {...register('superadmin')}
-              onChange={() => handleChangeRole(ENUMS.ROLE.SUPERADMIN)}
+              onChange={() => handleChangeRole(ENUMS.ROLE.ROOT)}
               type="switch"
               id={`superadmin`}
             />
@@ -538,7 +546,7 @@ function UserInfo({ currentEditUserId, loadData, userRole, handleClose }) {
           >
             Cancel changes
           </Button>
-          {userRole === ENUMS.ROLE.SUPERADMIN && userInfo.id !== loggedUser.id ? <Button
+          {userRole === ENUMS.ROLE.ROOT && userInfo.id !== loggedUser.id ? <Button
             onClick={handleShowToastDeleteUser}
             variant="primary"
             size="s"
